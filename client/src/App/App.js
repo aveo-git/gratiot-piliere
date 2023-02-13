@@ -1,9 +1,12 @@
 import React from 'react'
+import Button from '../components/Button'
+import ButtonOrderCount from '../components/ButtonOrderCount'
 
 const App = () => {
   return (
     <div>
-      here
+      <Button/>
+      <ButtonOrderCount/>
     </div>
   )
 }
