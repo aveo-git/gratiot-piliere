@@ -1,0 +1,53 @@
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter-Regular';
+}
+
+/* Font family */
+@font-face {
+  font-family: 'Inter-Thin';
+  src: url('./Assets/fonts/Inter-Thin.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-Light';
+  src: url('./Assets/fonts/Inter-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-SemiBold';
+  src: url('./Assets/fonts/Inter-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-Regular';
+  src: url('./Assets/fonts/Inter-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-Medium';
+  src: url('./Assets/fonts/Inter-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-ExtraLight';
+  src: url('./Assets/fonts/Inter-ExtraLight.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-ExtraBold';
+  src: url('./Assets/fonts/Inter-ExtraBold.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-Bold';
+  src: url('./Assets/fonts/Inter-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Inter-Black';
+  src: url('./Assets/fonts/Inter-Black.ttf');
+}
