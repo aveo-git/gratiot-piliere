@@ -47,7 +47,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Button = props => {
-    const { textLabel = 'Voir plus', variant = 'default', size = 'medium', icon = <IconPlus/>, defaultIconPosition = true } = props;
+    const { textLabel = 'Voir plus', variant = 'default', size = 'medium', icon = <IconPlus/>, defaultIconPosition = true, onClick } = props;
     const classes = useStyles({icon, variant, size, defaultIconPosition})
     let classForVariant;
     switch(variant) {
@@ -62,7 +62,7 @@ const Button = props => {
     }
 
   return (
-    <div className={classeNames(classes.root, classForVariant, classes.defaulticonPosition)}>
+    <div className={classeNames(classes.root, classForVariant, classes.defaulticonPosition)} onClick={onClick}>
       <span className={classes.textLabel}>{textLabel}</span>
       <span className={classes.icon}>{icon}</span>
     </div>

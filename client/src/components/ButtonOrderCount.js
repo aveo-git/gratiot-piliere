@@ -7,8 +7,8 @@ const useStyles = createUseStyles(theme => ({
 	root: {
 		fontFamily: 'Inter-Medium',
         fontSize: 13,
-        padding: '0px 15px',
-        width: 'fit-content',
+        width: 85,
+		justifyContent: 'center',
         height: ({size}) => size === 'medium' ? 44 : 35,
         display: 'flex',
         alignItems: 'center',
@@ -32,12 +32,14 @@ const useStyles = createUseStyles(theme => ({
 		margin: '0 10px'
 	},
 	icon: {
-		cursor: 'pointer'
+		cursor: 'pointer',
+		position: 'relative',
+		top: 2
 	}
 }));
 
 const ButtonOrderCount = props => {
-    const { text = '01', variant = 'default', size = 'small', iconLeft = <IconArrowLeft/>, iconRight = <IconArrowRight/> } = props;
+    const { text, variant = 'default', size = 'small', iconLeft = <IconArrowLeft/>, iconRight = <IconArrowRight/>, handleMinus, handlePlus } = props;
 	const classes = useStyles({text, size })
 	let classForVariant;
     switch(variant) {
@@ -53,9 +55,9 @@ const ButtonOrderCount = props => {
 
 	return (
 		<div className={classNames(classes.root, classForVariant)}>
-      		<span className={classes.icon}>{iconLeft}</span>
+      		<span className={classes.icon} onClick={handleMinus}>{iconLeft}</span>
 			<span className={classes.textLabel}>{text}</span>
-      		<span className={classes.icon}>{iconRight}</span>
+      		<span className={classes.icon} onClick={handlePlus}>{iconRight}</span>
 		</div>
 	)
 }
