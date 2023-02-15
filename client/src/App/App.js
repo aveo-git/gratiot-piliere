@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import Button from '../components/Button'
 import ButtonOrderCount from '../components/ButtonOrderCount'
 import Input from '../components/Input'
-import ModalComp from '../components/Modal'
 import { padWithLeadingZeros } from '../components/utils'
+import Login from '../containers/Login'
 
 const App = () => {
 
@@ -23,10 +23,6 @@ const App = () => {
     setOpen(true)
   }
 
-  const _closeModal = () => {
-    setOpen(false)
-  }
-
   return (
     <div>
       <Button onClick={_openModal}/>
@@ -34,9 +30,7 @@ const App = () => {
       <ButtonOrderCount text={padWithLeadingZeros(count)} variant='primary' handleMinus={_handleMinus} handlePlus={_handlePlus} />
       <hr />
       <Input/>
-      <ModalComp open={open} closeModal={_closeModal} title='Se connecter' closeOnOverlay>
-        Content here
-      </ModalComp>
+      <Login open={open} setOpen={setOpen} />
     </div>
   )
 }

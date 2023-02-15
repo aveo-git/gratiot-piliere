@@ -6,29 +6,47 @@ const useStyles = createUseStyles(theme => ({
         width: 255
 	},
     input: {
-        height: 35,
+        height: 40,
         border: 'none',
         padding: '0 20px',
         fontFamily: 'Inter-Regular',
-        fontSize: 12,
-        width: '100%',
+        fontSize: 13,
+        width: 288,
+        backgroundColor: '#F3F3F3',
+        marginBottom: 22,
         '&:focus': {
             outline: 'none'
         }
+    },
+    label: {
+        fontSize: 13,
+        marginBottom: 4
     }
 }));
 
 const Input = props => {
-    const { placeholder = 'Entrer votre texte', type = 'select', contentOptions = fakeData } = props;
+    const { placeholder = 'Entrer votre texte', type = 'input', contentOptions = fakeData, label } = props;
     const classes = useStyles();
+
+    let content;
+    switch (type) {
+        case 'select':
+            content = <select name="select"  className={classes.input}>
+                {contentOptions.map(item => <option>{item.lastName}</option>)}
+            </select>
+            break;
+        case 'input':
+            content = <input className={classes.input} placeholder={placeholder} type={type} />
+            break;
+        default:
+            break;
+    }
     if(type === 'select') {
-        return <select name="select"  className={classes.input}>
-            {contentOptions.map(item => <option>{item.lastName}</option>)}
-        </select>
     }
     return (
         <div className={classes.root}>
-            <input className={classes.input} placeholder={placeholder} type={type} />
+            {label && <div className={classes.label}>{label}</div>}
+            {content}
         </div>
     )
 }

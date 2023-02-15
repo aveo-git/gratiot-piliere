@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Modal from 'react-modal'
 import { AnimatePresence, motion } from 'framer-motion';
 import { createUseStyles } from 'react-jss';
@@ -19,8 +19,6 @@ const useStyles = createUseStyles(theme => ({
     content: {
 		fontFamily: 'Inter-Medium',
         width: 404,
-        minHeight: 500,
-        height: 500,
         marginTop: '5rem',
         backgroundColor: '#FFFFFF'
     },
@@ -52,6 +50,11 @@ const useStyles = createUseStyles(theme => ({
     },
     title: {
         fontSize: 20,
+    },
+    body: {
+        fontSize: 14,
+        fontFamily: 'Inter-Regular',
+        padding: '0 38px 38px 38px'
     }
 }));
 
@@ -73,6 +76,7 @@ const ModalComp = props => {
                     contentLabel="Example Modal"
                     overlayClassName={classes.overlay}
                     className={classes.root}
+                    ariaHideApp={false}
                 >
                     <motion.div
                         initial="hidden"
@@ -89,7 +93,7 @@ const ModalComp = props => {
                                 </div>
                                 <IconX className={classes.closeIcon} onClick={_closeModal}/>
                             </div>
-                            <div>
+                            <div className={classes.body}>
                                 {children}
                             </div>
                         </div>
