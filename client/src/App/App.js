@@ -4,6 +4,7 @@ import ButtonOrderCount from '../components/ButtonOrderCount'
 import Input from '../components/Input'
 import { padWithLeadingZeros } from '../components/utils'
 import Confirmation from '../containers/Confirmation'
+import ConfirmationDone from '../containers/ConfirmationDone'
 import Signin from '../containers/Signin'
 
 const App = () => {
@@ -39,7 +40,7 @@ const App = () => {
       <Input/>
       {/* <Login open={open} setOpen={setOpen} /> */}
       {/* <Signin open={open} setOpen={setOpen} /> */}
-      <Confirmation open={open} setOpen={setOpen} />
+      <ConfirmationDone open={open} setOpen={setOpen} />
     </div>
   )
 }
