@@ -15,6 +15,10 @@ const useStyles = createUseStyles(theme => ({
     },
     root: {
         backgroundColor: 'transparent',
+        overflow: 'scroll',
+        '&::-webkit-scrollbar': {
+            width: 0
+        }
 	},
     content: {
 		fontFamily: 'Inter-Medium',
