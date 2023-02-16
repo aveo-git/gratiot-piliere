@@ -2,10 +2,9 @@ import React, { useState } from 'react'
 import Button from '../components/Button'
 import ButtonOrderCount from '../components/ButtonOrderCount'
 import Input from '../components/Input'
+import Text from '../components/Text'
 import { padWithLeadingZeros } from '../components/utils'
 import Confirmation from '../containers/Confirmation'
-import ConfirmationDone from '../containers/ConfirmationDone'
-import Signin from '../containers/Signin'
 
 const App = () => {
 
@@ -38,9 +37,11 @@ const App = () => {
       <ButtonOrderCount text={padWithLeadingZeros(count)} variant='primary' handleMinus={_handleMinus} handlePlus={_handlePlus} />
       <hr />
       <Input/>
-      {/* <Login open={open} setOpen={setOpen} /> */}
       {/* <Signin open={open} setOpen={setOpen} /> */}
-      <ConfirmationDone open={open} setOpen={setOpen} />
+      {/* <Login open={open} setOpen={setOpen} /> */}
+      <Confirmation open={open} setOpen={setOpen} />
+      {/* <ConfirmationDone open={open} setOpen={setOpen} /> */}
+      <Text variant='h1' subtitle="Subtitle" isLink>Bonjour</Text>
     </div>
   )
 }

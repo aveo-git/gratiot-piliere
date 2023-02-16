@@ -28,7 +28,6 @@ const Signin = props => {
             <Input label="Adresse"/>
             <Input label="Mot de passe"/>
             <Input label="Confirmation"/>
-            Content here
             <Button variant='primary' textLabel="S'inscrire" styles={{container: classes.container}}/>
             <Button variant='primary' textLabel="J'ai déjà un compte" styles={{container: classes.container}}/>
         </ModalComp>
