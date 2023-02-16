@@ -16,8 +16,12 @@ const useStyles = createUseStyles(theme => ({
     root: {
         backgroundColor: 'transparent',
         overflow: 'scroll',
+        height: 'fit-content',
         '&::-webkit-scrollbar': {
             width: 0
+        },
+        '&:focus-visible': {
+            outline: 'none'
         }
 	},
     content: {
@@ -74,35 +78,35 @@ const ModalComp = props => {
 
     return (
         <AnimatePresence>
-                <Modal
-                    isOpen={open}
-                    onRequestClose={closeOnOverlay && _closeModal}
-                    contentLabel="Example Modal"
-                    overlayClassName={classes.overlay}
-                    className={classes.root}
-                    ariaHideApp={false}
+            <Modal
+                isOpen={open}
+                onRequestClose={closeOnOverlay && _closeModal}
+                contentLabel="Example Modal"
+                overlayClassName={classes.overlay}
+                className={classes.root}
+                ariaHideApp={false}
+            >
+                <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    transition={{ duration: 0.3, ease: "easeInOut"}}
+                    variants={usedContainerVariants}
                 >
-                    <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        transition={{ duration: 0.3, ease: "easeInOut"}}
-                        variants={usedContainerVariants}
-                    >
-                        <div className={classes.content}>
-                            <div className={classes.header}>
-                                <div className={classes.leftHeader}>
-                                    {backIcon && <IconArrowLeft/>}
-                                    <h2 className={classes.title}>{title}</h2>
-                                </div>
-                                <IconX className={classes.closeIcon} onClick={_closeModal}/>
+                    <div className={classes.content}>
+                        <div className={classes.header}>
+                            <div className={classes.leftHeader}>
+                                {backIcon && <IconArrowLeft/>}
+                                <h2 className={classes.title}>{title}</h2>
                             </div>
-                            <div className={classes.body}>
-                                {children}
-                            </div>
+                            <IconX className={classes.closeIcon} onClick={_closeModal}/>
                         </div>
-                    </motion.div>
-                </Modal>
+                        <div className={classes.body}>
+                            {children}
+                        </div>
+                    </div>
+                </motion.div>
+            </Modal>
         </AnimatePresence>
     )
 }

@@ -29,7 +29,7 @@ const Confirmation = props => {
         setOpen && setOpen(false)
     }
     return (
-        <ModalComp open={open} closeModal={_closeModal} title="Confirmation" backIcon closeOnOverlay>
+        <ModalComp open={open} closeModal={_closeModal} title="Confirmation" direction="left" backIcon closeOnOverlay>
             <div className={classes.contentInformation}>Verifier votre adresse email et copier le code de verification en dessous : (adresse@gmail.com)</div>
             <Input label="Code de verification"/>
             <div className={classes.resend}>
