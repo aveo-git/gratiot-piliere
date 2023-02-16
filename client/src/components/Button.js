@@ -1,14 +1,13 @@
 import React from 'react'
 import classeNames from 'classnames'
 import { createUseStyles } from 'react-jss'
-import { IconPlus } from '@tabler/icons-react'
 
 const useStyles = createUseStyles(theme => ({
 	root: {
 		fontFamily: 'Inter-Medium',
         fontSize: 13,
         padding: '0px 15px',
-        width: 'fit-content',
+        justifyContent: 'center',
         cursor: 'pointer',
         height: ({size}) => size === 'medium' ? 44 : 35,
         display: 'flex',
@@ -47,8 +46,9 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Button = props => {
-    const { textLabel = 'Voir plus', variant = 'default', size = 'medium', icon = <IconPlus/>, defaultIconPosition = true, onClick } = props;
+    const { textLabel = 'Voir plus', variant = 'default', size = 'medium', icon, defaultIconPosition = true, onClick, styles } = props;
     const classes = useStyles({icon, variant, size, defaultIconPosition})
+    
     let classForVariant;
     switch(variant) {
         case 'default':
@@ -62,7 +62,7 @@ const Button = props => {
     }
 
   return (
-    <div className={classeNames(classes.root, classForVariant, classes.defaulticonPosition)} onClick={onClick}>
+    <div className={classeNames(styles?.container, classes.root, classForVariant, classes.defaulticonPosition)} onClick={onClick}>
       <span className={classes.textLabel}>{textLabel}</span>
       <span className={classes.icon}>{icon}</span>
     </div>
