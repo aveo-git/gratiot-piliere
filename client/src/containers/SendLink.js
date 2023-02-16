@@ -3,7 +3,6 @@ import { createUseStyles } from 'react-jss';
 import Button from '../components/Button'
 import Input from '../components/Input'
 import ModalComp from '../components/Modal'
-import Text from '../components/Text';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -21,7 +20,7 @@ const useStyles = createUseStyles(theme => ({
     }
 }));
 
-const Confirmation = props => {
+const SendLink = props => {
     const { open, setOpen } = props;
     const classes = useStyles()
 
@@ -29,16 +28,13 @@ const Confirmation = props => {
         setOpen && setOpen(false)
     }
     return (
-        <ModalComp open={open} closeModal={_closeModal} title="Confirmation" direction="left" backIcon closeOnOverlay>
-            <div className={classes.contentInformation}>Verifier votre adresse email et copier le code de verification en dessous : (adresse@gmail.com)</div>
-            <Input label="Code de verification"/>
-            <div className={classes.resend}>
-                <Text isLink to='/resend-code'>Re-envoyer le code</Text>
-            </div>
+        <ModalComp open={open} closeModal={_closeModal} title="Mot de passe oublié" direction="left" backIcon closeOnOverlay>
+            <div className={classes.contentInformation}>Veillez saisir ici votre adresse mail.</div>
+            <Input label="Adresse mail"/>
             
-            <Button variant='primary' textLabel="Confirmer" styles={{container: classes.container}}/>
+            <Button variant='primary' textLabel="Envoyer le lien" styles={{container: classes.container}}/>
         </ModalComp>
     )
 }
 
-export default Confirmation
+export default SendLink

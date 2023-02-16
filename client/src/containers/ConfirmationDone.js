@@ -33,7 +33,7 @@ const ConfirmationDone = props => {
         setOpen && setOpen(false)
     }
     return (
-        <ModalComp open={open} closeModal={_closeModal} title="Confirmation" backIcon closeOnOverlay>
+        <ModalComp open={open} closeModal={_closeModal} title="Confirmation" direction="left" backIcon closeOnOverlay>
             <div className={classes.content}>
                 <IconCircleCheck className={classes.iconCheck}/>
                 <div className={classes.contentInformation}>
