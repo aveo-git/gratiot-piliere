@@ -5,6 +5,7 @@ import Input from '../components/Input'
 import Text from '../components/Text'
 import { padWithLeadingZeros } from '../components/utils'
 import Renewall from '../containers/Renewall'
+import SendLink from '../containers/SendLink'
 
 const App = () => {
 
@@ -40,7 +41,8 @@ const App = () => {
       {/* <Signin open={open} setOpen={setOpen} /> */}
       {/* <Login open={open} setOpen={setOpen} /> */}
       {/* <Confirmation open={open} setOpen={setOpen} /> */}
-      <Renewall open={open} setOpen={setOpen} />
+      {/* <Renewall open={open} setOpen={setOpen} /> */}
+      <SendLink open={open} setOpen={setOpen} />
       {/* <ConfirmationDone open={open} setOpen={setOpen} /> */}
       <Text variant='h1' subtitle="Subtitle" isLink>Bonjour</Text>
     </div>
