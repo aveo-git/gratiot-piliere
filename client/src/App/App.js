@@ -3,6 +3,7 @@ import Button from '../components/Button'
 import ButtonOrderCount from '../components/ButtonOrderCount'
 import Input from '../components/Input'
 import { padWithLeadingZeros } from '../components/utils'
+import Confirmation from '../containers/Confirmation'
 import Signin from '../containers/Signin'
 
 const App = () => {
@@ -37,7 +38,8 @@ const App = () => {
       <hr />
       <Input/>
       {/* <Login open={open} setOpen={setOpen} /> */}
-      <Signin open={open} setOpen={setOpen} />
+      {/* <Signin open={open} setOpen={setOpen} /> */}
+      <Confirmation open={open} setOpen={setOpen} />
     </div>
   )
 }
