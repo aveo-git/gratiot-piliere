@@ -52,3 +52,12 @@ body {
   font-family: 'Inter-Black';
   src: url('./Assets/fonts/Inter-Black.ttf');
 }
+@font-face {
+  font-family: 'Poppins-Bold';
+  src: url('./Assets/fonts/Poppins-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'Domine-Bold';
+  src: url('./Assets/fonts/Domine-Bold.ttf');
+}

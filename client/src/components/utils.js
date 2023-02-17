@@ -20,3 +20,16 @@ export const containerVariants = {
         visible: { opacity: 1, transform:'translateX(0px)'}
     }
 };
+
+export const getPriceBefore = number => {
+    if(typeof number !== 'string') return;
+    const numbers = number.split('.');
+    return numbers[0]
+}
+
+export const getPriceAfter = number => {
+    if(typeof number !== 'string') return;
+    const numbers = number.split('.');
+    if(numbers.length > 1) return numbers[1]
+    else return '00'
+}
