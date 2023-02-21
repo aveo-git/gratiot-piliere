@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
 import { useDispatch } from 'react-redux';
-import { decrement, increment } from '../../redux/store';
+import { decrement, increment } from '../../redux/actions/order';
 import Price from '../Price';
 import Text from '../Text';
 import { padWithLeadingZeros } from '../utils';

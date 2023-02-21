@@ -8,7 +8,7 @@ import Drawer from '../components/Drawer'
 import NoOrders from '../components/order/NoOrders';
 import OrderItem from '../components/order/OrderItem';
 import Text from '../components/Text';
-import { resetAllOrder } from '../redux/store';
+import { resetAllOrder } from '../redux/actions/order';
 
 const useStyles = createUseStyles(theme => ({
 	container: {

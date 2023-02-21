@@ -7,8 +7,8 @@ import { padWithLeadingZeros } from '../components/utils'
 import OrderCart from '../containers/OrderCart'
 
 import { useDispatch } from 'react-redux'
-import { addOrder } from '../redux/store'
 import { v4 as uuidv4 } from 'uuid'
+import { addOrder } from '../redux/actions/order'
 
 const App = () => {
 
