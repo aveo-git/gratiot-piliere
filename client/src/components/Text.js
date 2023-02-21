@@ -15,15 +15,15 @@ const useStyles = createUseStyles(theme => ({
 	},
     h1: {
         fontSize: 80,
-        fontFamily: 'Inter-Bold'
+        fontFamily: 'Poppins-Bold'
     },
     h2: {
         fontSize: 40,
-        fontFamily: 'Inter-Bold'
+        fontFamily: 'Poppins-Bold'
     },
     h3: {
         fontSize: 20,
-        fontFamily: 'Inter-Bold'
+        fontFamily: 'Poppins-Bold'
     },
     subtitle: {
         fontSize: 14,

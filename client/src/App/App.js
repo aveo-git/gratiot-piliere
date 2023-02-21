@@ -1,16 +1,21 @@
 import React, { useState } from 'react'
 import Button from '../components/Button'
-import ButtonOrderCount from '../components/ButtonOrderCount'
+import ButtonOrderCount from '../components/order/ButtonOrderCount'
 import Input from '../components/Input'
 import Text from '../components/Text'
 import { padWithLeadingZeros } from '../components/utils'
-import Renewall from '../containers/Renewall'
-import SendLink from '../containers/SendLink'
+import OrderCart from '../containers/OrderCart'
+
+import { useDispatch } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'
+import { addOrder } from '../redux/actions/order'
 
 const App = () => {
 
   const [count, setCount] = useState(0)
   const [open, setOpen] =  useState(false)
+
+  const dispatch = useDispatch()
 
   const _handleMinus = () => {
     if(count <= 0) setCount(0)
@@ -18,7 +23,7 @@ const App = () => {
   }
 
   const _handlePlus = () => {
-    setCount(count + 1)
+    dispatch(addOrder(uuidv4().split('-')[0]))
   }
 
   const _openModalLogin = () => {
@@ -42,8 +47,9 @@ const App = () => {
       {/* <Login open={open} setOpen={setOpen} /> */}
       {/* <Confirmation open={open} setOpen={setOpen} /> */}
       {/* <Renewall open={open} setOpen={setOpen} /> */}
-      <SendLink open={open} setOpen={setOpen} />
+      {/* <SendLink open={open} setOpen={setOpen} /> */}
       {/* <ConfirmationDone open={open} setOpen={setOpen} /> */}
+      <OrderCart open={open} closeModal setOpen={setOpen} />
       <Text variant='h1' subtitle="Subtitle" isLink>Bonjour</Text>
     </div>
   )
