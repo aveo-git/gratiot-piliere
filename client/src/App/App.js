@@ -6,10 +6,16 @@ import Text from '../components/Text'
 import { padWithLeadingZeros } from '../components/utils'
 import OrderCart from '../containers/OrderCart'
 
+import { useDispatch } from 'react-redux'
+import { addOrder } from '../redux/store'
+import { v4 as uuidv4 } from 'uuid'
+
 const App = () => {
 
   const [count, setCount] = useState(0)
   const [open, setOpen] =  useState(false)
+
+  const dispatch = useDispatch()
 
   const _handleMinus = () => {
     if(count <= 0) setCount(0)
@@ -17,7 +23,7 @@ const App = () => {
   }
 
   const _handlePlus = () => {
-    setCount(count + 1)
+    dispatch(addOrder(uuidv4().split('-')[0]))
   }
 
   const _openModalLogin = () => {

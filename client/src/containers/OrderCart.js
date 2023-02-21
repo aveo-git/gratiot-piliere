@@ -1,11 +1,14 @@
 import { IconTrash } from '@tabler/icons-react';
 import React from 'react'
 import { createUseStyles } from 'react-jss';
+import { useDispatch, useSelector } from 'react-redux'
+
 import Button from '../components/Button';
 import Drawer from '../components/Drawer'
 import NoOrders from '../components/order/NoOrders';
 import OrderItem from '../components/order/OrderItem';
 import Text from '../components/Text';
+import { resetAllOrder } from '../redux/store';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -43,16 +46,22 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const OrderCart = props => {
-    const { open, setOpen, closeModal, noOrders = false } = props;
+    const { open, setOpen, closeModal } = props;
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const { orders } = useSelector(state => state.orders);
+
+    const _resetOrders = () => {
+        dispatch(resetAllOrder())
+    }
 
     return (
         <div>
-            <Drawer open={open} setOpen={setOpen} closeModal={closeModal} extraIcon={<IconTrash />} title="Mon panier">
-                {noOrders ? <NoOrders/> : 
+            <Drawer open={open} setOpen={setOpen} closeModal={closeModal} extraIcon={<IconTrash onClick={_resetOrders}/>} title="Mon panier">
+                {orders.length <= 0 ? <NoOrders/> : 
                     <div className={classes.container}>
                         <div className={classes.listOrder}>
-                            {orders.map((order, index) => <OrderItem order={order} />)}
+                            {orders.map((order, index) => <OrderItem key={index} order={order} />)}
                         </div>
                         <div className={classes.cta}>
                             <Text styles={{containerText: classes.priceDesc}}>Totals HT : <span>140.00 €</span></Text>
@@ -69,54 +78,3 @@ const OrderCart = props => {
 }
 
 export default OrderCart
-
-const orders = [
-    {
-        id: '01agaura',
-        nom: 'Brut Rose',
-        description: 'Ce Rosé est constitué de 83% de vin blanc et 17% de vin de la suite je ne sais plus quoi dire mais je veux des phrases tres tres longues',
-        quantity: 1,
-        price: 33.99,
-        image: 'null'
-    },
-    {
-        id: '02agaura',
-        nom: 'Millesime 2015',
-        description: 'Ce Rosé est constitué de 83% de vin blanc',
-        quantity: 2,
-        price: 31.45,
-        image: 'null'
-    },
-    {
-        id: '03agaura',
-        nom: 'Millesime 2015',
-        description: 'Ce Rosé est constitué de 83% de vin blanc et 17% de vin de la suite je ne sais plus quoi dire mais je veux des phrases tres tres longues',
-        quantity: 1,
-        price: 10,
-        image: 'null'
-    },
-    {
-        id: '01agaura',
-        nom: 'Brut Rose',
-        description: 'Ce Rosé est constitué de 83% de vin blanc et 17% de vin de la suite je ne sais plus quoi dire mais je veux des phrases tres tres longues',
-        quantity: 1,
-        price: 33.99,
-        image: 'null'
-    },
-    {
-        id: '02agaura',
-        nom: 'Millesime 2015',
-        description: 'Ce Rosé est constitué de 83% de vin blanc',
-        quantity: 2,
-        price: 31.45,
-        image: 'null'
-    },
-    {
-        id: '03agaura',
-        nom: 'Millesime 2015',
-        description: 'Ce Rosé est constitué de 83% de vin blanc et 17% de vin de la suite je ne sais plus quoi dire mais je veux des phrases tres tres longues',
-        quantity: 1,
-        price: 10,
-        image: 'null'
-    }
-]

@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { createUseStyles } from 'react-jss';
+import { useDispatch } from 'react-redux';
+import { decrement, increment } from '../../redux/store';
 import Price from '../Price';
 import Text from '../Text';
 import { padWithLeadingZeros } from '../utils';
@@ -47,16 +49,14 @@ const useStyles = createUseStyles(theme => ({
 const OrderItem = props => {
     const { order } = props;
     const classes = useStyles()
-
-    const [count, setCount] = useState(order.quantity)
+    const dispatch = useDispatch()
 
     const _handleMinus = () => {
-        if(count <= 0) setCount(0)
-        else setCount(count - 1)
+        dispatch(decrement(order.id))
     }
 
     const _handlePlus = () => {
-        setCount(count + 1)
+        dispatch(increment(order.id))
     }
 
     return (
@@ -68,7 +68,7 @@ const OrderItem = props => {
             </div>
             <div className={classes.priceAndCount}>
                 <Price price={order.price+''} />
-                <ButtonOrderCount text={padWithLeadingZeros(count)} variant='primary' handleMinus={_handleMinus} handlePlus={_handlePlus} />
+                <ButtonOrderCount text={padWithLeadingZeros(order.quantity)} variant='primary' handleMinus={_handleMinus} handlePlus={_handlePlus} />
             </div>
         </div>
     )
