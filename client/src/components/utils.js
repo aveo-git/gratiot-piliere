@@ -1,3 +1,5 @@
+export const VAT = 20;
+
 export const padWithLeadingZeros = number => {
     return String(number).padStart(2, '0');
 }
@@ -60,3 +62,14 @@ export const ordersInitial = [
         image: 'null'
     }
 ]
+
+
+export const getTotalTTC = orders => {
+    return orders.reduce((a, c) =>
+        a + c?.price
+    , 0)
+}
+
+export const getTotalHT = orders => {
+    const ttc = getTotalTTC(orders)
+}

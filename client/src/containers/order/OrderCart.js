@@ -3,12 +3,12 @@ import React from 'react'
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux'
 
-import Button from '../components/Button';
-import Drawer from '../components/Drawer'
-import NoOrders from '../components/order/NoOrders';
-import OrderItem from '../components/order/OrderItem';
-import Text from '../components/Text';
-import { resetAllOrder } from '../redux/actions/order';
+import Button from '../../components/Button';
+import Drawer from '../../components/Drawer'
+import NoOrders from '../../components/order/NoOrders';
+import OrderItem from '../../components/order/OrderItem';
+import Text from '../../components/Text';
+import { resetAllOrder } from '../../redux/actions/order';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -19,10 +19,14 @@ const useStyles = createUseStyles(theme => ({
         position: 'relative'
 	},
     listOrder: {
-        maxHeight: 'calc(100vh - 350px)',
+        height: 'calc(100vh - 150px)',
         overflow: 'auto',
-        '&::-webkit-scrollbar': {
-            width: 0
+        '&>div': {
+            maxHeight: 'calc(100vh - 330px)',
+            overflowY: 'scroll',
+            '&::-webkit-scrollbar': {
+                width: 0
+            }
         }
     },
     priceDesc: {
@@ -42,6 +46,8 @@ const useStyles = createUseStyles(theme => ({
         position: 'absolute',
         bottom: 0,
         width: '100%',
+        backgroundColor: '#FFFFFF',
+        paddingTop: 20
     }
 }));
 
@@ -61,7 +67,9 @@ const OrderCart = props => {
                 {orders.length <= 0 ? <NoOrders/> : 
                     <div className={classes.container}>
                         <div className={classes.listOrder}>
+                            <div>
                             {orders.map((order, index) => <OrderItem key={index} order={order} />)}
+                            </div>
                         </div>
                         <div className={classes.cta}>
                             <Text styles={{containerText: classes.priceDesc}}>Totals HT : <span>140.00 €</span></Text>

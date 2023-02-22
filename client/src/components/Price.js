@@ -22,7 +22,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Price = props => {
-    const { price, currency = '€', styles }  = props;
+    const { price, currency = '€', styles = {} }  = props;
     const classes = useStyles()
 
     const before = getPriceBefore(price)

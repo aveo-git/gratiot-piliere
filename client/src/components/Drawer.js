@@ -75,10 +75,8 @@ const useStyles = createUseStyles(theme => ({
     body: {
         fontSize: 14,
         fontFamily: 'Inter-Regular',
-        padding: '0 38px 38px 38px',
+        padding: '0 38px',
         height: 'calc(100vh - 120px)',
-        display: 'flex',
-        justifyContent: 'center'
     },
     extraIcon: {
         position: 'absolute',

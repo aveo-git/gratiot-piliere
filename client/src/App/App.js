@@ -4,16 +4,18 @@ import ButtonOrderCount from '../components/order/ButtonOrderCount'
 import Input from '../components/Input'
 import Text from '../components/Text'
 import { padWithLeadingZeros } from '../components/utils'
-import OrderCart from '../containers/OrderCart'
+import OrderCart from '../containers/order/OrderCart'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import { addOrder } from '../redux/actions/order'
+import { closeModalOrder, openModalOrder } from '../redux/actions/modals'
+import OrderConfirmation from '../containers/order/OrderConfirmation'
 
 const App = () => {
 
   const [count, setCount] = useState(0)
-  const [open, setOpen] =  useState(false)
+  const { modal } = useSelector(state => state.modalOrder)
 
   const dispatch = useDispatch()
 
@@ -27,18 +29,22 @@ const App = () => {
   }
 
   const _openModalLogin = () => {
-    setOpen(true)
+    // setOpen(true)
   }
 
-  const _openModalSignin = () => {
-    setOpen(true)
+  const _handleModalOrder = () => {
+    dispatch(openModalOrder({closeModal: true}))
+  }
+
+  const _closeModal = (e) => {
+    dispatch(closeModalOrder(e))
   }
 
   return (
     <div>
       <Button onClick={_openModalLogin}/>
       <hr />
-      <Button onClick={_openModalSignin}/>
+      <Button onClick={_handleModalOrder}/>
       <hr />
       <ButtonOrderCount text={padWithLeadingZeros(count)} variant='primary' handleMinus={_handleMinus} handlePlus={_handlePlus} />
       <hr />
@@ -49,7 +55,8 @@ const App = () => {
       {/* <Renewall open={open} setOpen={setOpen} /> */}
       {/* <SendLink open={open} setOpen={setOpen} /> */}
       {/* <ConfirmationDone open={open} setOpen={setOpen} /> */}
-      <OrderCart open={open} closeModal setOpen={setOpen} />
+      <OrderCart open={modal.open} closeModal setOpen={_closeModal} />
+      <OrderConfirmation open={true} />
       <Text variant='h1' subtitle="Subtitle" isLink>Bonjour</Text>
     </div>
   )
