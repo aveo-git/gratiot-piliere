@@ -128,6 +128,10 @@ export function toDateString(value) {
 	return toMoment(value).format('D MMMM YYYY').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
 }
 
+export function getStringdate(value) {
+	return `${toDateString(value) + `, à ` + toHourString(value)}`;
+}
+
 export function toHourString(value) {
 	// return toMoment(value).format('dddd D MMMM').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');
 	return toMoment(value).format('h:mm').split(' ').map(word => word[0].toUpperCase() + word.slice(1)).join(' ');

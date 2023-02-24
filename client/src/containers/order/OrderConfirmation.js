@@ -6,7 +6,8 @@ import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import BillConfirmation from '../../components/order/BillConfirmation';
 import Text from '../../components/Text';
-import { closeModalBill } from '../../redux/actions/modals';
+import { actionForModal } from '../../redux/actions/modals';
+import { paymentOrder } from '../../redux/actions/order';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -37,16 +38,21 @@ const useStyles = createUseStyles(theme => ({
 
 const OrderConfirmation = () => {
     const classes = useStyles()
-    const { modal } = useSelector(state => state.modalBill)
+    const { modals } = useSelector(state => state.modals)
+    const { orders } = useSelector(state => state.orders);
     const dispatch = useDispatch()
 
     const _closeModal = () => {
-        dispatch(closeModalBill())
+        dispatch(actionForModal({type: 'BILL', status: 'close'}))
+    }
+
+    const _openOrderPaid = () => {
+        dispatch(paymentOrder(orders))
     }
 
     return (
         <div>
-            <Drawer open={modal.open} goBack={_closeModal} closeOnOverlay title="Commande">
+            <Drawer open={modals.bill} goBack={_closeModal} closeOnOverlay title="Commande">
                 <div className={classes.container}>
                     <div className={classes.content}>
                         <Text styles={{ containerText: classes.titleText }} textCenter >Voici le résumé de votre commande :</Text>
@@ -54,7 +60,7 @@ const OrderConfirmation = () => {
                     </div>
                     <div className={classes.cta}>
                         <AvailableCard />
-                        <Button textLabel='Payer' variant='primary' />
+                        <Button textLabel='Payer' onClick={_openOrderPaid} variant='primary' />
                     </div>
                 </div>
             </Drawer>

@@ -69,7 +69,7 @@ const OrderCart = props => {
 
     return (
         <div>
-            <Drawer open={open} closeModal={closeModal} isModalClosable extraIcon={<IconTrash onClick={_resetOrders}/>} title="Mon panier">
+            <Drawer open={open} closeModal={closeModal} isModalClosable extraIcon={data.length > 0 && <IconTrash onClick={_resetOrders}/>} title="Mon panier">
                 {isEmpty(data) ? <NoOrders/> : 
                     <div className={classes.container}>
                         <div className={classes.listOrder}>

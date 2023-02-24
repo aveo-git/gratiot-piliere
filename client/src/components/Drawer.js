@@ -73,6 +73,8 @@ const useStyles = createUseStyles(theme => ({
         fontSize: ({isModalClosable}) => isModalClosable ? 34 : 20,
         fontFamily: 'Poppins-Bold',
         textAlign: ({isModalClosable}) => isModalClosable && 'center',
+        display: ({isModalClosable}) => isModalClosable && 'flex',
+        justifyContent: ({isModalClosable}) => isModalClosable && 'center',
     },
     body: {
         fontSize: 14,

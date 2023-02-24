@@ -9,13 +9,14 @@ import OrderCart from '../containers/order/OrderCart'
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import OrderConfirmation from '../containers/order/OrderConfirmation'
-import { closeModalOrder, openModalOrder } from '../redux/actions/modals'
+import { actionForModal } from '../redux/actions/modals'
 import { addOrder } from '../redux/actions/order'
+import OrderPaid from '../containers/order/OrderPaid'
 
 const App = () => {
 
   const [count, setCount] = useState(0)
-  const { modal } = useSelector(state => state.modalOrder)
+  const { modals } = useSelector(state => state.modals)
 
   const dispatch = useDispatch()
 
@@ -33,11 +34,11 @@ const App = () => {
   }
 
   const _handleModalOrder = () => {
-    dispatch(openModalOrder())
+    dispatch(actionForModal({type: 'ORDER', status: 'open'}))
   }
 
   const _closeModal = () => {
-    dispatch(closeModalOrder())
+    dispatch(actionForModal({type: 'ORDER', status: 'close'}))
   }
 
   return (
@@ -55,8 +56,9 @@ const App = () => {
       {/* <Renewall open={open} setOpen={setOpen} /> */}
       {/* <SendLink open={open} setOpen={setOpen} /> */}
       {/* <ConfirmationDone open={open} setOpen={setOpen} /> */}
-      <OrderCart open={modal.open} closeModal={_closeModal} />
-      <OrderConfirmation open={true} />
+      <OrderCart open={modals.order} closeModal={_closeModal} />
+      <OrderConfirmation />
+      <OrderPaid />
       <Text variant='h1' subtitle="Subtitle" isLink>Bonjour</Text>
     </div>
   )

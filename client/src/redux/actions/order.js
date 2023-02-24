@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { minifyId, toDateFormatString } from '../../components/utils';
-import { openModalBill } from './modals';
+import { getStringdate, minifyId, toDateFormatString, toDateString, toMoment } from '../../components/utils';
+import { actionForModal } from './modals';
 
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment';
@@ -9,6 +9,8 @@ const initialState = {
     orders: {
         id: '',
         ref: '',
+        shippingAddress: '',
+        date: '',
         data: [
             {
                 id: '01agaura',
@@ -88,12 +90,23 @@ export const prepareOrders = (orders) => {
         ordersTemp.id = minifyId(uuidv4())
         ordersTemp.ref = 'COM-' + toDateFormatString(moment()) + '-' + ordersTemp.id
         ordersTemp.data = orders.data
+        ordersTemp.date = getStringdate(toMoment())
 
         if(!orders.id) {
             dispatch(update(ordersTemp))
+        } else {
+            // Date validation commande must be change
+            dispatch(update({...orders, date: getStringdate(toMoment())}))
         }
         
-        dispatch(openModalBill())
+        dispatch(actionForModal({type: 'BILL', status: 'open'}))
+    }
+}
+
+export const paymentOrder = (orders) => {
+    return (dispatch) => {
+        console.log('orders :>> ', orders);
+        dispatch(actionForModal({type: 'PAID', status: 'open'}))
     }
 }
 

@@ -6,7 +6,7 @@ import moment from 'moment'
 import Text from '../Text';
 import BillTotalResume from './BillTotalResume';
 import OrderDetail from './OrderDetail';
-import { toDateString, toHourString } from '../utils';
+import { getStringdate, toDateString, toHourString } from '../utils';
 
 const useStyles = createUseStyles(theme => ({
     container: {
@@ -34,7 +34,7 @@ const useStyles = createUseStyles(theme => ({
 const BillConfirmation = () => {
     const classes = useStyles()
     const { orders } = useSelector(state => state.orders);
-    const { data, ref } = orders;
+    const { data, ref, date } = orders;
 
     const orderDetails = data.map((order, index) => (
         <OrderDetail key={index} order={order} />
@@ -63,7 +63,7 @@ const BillConfirmation = () => {
                 <Text>La livraison de la commande se fait à :</Text>
                 <Text>Rue RADAMA 1, BP 101</Text>
             </div>
-            <Text styles={{ containerText: classes.billDate }}>{`${toDateString(moment()) + `, à ` + toHourString(moment())}`}</Text>
+            <Text styles={{ containerText: classes.billDate }}>{date}</Text>
         </div>
     )
 }
