@@ -1,16 +1,19 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
+import { useDispatch, useSelector } from 'react-redux';
+import AvailableCard from '../../components/AvailableCard';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import BillConfirmation from '../../components/order/BillConfirmation';
 import Text from '../../components/Text';
+import { closeModalBill } from '../../redux/actions/modals';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
         position: 'relative'
 	},
     content: {
-        height: 'calc(100vh - 150px)',
+        height: 'calc(100vh - 110px)',
         overflow: 'auto',
         '&>div': {
             maxHeight: 'calc(100vh - 330px)',
@@ -32,20 +35,26 @@ const useStyles = createUseStyles(theme => ({
     }
 }));
 
-const OrderConfirmation = props => {
-    const { open, setOpen } = props;
+const OrderConfirmation = () => {
     const classes = useStyles()
+    const { modal } = useSelector(state => state.modalBill)
+    const dispatch = useDispatch()
+
+    const _closeModal = () => {
+        dispatch(closeModalBill())
+    }
 
     return (
         <div>
-            <Drawer open={open} setOpen={setOpen} title="Commande">
+            <Drawer open={modal.open} goBack={_closeModal} closeOnOverlay title="Commande">
                 <div className={classes.container}>
                     <div className={classes.content}>
                         <Text styles={{ containerText: classes.titleText }} textCenter >Voici le résumé de votre commande :</Text>
                         <BillConfirmation/>
                     </div>
                     <div className={classes.cta}>
-                        <Button textLabel='Commander' variant='primary' />
+                        <AvailableCard />
+                        <Button textLabel='Payer' variant='primary' />
                     </div>
                 </div>
             </Drawer>

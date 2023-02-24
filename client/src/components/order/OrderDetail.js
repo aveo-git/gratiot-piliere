@@ -27,10 +27,9 @@ const OrderDetail = props => {
 
     return (
         <div className={classes.container}>
-            <span className={classes.quantity}>{padWithLeadingZeros(order.quantity)}</span>
             <span className={classes.name}>{order.nom}</span>
             <span className={classes.orderDots}></span>
-            <span className={classes.price}>{order.price} {currency.symbol}</span>
+            <span className={classes.price}>{order.price} {currency.symbol} x {padWithLeadingZeros(order.quantity)}</span>
         </div>
     )
 }

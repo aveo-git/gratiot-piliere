@@ -5,13 +5,12 @@ export const modalOrderSlice = createSlice({
     initialState: { 
         modal: { 
             open: false, 
-            closeModal: true,
+            isClosed: true,
         }
     },
     reducers: {
-        openModalOrder: (state, action) => {
+        openModalOrder: (state) => {
             state.modal.open = true
-            state.modal.closeModal = action.payload.closeModal
         },
         closeModalOrder: (state) => {
             state.modal.open = false
@@ -20,3 +19,30 @@ export const modalOrderSlice = createSlice({
 })
 
 export const { openModalOrder, closeModalOrder } = modalOrderSlice.actions
+
+export const modalBillSlice = createSlice({
+    name: 'modalBill',
+    initialState: { 
+        modal: { 
+            open: false, 
+            isClosed: true,
+        }
+    },
+    reducers: {
+        openModalBill: (state) => {
+            state.modal.open = true
+        },
+        closeModalBill: (state) => {
+            state.modal.open = false
+        }
+    }
+})
+
+export const { openModalBill, closeModalBill } = modalBillSlice.actions
+
+export const closeAllModals = () => {
+    return (dispatch) => {
+        dispatch(closeModalOrder())
+        dispatch(closeModalBill())
+    }
+}

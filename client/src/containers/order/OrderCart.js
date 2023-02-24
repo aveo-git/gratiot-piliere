@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer'
+import BillTotalResume from '../../components/order/BillTotalResume';
 import NoOrders from '../../components/order/NoOrders';
 import OrderItem from '../../components/order/OrderItem';
-import Text from '../../components/Text';
-import { resetAllOrder } from '../../redux/actions/order';
+import { isEmpty } from '../../components/utils';
+import { prepareOrders, resetAllOrder } from '../../redux/actions/order';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -29,7 +30,7 @@ const useStyles = createUseStyles(theme => ({
             }
         }
     },
-    priceDesc: {
+    billTotal: {
         textAlign: 'center',
         fontSize: 15,
         marginBottom: 5,
@@ -52,31 +53,34 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const OrderCart = props => {
-    const { open, setOpen, closeModal } = props;
+    const { open, closeModal } = props;
     const classes = useStyles()
     const dispatch = useDispatch()
     const { orders } = useSelector(state => state.orders);
+    const { data } = orders;
 
     const _resetOrders = () => {
         dispatch(resetAllOrder())
     }
 
+    const _openBillConfirmation = () => {
+        dispatch(prepareOrders(orders))
+    }
+
     return (
         <div>
-            <Drawer open={open} setOpen={setOpen} closeModal={closeModal} extraIcon={<IconTrash onClick={_resetOrders}/>} title="Mon panier">
-                {orders.length <= 0 ? <NoOrders/> : 
+            <Drawer open={open} closeModal={closeModal} isModalClosable extraIcon={<IconTrash onClick={_resetOrders}/>} title="Mon panier">
+                {isEmpty(data) ? <NoOrders/> : 
                     <div className={classes.container}>
                         <div className={classes.listOrder}>
                             <div>
-                            {orders.map((order, index) => <OrderItem key={index} order={order} />)}
+                            {data?.map((order, index) => <OrderItem key={index} order={order} />)}
                             </div>
                         </div>
                         <div className={classes.cta}>
-                            <Text styles={{containerText: classes.priceDesc}}>Totals HT : <span>140.00 €</span></Text>
-                            <Text styles={{containerText: classes.priceDesc}}>TVA - 20% : <span>140.00 €</span></Text>
-                            <Text styles={{containerText: classes.priceDesc}}>Total TTC : <span>140.00 €</span></Text>
+                            <BillTotalResume styles={{ other: classes.billTotal }} />
                             <div className={classes.info}>Valider votre commande en cliquant sur commander :</div>
-                            <Button textLabel='Commander' variant='primary' />
+                            <Button textLabel='Commander' onClick={_openBillConfirmation} variant='primary' />
                         </div>
                     </div>
                 }

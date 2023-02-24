@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { createUseStyles } from 'react-jss';
 import { IconArrowLeft, IconX } from '@tabler/icons-react';
 import { containerVariants } from './utils';
+import { useDispatch } from 'react-redux';
+import { closeAllModals } from '../redux/actions/modals';
 
 const useStyles = createUseStyles(theme => ({
 	overlay: {
@@ -32,7 +34,7 @@ const useStyles = createUseStyles(theme => ({
     },
     header: {
         position: 'relative', 
-        display: ({closeModal}) => !closeModal && 'flex',
+        display: ({isModalClosable}) => !isModalClosable && 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: '21px 28px',
@@ -62,21 +64,21 @@ const useStyles = createUseStyles(theme => ({
         zIndex: 1
     },
     title: {
-        position: ({closeModal}) => !!closeModal && 'absolute',
-        bottom: ({closeModal}) => closeModal && 0,
+        position: ({isModalClosable}) => !!isModalClosable && 'absolute',
+        bottom: ({isModalClosable}) => isModalClosable && 0,
         left: 0,
         right: 0, 
         marginLeft: 'auto', 
         marginRight: 'auto', 
-        fontSize: ({closeModal}) => closeModal ? 34 : 20,
+        fontSize: ({isModalClosable}) => isModalClosable ? 34 : 20,
         fontFamily: 'Poppins-Bold',
-        textAlign: ({closeModal}) => closeModal && 'center',
+        textAlign: ({isModalClosable}) => isModalClosable && 'center',
     },
     body: {
         fontSize: 14,
         fontFamily: 'Inter-Regular',
         padding: '0 38px',
-        height: 'calc(100vh - 120px)',
+        height: ({isModalClosable}) => isModalClosable ? 'calc(100vh - 120px)' : 'calc(100vh - 90px)',
     },
     extraIcon: {
         position: 'absolute',
@@ -91,20 +93,21 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Drawer = props => {
-    const { open, setOpen, title, closeModal, extraIcon, children, closeOnOverlay = true, direction = 'left', backIcon = true } = props;
-    const classes = useStyles({closeModal});
+    const { open, title, isModalClosable = false, closeModal, goBack, extraIcon, children, closeOnOverlay = true, direction = 'left', backIcon = true } = props;
+    const classes = useStyles({isModalClosable});
+    const dispatch = useDispatch()
 
     const usedContainerVariants = containerVariants[direction];
 
-    const _closeDrawer = () => {
-        setOpen(false)
+    const _closeAllModals = () => {
+        dispatch(closeAllModals())
     }
 
     return (
         <AnimatePresence>
             <Modal
                 isOpen={open}
-                onRequestClose={closeOnOverlay && _closeDrawer}
+                onRequestClose={closeOnOverlay && _closeAllModals}
                 contentLabel="Example Modal"
                 overlayClassName={classes.overlay}
                 className={classes.root}
@@ -119,14 +122,14 @@ const Drawer = props => {
                 >
                     <div className={classes.content}>
                         <div className={classes.header}>
-                            {closeModal ? 
+                            {isModalClosable ? 
                                 <>
-                                    <IconX className={classes.closeIcon} onClick={_closeDrawer}/> 
+                                    <IconX className={classes.closeIcon} onClick={closeModal}/> 
                                     <div className={classes.title}>{title}</div>
                                 </>
                                 :
                                 <div className={classes.leftHeader}>
-                                    {backIcon && <IconArrowLeft/>}
+                                    {backIcon && <IconArrowLeft onClick={goBack}/>}
                                     <h2 className={classes.title}>{ title }</h2>
                                 </div>
                             }
