@@ -31,11 +31,14 @@ const useStyles = createUseStyles(theme => ({
     },
     uppercase: {
         textTransform: 'uppercase'
+    },
+    center: {
+        textAlign: 'center'
     }
 }));
 
 const Text = props => {
-    const { variant = 'default', isLink, to, children, subtitle, isUpperCase = false, styles } = props;
+    const { variant = 'default', isLink, to, children, subtitle, isUpperCase = false, textCenter = false, styles } = props;
     const classes = useStyles()
 
     let className = classes.default
@@ -54,13 +57,13 @@ const Text = props => {
     }
 
     if(isLink) {
-        return <a href={to} className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase)}>
+        return <a href={to} className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase, textCenter && classes.center)}>
             {children}
         </a>
     }
 
     return (
-        <div className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase)}>
+        <div className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase, textCenter && classes.center)}>
             { children }
             {subtitle && <div className={classNames(classes.subtitle, styles?.subtitle)}>{ subtitle }</div>}
         </div>
