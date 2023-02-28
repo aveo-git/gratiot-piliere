@@ -105,9 +105,6 @@ export const prepareOrders = (orders) => {
 
 export const paymentOrder = (orders) => {
     return (dispatch) => {
-        console.log('orders :>> ', orders);
         dispatch(actionForModal({type: 'PAID', status: 'open'}))
     }
 }
-
-

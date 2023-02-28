@@ -6,7 +6,8 @@ export const modalSlice = createSlice({
         modals: {
             order: false, 
             bill: false,
-            paid: false
+            paid: false,
+            profil: false
         }
     },
     reducers: {
@@ -21,8 +22,11 @@ export const modalSlice = createSlice({
                 case 'PAID':
                     state.modals.paid = action.payload.status === 'open' ? true : false
                     break;
+                case 'PROFIL':
+                    state.modals.profil = action.payload.status === 'open' ? true : false
+                    break;
                 default:
-                    state.modals = {order: false, bill: false, paid: false}
+                    state.modals = {order: false, bill: false, paid: false, profil: false}
                     break;
             }
         },

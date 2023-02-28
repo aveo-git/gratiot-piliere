@@ -12,6 +12,7 @@ import OrderConfirmation from '../containers/order/OrderConfirmation'
 import { actionForModal } from '../redux/actions/modals'
 import { addOrder } from '../redux/actions/order'
 import OrderPaid from '../containers/order/OrderPaid'
+import MyProfil from '../containers/MyProfil'
 
 const App = () => {
 
@@ -37,15 +38,20 @@ const App = () => {
     dispatch(actionForModal({type: 'ORDER', status: 'open'}))
   }
 
+  const _handleModalProfil = () => {
+    dispatch(actionForModal({type: 'PROFIL', status: 'open'}))
+  }
+
   const _closeModal = () => {
-    dispatch(actionForModal({type: 'ORDER', status: 'close'}))
+    // dispatch(actionForModal({type: 'ORDER', status: 'close'}))
+    dispatch(actionForModal({type: 'PROFIL', status: 'close'}))
   }
 
   return (
     <div>
       <Button onClick={_openModalLogin}/>
       <hr />
-      <Button onClick={_handleModalOrder}/>
+      <Button onClick={_handleModalProfil}/>
       <hr />
       <ButtonOrderCount text={padWithLeadingZeros(count)} variant='primary' handleMinus={_handleMinus} handlePlus={_handlePlus} />
       <hr />
@@ -59,6 +65,7 @@ const App = () => {
       <OrderCart open={modals.order} closeModal={_closeModal} />
       <OrderConfirmation />
       <OrderPaid />
+      <MyProfil open={modals.profil} closeModal={_closeModal} />
       <Text variant='h1' subtitle="Subtitle" isLink>Bonjour</Text>
     </div>
   )

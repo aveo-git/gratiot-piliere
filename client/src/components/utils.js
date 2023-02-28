@@ -1,3 +1,4 @@
+import { IconLicense, IconMap, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
 import moment from 'moment'
 moment.locale('fr')
 moment.updateLocale('fr', {
@@ -255,3 +256,11 @@ export function getNearestDay(dates) {
 export const minifyId = id => {
 	return id.split('-')[0]
 }
+
+export const MENU_PROFIL = [
+	{id: 1, title: 'Général', icon: <IconUserCircle />, disabled: false, to: '/general'},
+	{id: 2, title: 'Modifier mon mot de passe', icon: <IconShieldLock />, disabled: false, to: '/update/password'},
+	{id: 3, title: 'Choisir mon lieu de livraison', icon: <IconMap />, disabled: false, to: '/choise-shipping'},
+	{id: 4, title: 'Consulter mes factures', icon: <IconReceipt />, disabled: false, to: '/bills'},
+	{id: 5, title: 'Consulter historique', icon: <IconLicense />, disabled: true, to: '/history'},
+]
