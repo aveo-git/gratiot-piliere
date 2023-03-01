@@ -15,8 +15,8 @@ const Dashboard = () => {
   const location = useLocation()
 
   useEffect(() => {
-    checkLocation(location.pathname, dispatch)
-  }, location)
+    dispatch(checkLocation(location.pathname))
+  }, [location, dispatch])
 
   const _handleModalProfil = () => {
     dispatch(openOrCloseModal(navigate, {type: 'ORDER', link: '/cart', status: 'open'}))
