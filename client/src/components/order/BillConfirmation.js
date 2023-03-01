@@ -6,7 +6,7 @@ import moment from 'moment'
 import Text from '../Text';
 import BillTotalResume from './BillTotalResume';
 import OrderDetail from './OrderDetail';
-import { getStringdate, toDateString, toHourString } from '../utils';
+import { getStringdate, toDateString, toHourString } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
     container: {

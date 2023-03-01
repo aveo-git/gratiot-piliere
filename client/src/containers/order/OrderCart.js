@@ -1,14 +1,16 @@
 import { IconTrash } from '@tabler/icons-react';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer'
 import BillTotalResume from '../../components/order/BillTotalResume';
 import NoOrders from '../../components/order/NoOrders';
 import OrderItem from '../../components/order/OrderItem';
-import { isEmpty } from '../../components/utils';
+import { isEmpty } from '../../misc/utils';
+import { actionForModal } from '../../redux/actions/modals';
 import { prepareOrders, resetAllOrder } from '../../redux/actions/order';
 
 const useStyles = createUseStyles(theme => ({
@@ -53,10 +55,12 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const OrderCart = props => {
-    const { open, closeModal } = props;
     const classes = useStyles()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
+    
     const { orders } = useSelector(state => state.orders);
+    const { modals } = useSelector(state => state.modals)
     const { data } = orders;
 
     const _resetOrders = () => {
@@ -64,12 +68,17 @@ const OrderCart = props => {
     }
 
     const _openBillConfirmation = () => {
-        dispatch(prepareOrders(orders))
+        dispatch(prepareOrders(navigate, orders))
+    }
+
+    const _closeModal = () => {
+        navigate('/')
+        dispatch(actionForModal({type: 'ORDER', status: 'close'}))
     }
 
     return (
         <div>
-            <Drawer open={open} closeModal={closeModal} isModalClosable extraIcon={data.length > 0 && <IconTrash onClick={_resetOrders}/>} title="Mon panier">
+            <Drawer open={modals.order} closeModal={_closeModal} isModalClosable extraIcon={data.length > 0 && <IconTrash onClick={_resetOrders}/>} title="Mon panier">
                 {isEmpty(data) ? <NoOrders/> : 
                     <div className={classes.container}>
                         <div className={classes.listOrder}>

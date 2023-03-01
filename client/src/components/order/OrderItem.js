@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { decrement, increment } from '../../redux/actions/order';
 import Price from '../Price';
 import Text from '../Text';
-import { padWithLeadingZeros } from '../utils';
+import { padWithLeadingZeros } from '../../misc/utils';
 import ButtonOrderCount from './ButtonOrderCount';
 
 const useStyles = createUseStyles(theme => ({

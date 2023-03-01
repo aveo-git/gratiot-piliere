@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import Drawer from '../components/Drawer';
 import MenuItem from '../components/MenuItem';
-import { MENU_PROFIL } from '../components/utils';
+import { MENU_PROFIL } from '../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {

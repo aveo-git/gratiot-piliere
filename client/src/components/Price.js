@@ -1,6 +1,6 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
-import { getPriceAfter, getPriceBefore } from './utils';
+import { getPriceAfter, getPriceBefore } from '../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {

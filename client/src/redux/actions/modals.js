@@ -25,15 +25,22 @@ export const modalSlice = createSlice({
                 case 'PROFIL':
                     state.modals.profil = action.payload.status === 'open' ? true : false
                     break;
-                default:
-                    state.modals = {order: false, bill: false, paid: false, profil: false}
-                    break;
+                    default:
+                        state.modals = {order: false, bill: false, paid: false, profil: false}
+                        break;
             }
         },
     }
 })
 
 export const { actionForModal } = modalSlice.actions
+
+export const openOrCloseModal = (navigate, {type, link, status}) => {
+    navigate(link)
+    return (dispatch) => {
+        dispatch(actionForModal({type, status}))
+    }
+}
 
 export const closeAllModals = () => {
     return (dispatch) => {

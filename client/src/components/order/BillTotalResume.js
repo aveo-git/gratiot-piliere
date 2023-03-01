@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { createUseStyles } from 'react-jss';
-import { getTotal, toDecimal, VAT } from '../utils';
+import { getTotal, toDecimal, VAT } from '../../misc/utils';
 import classNames from 'classnames';
 
 const useStyles = createUseStyles(theme => ({

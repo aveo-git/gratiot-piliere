@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getStringdate, minifyId, toDateFormatString, toDateString, toMoment } from '../../components/utils';
+import { getStringdate, minifyId, toDateFormatString, toDateString, toMoment } from '../../misc/utils';
 import { actionForModal } from './modals';
 
 import { v4 as uuidv4 } from 'uuid'
 import moment from 'moment';
+import { _CART } from '../../misc/links';
 
 const initialState = {
     orders: {
@@ -84,7 +85,7 @@ export const ordersSlice = createSlice({
 
 export const { resetAllOrder, increment, update, decrement, addOrder } = ordersSlice.actions;
 
-export const prepareOrders = (orders) => {
+export const prepareOrders = (navigate, orders) => {
     return (dispatch, getState) => {
         const ordersTemp = {};
         ordersTemp.id = minifyId(uuidv4())
@@ -98,7 +99,7 @@ export const prepareOrders = (orders) => {
             // Date validation commande must be change
             dispatch(update({...orders, date: getStringdate(toMoment())}))
         }
-        
+        navigate('billResume')
         dispatch(actionForModal({type: 'BILL', status: 'open'}))
     }
 }
