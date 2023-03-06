@@ -4,8 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { createUseStyles } from 'react-jss';
 import { IconArrowLeft, IconX } from '@tabler/icons-react';
 import { containerVariants } from '../misc/utils';
-import { useDispatch } from 'react-redux';
-import { closeAllModals } from '../redux/actions/modals';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = createUseStyles(theme => ({
@@ -99,13 +97,11 @@ const Drawer = props => {
     const { open, title, isModalClosable = false, closeModal, goBack, extraIcon, children, closeOnOverlay = true, direction = 'left', backIcon = true } = props;
     const classes = useStyles({isModalClosable});
     const navigate = useNavigate()
-    const dispatch = useDispatch()
 
     const usedContainerVariants = containerVariants[direction];
 
     const _closeAllModals = () => {
         navigate('/')
-        dispatch(closeAllModals())
     }
 
     return (

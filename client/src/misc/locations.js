@@ -1,5 +1,3 @@
-import { actionForModal } from "../redux/actions/modals"
-
 export const checkLocation = (pathname) => {
     let action = {}
     switch(pathname) {
@@ -8,15 +6,10 @@ export const checkLocation = (pathname) => {
             break;
         case '/cart/billResume':
             const orders = window.localStorage.getItem('orders');
-            console.log('orders from localStorage :>> ', orders);
             action = {type: 'BILL', status: 'open'}
             break;
         default:
             break;
     }
 
-
-    return dispatch => {
-        dispatch(actionForModal(action))
-    }
 }

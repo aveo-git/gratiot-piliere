@@ -1,7 +1,5 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
-import { useDispatch } from 'react-redux';
-import { decrement, increment } from '../../redux/actions/order';
 import Price from '../Price';
 import Text from '../Text';
 import { padWithLeadingZeros } from '../../misc/utils';
@@ -49,14 +47,11 @@ const useStyles = createUseStyles(theme => ({
 const OrderItem = props => {
     const { order } = props;
     const classes = useStyles()
-    const dispatch = useDispatch()
 
     const _handleMinus = () => {
-        dispatch(decrement(order.id))
     }
 
     const _handlePlus = () => {
-        dispatch(increment(order.id))
     }
 
     return (

@@ -8,10 +8,6 @@ import Button from '../../components/Button';
 import Drawer from '../../components/Drawer'
 import BillTotalResume from '../../components/order/BillTotalResume';
 import NoOrders from '../../components/order/NoOrders';
-import OrderItem from '../../components/order/OrderItem';
-import { isEmpty } from '../../misc/utils';
-import { actionForModal } from '../../redux/actions/modals';
-import { prepareOrders, resetAllOrder } from '../../redux/actions/order';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -57,34 +53,25 @@ const useStyles = createUseStyles(theme => ({
 const OrderCart = props => {
     const classes = useStyles()
     const navigate = useNavigate()
-    const dispatch = useDispatch()
-    
-    const { orders } = useSelector(state => state.orders);
-    const { modals } = useSelector(state => state.modals)
-    const { data } = orders;
 
     const _resetOrders = () => {
-        dispatch(resetAllOrder())
     }
 
     const _openBillConfirmation = () => {
-        console.log('orders before :>> ', orders);
-        dispatch(prepareOrders(navigate, orders))
     }
 
     const _closeModal = () => {
         navigate('/')
-        dispatch(actionForModal({type: 'ORDER', status: 'close'}))
     }
 
     return (
         <div>
-            <Drawer open={modals.order} closeModal={_closeModal} isModalClosable extraIcon={data.length > 0 && <IconTrash onClick={_resetOrders}/>} title="Mon panier">
-                {isEmpty(data) ? <NoOrders/> : 
+            <Drawer open={false} closeModal={_closeModal} isModalClosable extraIcon={<IconTrash onClick={_resetOrders}/>} title="Mon panier">
+                {true ? <NoOrders/> : 
                     <div className={classes.container}>
                         <div className={classes.listOrder}>
                             <div>
-                            {data?.map((order, index) => <OrderItem key={index} order={order} />)}
+                            {/* {data?.map((order, index) => <OrderItem key={index} order={order} />)} */}
                             </div>
                         </div>
                         <div className={classes.cta}>
