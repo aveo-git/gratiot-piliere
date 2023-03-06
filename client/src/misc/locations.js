@@ -7,6 +7,8 @@ export const checkLocation = (pathname) => {
             action = {type: 'ORDER', status: 'open'}
             break;
         case '/cart/billResume':
+            const orders = window.localStorage.getItem('orders');
+            console.log('orders from localStorage :>> ', orders);
             action = {type: 'BILL', status: 'open'}
             break;
         default:

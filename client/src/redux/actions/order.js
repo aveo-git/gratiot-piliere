@@ -75,6 +75,11 @@ export const ordersSlice = createSlice({
         },
         update: (state, action) => {
             state.orders = action.payload
+
+            window.localStorage.setItem('orders', action.payload)
+        },
+        payed: (state, action) => {
+            window.localStorage.removeItem('orders')
         },
         resetAllOrder: (state) => {
             state.orders.id = null
@@ -83,7 +88,7 @@ export const ordersSlice = createSlice({
     }
 })
 
-export const { resetAllOrder, increment, update, decrement, addOrder } = ordersSlice.actions;
+export const { resetAllOrder, increment, update, decrement, payed, addOrder } = ordersSlice.actions;
 
 export const prepareOrders = (navigate, orders) => {
     return (dispatch, getState) => {

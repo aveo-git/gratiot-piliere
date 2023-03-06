@@ -68,6 +68,7 @@ const OrderCart = props => {
     }
 
     const _openBillConfirmation = () => {
+        console.log('orders before :>> ', orders);
         dispatch(prepareOrders(navigate, orders))
     }
 
