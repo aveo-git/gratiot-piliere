@@ -31,6 +31,12 @@ const useStyles = createUseStyles(theme => ({
             backgroundColor: '#F3F3F3',
         }
     },
+    btnSecondary: {
+        backgroundColor: '#FBFBFB',
+        '&:hover': {
+            backgroundColor: '#F3F3F3'
+        }
+    },
     icon: {
         position: 'relative',
         top: 2,
@@ -46,7 +52,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Button = props => {
-    const { textLabel = 'Voir plus', variant = 'default', size = 'medium', icon, defaultIconPosition = true, onClick, styles } = props;
+    const { textLabel, variant = 'default', size = 'medium', icon, defaultIconPosition = true, onClick, styles } = props;
     const classes = useStyles({icon, variant, size, defaultIconPosition})
     
     let classForVariant;
@@ -56,6 +62,9 @@ const Button = props => {
             break;
         case 'primary':
             classForVariant = classes.btnPrimary
+            break;
+        case 'secondary':
+            classForVariant = classes.btnSecondary
             break;
         default:
             break;

@@ -5,19 +5,19 @@ import { getPriceAfter, getPriceBefore } from '../misc/utils';
 const useStyles = createUseStyles(theme => ({
 	container: {
         fontFamily: 'Domine-Bold',
-        fontSize: 28,
+        fontSize: 25,
         position: 'relative',
         width: 'fit-content'
 	},
     centime: {
         position: 'relative',
-        fontSize: 17
+        fontSize: 15
     },
     currency: {
         position: 'absolute',
-        top: '-15px',
+        top: '-13px',
         left: 0,
-        fontSize: 14
+        fontSize: 12
     }
 }));
 
