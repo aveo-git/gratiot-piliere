@@ -264,3 +264,5 @@ export const MENU_PROFIL = [
 	{id: 4, title: 'Consulter mes factures', icon: <IconReceipt />, disabled: false, to: '/bills'},
 	{id: 5, title: 'Consulter historique', icon: <IconLicense />, disabled: true, to: '/history'},
 ]
+
+export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data.id, objectId: data.id });

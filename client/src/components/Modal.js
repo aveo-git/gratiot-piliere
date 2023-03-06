@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 import { AnimatePresence, motion } from 'framer-motion';
 import { createUseStyles } from 'react-jss';
 import { IconArrowLeft, IconX } from '@tabler/icons-react';
-import { containerVariants } from './utils';
+import { containerVariants } from '../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	overlay: {
