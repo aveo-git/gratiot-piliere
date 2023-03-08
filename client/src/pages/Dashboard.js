@@ -1,54 +1,68 @@
 import React from 'react'
 
-import { Outlet, useLocation } from 'react-router-dom'
-import { useCreateOrder, useGetOrders } from '../api/order.api'
-import Button from '../components/Button'
-import ProductItem from '../containers/product/ProductItem'
-import bottleIMG from '../Assets/images/bottle.png'
+import { createUseStyles } from 'react-jss'
+import { Outlet } from 'react-router-dom'
+import Text from '../components/Text'
+import Information from '../containers/Information '
+
+const useStyles = createUseStyles(theme => ({
+	root: {
+    display: 'flex',
+    height: '100vh'
+	},
+  leftSection: {
+    backgroundColor: '#EAEAEA',
+    width: '50%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    '& > div': {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      width: '75vh',
+      height: 'auto',
+      padding: '80px 50px 50px 20px'
+    }
+  },
+  rightSection: {
+    width: '50%'
+  },
+  logo: {
+    width: 46,
+    height: 46,
+    borderRadius: 13,
+    backgroundColor: '#B7B7B7'
+  },
+  content: {
+    height: 400
+  },
+  cgv: {
+    textAlign: 'right'
+  }
+}));
 
 const Dashboard = () => {
-  const { orders } = useGetOrders()
-  const { mutate: createOrder } = useCreateOrder();
-
-  const _handleModalProfil = () => {
-    createOrder({name: 'name01', ref: 'ref01'})
-  }
-
-  const _closeModal = () => {
-  }
+  const classes = useStyles()
+  // const { products } = useGetProducts()
+  // const { mutate: addProduct } = useAddProduct()
 
   return (
-    <div>
-      {/* { orders?.map((order, index) => <div key={index}>{order?.name +' - '+ order?.ref}</div>) } */}
-      <Button onClick={_handleModalProfil}/>
-      <hr />
-      <div style={{ display: 'flex' }}>
-        {fakeData.map(data => <ProductItem data={data} />)}
+    <>
+      <div className={classes.root}>
+        <div className={classes.leftSection}>
+          <div>
+            <div className={classes.logo}></div>
+            <div>
+              <div className={classes.content}><Information /></div>
+              <div className={classes.cgv}><Text isLink={true} to='/rakoto'>CGV et mentions légales</Text></div>
+            </div>
+          </div>
+        </div>
+        <div className={classes.rightSection}>B</div>
       </div>
       <Outlet/>
-    </div>
+    </>
   )
 }
 
 export default Dashboard
-
-export const fakeData = [
-  {
-    id: '1', 
-    name: 'Champagne delamorte avec texte longue', 
-    description: 'Ceci est juste un test donc pas de soucis si le texte n\'a pas de siginification', 
-    price: 30.12,
-    count: 2,
-    isVoted: true,
-    image: bottleIMG
-  },
-  {
-    id: '2', 
-    name: 'Champagne delamorte avec texte longue', 
-    description: 'Ceci est juste un test donc pas de soucis si le texte n\'a pas de siginification', 
-    price: 30.12,
-    count: 2,
-    isVoted: true,
-    image: bottleIMG
-  }
-]

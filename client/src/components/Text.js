@@ -1,6 +1,7 @@
 import React from 'react'
 import classNames from 'classnames';
 import { createUseStyles } from 'react-jss';
+import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles(theme => ({
     root: {
@@ -57,9 +58,9 @@ const Text = props => {
     }
 
     if(isLink) {
-        return <a href={to} className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase, textCenter && classes.center)}>
+        return <Link to={to} className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase, textCenter && classes.center)}>
             {children}
-        </a>
+        </Link>
     }
 
     return (

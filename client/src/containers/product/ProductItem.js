@@ -45,10 +45,11 @@ const useStyles = createUseStyles(theme => ({
         height: 313
     },
     image: {
-        height: 169,
-        paddingTop: 25,
+        height: 196,
         '& img': {
-            width: 169
+            width: 169,
+            borderRadius: '26px 26px 0 0',
+            height: 196
         }
     },
     title: {
@@ -112,17 +113,23 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ProductItem = props => {
-    const { isSelected = false, data } = props;
-    const { name, description, count, isVoted, price, image } = data
+    const { isSelected = false, product } = props;
+    const { title, description, count, isVoted, price, imageUrl } = product
     const classes = useStyles({isSelected})
+
+    const _handleCount = (operand) => {
+        console.log('product :>> ', product);
+        
+    }
+
     return (
         <div className={classes.root}>
             <div className={classes.imageContainer}>
                 <div className={classes.heart}>{isVoted ? <IconHeartFilled /> : <IconHeart/>}</div>
                 {count > 0 && <div className={classes.counter}>{padWithLeadingZeros(count)}</div>}
-                <div className={classes.image}><img src={image} alt={'bottle'} /></div>
+                <div className={classes.image}><img src={imageUrl} alt={'bottle'} /></div>
                 <div>
-                    <div className={classes.title}><Link>{name}</Link></div>
+                    <div className={classes.title}><Link>{title}</Link></div>
                     <div className={classes.subtitle}>{description}</div>
                 </div>
             </div>
@@ -132,8 +139,8 @@ const ProductItem = props => {
                     {/* <div>TTC</div> */}
                 </div>
                 <div className={classes.buttonGroup}>
-                    {count > 0 && <Button icon={<IconMinus />} styles={{ container: classes.buttonMinus }} size='tiny' variant='secondary' />}
-                    <Button icon={<IconPlus />} styles={{ container: classes.buttonPlus }} size='tiny' variant='secondary' />
+                    {count > 0 && <Button onClick={() => _handleCount('minus')} icon={<IconMinus />} styles={{ container: classes.buttonMinus }} size='tiny' variant='secondary' />}
+                    <Button onClick={() => _handleCount('plus')} icon={<IconPlus />} styles={{ container: classes.buttonPlus }} size='tiny' variant='secondary' />
                 </div>
             </div>
         </div>
