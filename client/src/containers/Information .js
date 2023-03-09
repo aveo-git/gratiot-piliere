@@ -5,6 +5,9 @@ import Button from '../components/Button';
 import Text from '../components/Text'
 
 const useStyles = createUseStyles(theme => ({
+    root: {
+        height: 450
+    },
 	description: {
         width: 390,
         paddingBottom: 20
@@ -18,7 +21,7 @@ const Information  = () => {
     const classes = useStyles()
 
     return (
-        <div>
+        <div className={classes.root}>
             <Text variant='h1'>Bienvenue</Text>
             <Text styles={{ containerText: classes.description }}>
                 Nous souhaitons, à travers notre site,

@@ -119,7 +119,6 @@ const ProductItem = props => {
 
     const _handleCount = (operand) => {
         console.log('product :>> ', product);
-        
     }
 
     return (

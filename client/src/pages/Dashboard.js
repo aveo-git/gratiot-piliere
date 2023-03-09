@@ -4,6 +4,7 @@ import { createUseStyles } from 'react-jss'
 import { Outlet } from 'react-router-dom'
 import Text from '../components/Text'
 import Information from '../containers/Information '
+import RightSection from '../containers/RightSection'
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -19,12 +20,13 @@ const useStyles = createUseStyles(theme => ({
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      width: '75vh',
+      width: '70vh',
       height: 'auto',
       padding: '80px 50px 50px 20px'
     }
   },
   rightSection: {
+    padding: '50px 70px',
     width: '50%'
   },
   logo: {
@@ -32,9 +34,6 @@ const useStyles = createUseStyles(theme => ({
     height: 46,
     borderRadius: 13,
     backgroundColor: '#B7B7B7'
-  },
-  content: {
-    height: 400
   },
   cgv: {
     textAlign: 'right'
@@ -58,7 +57,9 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-        <div className={classes.rightSection}>B</div>
+        <div className={classes.rightSection}>
+          <RightSection/>
+        </div>
       </div>
       <Outlet/>
     </>

@@ -38,6 +38,14 @@ export const useCreateOrder = () => {
     });
 };
 
+export const useUpdateCount = () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+        (payload) => new Parse.Query(Order)
+            .equalTo
+    )
+}
+
 export const useCountOperation = () => {
     const queryClient = useQueryClient();
     
