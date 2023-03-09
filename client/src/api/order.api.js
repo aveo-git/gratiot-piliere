@@ -2,13 +2,14 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Parse from 'parse';
 import { parseToView } from "../misc/utils";
 
-const orderKeys = {
+const Order = Parse.Object.extend("Order");
+
+export const orderKeys = {
     all: () => ['orders'],
     order: () => ['order'],
 };
 
 export const useGetOrders = ( config ) => {
-    const Order = Parse.Object.extend("Order");
     const query = new Parse.Query(Order);
 
     const { data } = useQuery(orderKeys.all(), () => query.find(), {
@@ -20,7 +21,6 @@ export const useGetOrders = ( config ) => {
 };
 
 export const useCreateOrder = () => {
-    const Order = Parse.Object.extend("Order");
     const order = new Order();
 
     const queryClient = useQueryClient();
@@ -35,6 +35,44 @@ export const useCreateOrder = () => {
                 queryClient.setQueryData(keys, [...prev, data]);
             }
         },
+    });
+};
+
+export const useUpdateCount = () => {
+    const queryClient = useQueryClient();
+    return useMutation(
+        (payload) => new Parse.Query(Order)
+            .equalTo
+    )
+}
+
+export const useCountOperation = () => {
+    const queryClient = useQueryClient();
+    
+    return useMutation(({objectId}) => new Parse.Query(Order)
+            .equalTo('objectId', objectId)
+            .first(),  {
+        onSuccess: (item) => {
+            const id = item.id
+            const count = item.get('count') || 0
+            let increase = count + 1;
+            item.set('count', increase)
+            item.save();
+
+            const keys = orderKeys.all();
+            queryClient.cancelQueries(keys);
+            const prev = queryClient.getQueryData(keys);
+
+            if (prev) {
+                const res = prev.map((p) => {
+                    if (p.id === id) {
+                        return item;
+                    }
+                    return p;
+                });
+                queryClient.setQueryData(keys, res);
+            }
+        }
     });
 };
 
