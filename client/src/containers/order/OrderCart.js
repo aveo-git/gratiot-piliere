@@ -1,11 +1,10 @@
 import { IconTrash } from '@tabler/icons-react';
-import React, { useEffect } from 'react'
+import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 
 import Button from '../../components/Button';
-import Drawer from '../../components/Drawer'
+import Drawer from '../../components/Drawer';
 import BillTotalResume from '../../components/order/BillTotalResume';
 import NoOrders from '../../components/order/NoOrders';
 
@@ -63,7 +62,7 @@ const OrderCart = props => {
     const _closeModal = () => {
         navigate('/')
     }
-
+    
     return (
         <div>
             <Drawer open={false} closeModal={_closeModal} isModalClosable extraIcon={<IconTrash onClick={_resetOrders}/>} title="Mon panier">

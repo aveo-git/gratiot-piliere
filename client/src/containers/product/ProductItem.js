@@ -12,7 +12,7 @@ const useStyles = createUseStyles(theme => ({
         height: 380,
         textAlign: 'center',
         position: 'relative',
-        margin: '0 10px'
+        margin: '0 10px 0 0'
 	},
     heart: {
         position: 'absolute',
@@ -47,7 +47,7 @@ const useStyles = createUseStyles(theme => ({
     image: {
         height: 196,
         '& img': {
-            width: 169,
+            width: 198,
             borderRadius: '26px 26px 0 0',
             height: 196
         }
@@ -118,7 +118,7 @@ const ProductItem = props => {
     const classes = useStyles({isSelected})
 
     const _handleCount = (operand) => {
-        console.log('product :>> ', product);
+        // console.log('product :>> ', product);
     }
 
     return (

@@ -5,10 +5,9 @@ import { Link } from 'react-router-dom';
 
 const useStyles = createUseStyles(theme => ({
     root: {
-        color: '#000000',
         fontSize: 14,
         fontFamily: 'Inter-Regular',
-        textDecoration: 'none'
+        textDecoration: 'none',
     },
 	default: {
 		fontSize: 14,
@@ -26,9 +25,13 @@ const useStyles = createUseStyles(theme => ({
         fontSize: 20,
         fontFamily: 'Poppins-Bold'
     },
+    link: {
+        color: '#000000'
+    },
     subtitle: {
         fontSize: 14,
-        fontFamily: 'Inter-Regular'
+        fontFamily: 'Inter-Regular',
+        color: '#000000'
     },
     uppercase: {
         textTransform: 'uppercase'
@@ -58,6 +61,7 @@ const Text = props => {
     }
 
     if(isLink) {
+        className = classes.link
         return <Link to={to} className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase, textCenter && classes.center)}>
             {children}
         </Link>

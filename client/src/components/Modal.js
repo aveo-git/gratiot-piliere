@@ -15,7 +15,6 @@ const useStyles = createUseStyles(theme => ({
     },
     root: {
         backgroundColor: 'transparent',
-        overflow: 'scroll',
         height: 'fit-content',
         '&::-webkit-scrollbar': {
             width: 0
@@ -27,7 +26,6 @@ const useStyles = createUseStyles(theme => ({
     content: {
 		fontFamily: 'Inter-Medium',
         width: 404,
-        marginTop: '5rem',
         backgroundColor: '#FFFFFF'
     },
     header: {
@@ -74,13 +72,17 @@ const ModalComp = props => {
         closeModal && closeModal()
     }
 
+    const _closeOnOverlay = () => {
+        closeOnOverlay && closeModal()
+    }
+
     const usedContainerVariants = containerVariants[direction];
 
     return (
         <AnimatePresence>
             <Modal
                 isOpen={open}
-                onRequestClose={closeOnOverlay && _closeModal}
+                onRequestClose={_closeOnOverlay}
                 contentLabel="Example Modal"
                 overlayClassName={classes.overlay}
                 className={classes.root}
