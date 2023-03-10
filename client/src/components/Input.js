@@ -16,7 +16,10 @@ const useStyles = createUseStyles(theme => ({
         marginBottom: 22,
         '&:focus': {
             outline: 'none'
-        }
+        },
+        mozAppearance: 'none', /* Firefox */
+        webkitAppearance: 'none', /* Safari and Chrome */
+        appearance: 'none'
     },
     label: {
         fontSize: 13,

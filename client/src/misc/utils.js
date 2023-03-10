@@ -1,5 +1,6 @@
 import { IconLicense, IconMap, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
 import moment from 'moment'
+
 moment.locale('fr')
 moment.updateLocale('fr', {
     months : [
@@ -10,6 +11,7 @@ moment.updateLocale('fr', {
 });
 
 export const VAT = 20;
+export const WIDTH_RIGHT_SECTION = 280
 
 export const padWithLeadingZeros = number => {
     return String(number).padStart(2, '0');

@@ -5,15 +5,17 @@ import OrderCart from '../containers/order/OrderCart';
 import OrderConfirmation from '../containers/order/OrderConfirmation';
 import Signin from '../containers/Signin';
 import Dashboard from '../pages/Dashboard';
+import ProductPlanner from '../pages/ProductPlanner';
 
 const Routes = () => {
     return <RoutesDOM>
         <Route path='/' element={<Dashboard/>}>
             <Route path='signin' element={<Signin/>} />
-            <Route exact path='login' element={<Login/>} />
+            <Route path='login' element={<Login/>} />
             <Route path='cart' element={<OrderCart/>}/>
             <Route path='cart/billResume' element={<OrderConfirmation/>} />
         </Route>
+        <Route path='our-products' element={<ProductPlanner/>}/>
     </RoutesDOM>
 }
 

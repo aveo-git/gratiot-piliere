@@ -61,7 +61,7 @@ const useStyles = createUseStyles(theme => ({
         marginBottom: 20
     },
     buttonShop: {
-        width: 158
+        width: 178
     },
     buttonShipping: {
         width: 206
@@ -75,8 +75,8 @@ const useStyles = createUseStyles(theme => ({
 
 const RightSection = () => {
     const classes = useStyles()
-    const navigate = useNavigate()
     const { products } = useGetProducts()
+    const navigate = useNavigate()
 
     const _handleLogin = () => {
         navigate('/login')
@@ -84,6 +84,10 @@ const RightSection = () => {
 
     const _handleSignin = () => {
         navigate('/signin')
+    }
+
+    const _handleOurProducts = () => {
+        navigate('/our-products')
     }
 
     return (
@@ -115,7 +119,7 @@ const RightSection = () => {
                 </div>
             </div>
             <div className={classes.cta}>
-                <Button variant='primary' textLabel='Voir nos offres' icon={<IconShoppingCart/>} styles={{ container: classes.buttonShop }} />
+                <Button onClick={_handleOurProducts} variant='primary' textLabel='Voir nos produits' icon={<IconShoppingCart/>} styles={{ container: classes.buttonShop }} />
                 <Button variant='primary' textLabel='Nos points de livraison' icon={<IconMapSearch/>} styles={{ container: classes.buttonShipping }} />
                 <Divider />
             </div>
