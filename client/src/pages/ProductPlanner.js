@@ -1,7 +1,7 @@
 import { IconPlugConnected } from '@tabler/icons-react'
 import React from 'react'
 import { createUseStyles } from 'react-jss'
-import { useNavigate } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import Button from '../components/Button'
 import Text from '../components/Text'
 import Filtre from '../containers/Filtre'
@@ -24,7 +24,8 @@ const useStyles = createUseStyles(theme => ({
         width: 46,
         height: 46,
         borderRadius: 13,
-        backgroundColor: '#B7B7B7'
+        backgroundColor: '#B7B7B7',
+        display: 'inline-block'
     },
     buttons: {
         width: 'fit-content',
@@ -56,7 +57,7 @@ const ProductPlanner = () => {
         <div className={classes.root}>
             <div className={classes.header}>
                 <div className={classes.logoContent}>
-                    <div className={classes.logo}></div>
+                    <Link to='/' className={classes.logo}></Link>
                 </div>
                 <Text styles={{ containerText: classes.sectionTitle }} variant='h3' subtitle='Vous trouverez ici les meilleurs produits du mois.'>Nos produits</Text>
                 <div className={classes.buttons}>
@@ -68,6 +69,7 @@ const ProductPlanner = () => {
                 <Filtre/>
                 <ProductDisplay />
             </div>
+            <Outlet/>
         </div>
     )
 }

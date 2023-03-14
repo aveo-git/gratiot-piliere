@@ -268,3 +268,7 @@ export const MENU_PROFIL = [
 ]
 
 export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data.id, objectId: data.id });
+
+export const lastPath = (path) => {
+	return path.substring(path.lastIndexOf('/') + 1)
+}

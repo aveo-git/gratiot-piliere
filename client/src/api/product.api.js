@@ -20,6 +20,14 @@ export const useGetProducts = ( config ) => {
     return { products: products ?? []};
 };
 
+export const useGetOneProductById = (id, config) => {
+    const query = new Parse.Query(Product).equalTo('objectId', id)
+    const {data, ...res} = useQuery(productKeys.product(), () => query.find(), { ...config });
+    const product = data?.map(product => parseToView(product))?.[0] || {}
+
+    return { product, ...res };
+}
+
 export const useAddProduct = () => {
     const product = new Product();
 

@@ -1,7 +1,7 @@
 import { IconHeart, IconHeartFilled, IconMinus, IconPlus } from '@tabler/icons-react';
 import React from 'react'
 import { createUseStyles } from 'react-jss';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Price from '../../components/Price';
 import Button from '../../components/Button';
 import { padWithLeadingZeros } from '../../misc/utils';
@@ -67,10 +67,8 @@ const useStyles = createUseStyles(theme => ({
         WebkitLineClamp: 2,
         textOverflow: 'ellipsis',
         overflow: 'hidden',
-        '& a': {
-            color: '#98244D',
-            textDecoration: 'none'
-        }
+        cursor: 'pointer',
+        color: '#98244D',
     },
     subtitle: {
         fontFamily: 'Inter-Regular',
@@ -114,11 +112,16 @@ const useStyles = createUseStyles(theme => ({
 
 const ProductItem = props => {
     const { isSelected = false, product } = props;
-    const { title, description, count, isVoted, price, imageUrl } = product
+    const { id, title, description, count, isVoted, price, imageUrl } = product
     const classes = useStyles({isSelected})
+    const navigate = useNavigate()
 
     const _handleCount = (operand) => {
         // console.log('product :>> ', product);
+    }
+
+    const _handleProduct = () => {
+        navigate(id)
     }
 
     return (
@@ -128,7 +131,7 @@ const ProductItem = props => {
                 {count > 0 && <div className={classes.counter}>{padWithLeadingZeros(count)}</div>}
                 <div className={classes.image}><img src={imageUrl} alt={'bottle'} /></div>
                 <div>
-                    <div className={classes.title}><Link>{title}</Link></div>
+                    <div className={classes.title} onClick={_handleProduct}>{title}</div>
                     <div className={classes.subtitle}>{description}</div>
                 </div>
             </div>

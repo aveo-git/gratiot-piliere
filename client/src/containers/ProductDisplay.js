@@ -29,7 +29,7 @@ const useStyles = createUseStyles(theme => ({
 
 const ProductDisplay = () => {
     const classes = useStyles()
-    const { products } = useGetProducts()
+    const { products } = useGetProducts() || []
     const isProductEmpty = products.length === 0
     return (
         <div className={classNames(classes.root, {[classes.noProduct]: isProductEmpty})}>
@@ -37,7 +37,7 @@ const ProductDisplay = () => {
                 <NoProducts info='Pas de produits selectionné'/>
             : 
                 <div className={classes.productsItem}>
-                    {products.map(product => <ProductItem product={product} />)}
+                    {products.map((product, index) => <ProductItem key={index} product={product} />)}
                 </div>
             }
         </div>
