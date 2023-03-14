@@ -5,6 +5,7 @@ import { createUseStyles } from 'react-jss';
 import { IconArrowLeft, IconX } from '@tabler/icons-react';
 import { containerVariants } from '../misc/utils';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 const useStyles = createUseStyles(theme => ({
 	overlay: {
@@ -94,14 +95,14 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Drawer = props => {
-    const { open, title, isModalClosable = false, closeModal, goBack, extraIcon, children, closeOnOverlay = true, direction = 'left', backIcon = true } = props;
+    const { open, title, isModalClosable = false, closeModal, goBack, extraIcon, children, closeOnOverlay = true, direction = 'left', backIcon = true, styles = {} } = props;
     const classes = useStyles({isModalClosable});
     const navigate = useNavigate()
 
     const usedContainerVariants = containerVariants[direction];
 
     const _closeAllModals = () => {
-        navigate('/')
+        navigate(-1)
     }
 
     return (
@@ -122,7 +123,7 @@ const Drawer = props => {
                     variants={usedContainerVariants}
                 >
                     <div className={classes.content}>
-                        <div className={classes.header}>
+                        <div className={classNames(classes.header, styles?.header)}>
                             {isModalClosable ? 
                                 <>
                                     <IconX className={classes.closeIcon} onClick={closeModal}/> 

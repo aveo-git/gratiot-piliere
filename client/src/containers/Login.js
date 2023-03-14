@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { createUseStyles } from 'react-jss';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Input from '../components/Input'
 import ModalComp from '../components/Modal'
@@ -16,16 +17,23 @@ const useStyles = createUseStyles(theme => ({
     }
 }));
 
-const Login = props => {
-    const { open, setOpen } = props;
+const Login = () => {
+    const [open, setOpen] = useState(false)
     const classes = useStyles()
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(location.pathname === '/login') setOpen(true)
+    }, [location.pathname])
 
     const _closeModal = () => {
         setOpen && setOpen(false)
+        navigate('/')
     }
 
     return (
-        <ModalComp open={open} closeModal={_closeModal} title='Se connecter' closeOnOverlay>
+        <ModalComp open={open} closeModal={_closeModal} title='Se connecter'>
             <Input label="Adresse électronique"/>
             <Input label="Mot de passe"/>
             <div className={classes.passwordLost}>

@@ -16,7 +16,10 @@ const useStyles = createUseStyles(theme => ({
         marginBottom: 22,
         '&:focus': {
             outline: 'none'
-        }
+        },
+        mozAppearance: 'none', /* Firefox */
+        webkitAppearance: 'none', /* Safari and Chrome */
+        appearance: 'none'
     },
     label: {
         fontSize: 13,
@@ -32,7 +35,7 @@ const Input = props => {
     switch (type) {
         case 'select':
             content = <select name="select"  className={classes.input}>
-                {contentOptions.map(item => <option>{item.lastName}</option>)}
+                {contentOptions.map((item, index) => <option key={index}>{item.lastName}</option>)}
             </select>
             break;
         case 'input':

@@ -1,8 +1,8 @@
 import { IconPhoneOutgoing } from '@tabler/icons-react';
-import React from 'react'
+import React from 'react';
 import { createUseStyles } from 'react-jss';
 import Button from '../components/Button';
-import Text from '../components/Text'
+import Text from '../components/Text';
 
 const useStyles = createUseStyles(theme => ({
     root: {
@@ -19,7 +19,7 @@ const useStyles = createUseStyles(theme => ({
 
 const Information  = () => {
     const classes = useStyles()
-
+    
     return (
         <div className={classes.root}>
             <Text variant='h1'>Bienvenue</Text>

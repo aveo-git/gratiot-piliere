@@ -27,7 +27,8 @@ const useStyles = createUseStyles(theme => ({
   },
   rightSection: {
     padding: '50px 70px',
-    width: '50%'
+    width: '50%',
+    overflow: 'auto'
   },
   logo: {
     width: 46,

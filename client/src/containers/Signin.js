@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { createUseStyles } from 'react-jss';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Input from '../components/Input'
 import ModalComp from '../components/Modal'
@@ -11,16 +12,23 @@ const useStyles = createUseStyles(theme => ({
 	},
 }));
 
-const Signin = props => {
-    const { open, setOpen } = props;
+const Signin = () => {
+    const [openSignin, setOpen] = useState(false)
     const classes = useStyles()
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(location.pathname === '/signin') setOpen(true)
+    }, [location.pathname])
 
     const _closeModal = () => {
         setOpen && setOpen(false)
+        navigate('/')
     }
 
     return (
-        <ModalComp open={open} closeModal={_closeModal} title="S'inscrire" closeOnOverlay>
+        <ModalComp open={openSignin} closeModal={_closeModal} title="S'inscrire">
             <Input label="Nom"/>
             <Input label="Prénom"/>
             <Input label="Adresse électronique"/>

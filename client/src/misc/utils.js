@@ -1,5 +1,6 @@
 import { IconLicense, IconMap, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
 import moment from 'moment'
+
 moment.locale('fr')
 moment.updateLocale('fr', {
     months : [
@@ -10,6 +11,7 @@ moment.updateLocale('fr', {
 });
 
 export const VAT = 20;
+export const WIDTH_RIGHT_SECTION = 280
 
 export const padWithLeadingZeros = number => {
     return String(number).padStart(2, '0');
@@ -17,19 +19,19 @@ export const padWithLeadingZeros = number => {
 
 export const containerVariants = {
     top: { // animation is from bottom to top
-        hidden: { opacity: 0, transform: 'translateY(50%)'},
+        hidden: { opacity: 0, transform: 'translateY(10%)'},
         visible: { opacity: 1, transform:'translateY(0px)'}
     },
     bottom: { // animation is from top to bottom
-        hidden: { opacity: 0, transform:'translateY(-50%)'},
+        hidden: { opacity: 0, transform:'translateY(-10%)'},
         visible: { opacity: 1, transform:'translateY(0px)'}
     },
     left: { // animation is from right to left
-        hidden: { opacity: 0, transform:'translateX(50%)'},
+        hidden: { opacity: 0, transform:'translateX(10%)'},
         visible: { opacity: 1, transform:'translateX(0px)'}
     },
     right: { // animation is from left to right
-        hidden: { opacity: 0, transform:'translateX(-50%)'},
+        hidden: { opacity: 0, transform:'translateX(-10%)'},
         visible: { opacity: 1, transform:'translateX(0px)'}
     }
 };
@@ -266,3 +268,7 @@ export const MENU_PROFIL = [
 ]
 
 export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data.id, objectId: data.id });
+
+export const lastPath = (path) => {
+	return path.substring(path.lastIndexOf('/') + 1)
+}
