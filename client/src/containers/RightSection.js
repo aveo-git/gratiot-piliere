@@ -105,6 +105,10 @@ const RightSection = () => {
         navigate('/my-profil')
     }
 
+    const _handleShipping = () => {
+        navigate('/my-profil/choise-shipping')
+    }
+
     const isLogged = true;
 
     return (
@@ -139,7 +143,7 @@ const RightSection = () => {
             </div>
             <div className={classes.cta}>
                 <Button onClick={_handleOurProducts} variant='primary' textLabel='Voir nos produits' icon={<IconShoppingCart/>} styles={{ container: classes.buttonShop }} />
-                <Button variant='primary' textLabel='Nos points de livraison' icon={<IconMapSearch/>} styles={{ container: classes.buttonShipping }} />
+                <Button onClick={_handleShipping} variant='primary' textLabel='Nos points de livraison' icon={<IconMapSearch/>} styles={{ container: classes.buttonShipping }} />
                 <Divider />
             </div>
         </div>
