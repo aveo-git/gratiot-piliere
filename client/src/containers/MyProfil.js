@@ -1,5 +1,6 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
+import { useNavigate } from 'react-router-dom';
 import Drawer from '../components/Drawer';
 import MenuItem from '../components/MenuItem';
 import { MENU_PROFIL } from '../misc/utils';
@@ -26,20 +27,16 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const MyProfil = props => {
-    const { open, closeModal } = props;
     const classes = useStyles()
+    const navigate = useNavigate()
 
-    const _resetOrders = () => {
-        
-    }
-
-    const _openBillConfirmation = () => {
-        
+    const _closeModal = () => {
+        navigate(-1)
     }
 
     return (
         <div>
-            <Drawer open={open} closeModal={closeModal} isModalClosable title="Mon profil">
+            <Drawer open={true} closeModal={_closeModal} isModalClosable title="Mon profil">
                 <div className={classes.container}>
                     <div className={classes.listItem}>
                         <div>

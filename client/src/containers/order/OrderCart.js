@@ -1,12 +1,14 @@
 import { IconTrash } from '@tabler/icons-react';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import { useGetCarts, useRestoreCart } from '../../api/cart.api';
 
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import BillTotalResume from '../../components/order/BillTotalResume';
 import NoContent from '../../components/order/NoContent';
+import OrderItem from '../../components/order/OrderItem';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -52,35 +54,47 @@ const useStyles = createUseStyles(theme => ({
 const OrderCart = props => {
     const classes = useStyles()
     const navigate = useNavigate()
+    const { cart } = useGetCarts() || []
+    // const { mutate: createOrder } = useCreateOrder()
+    const { mutate: deleteCart } = useRestoreCart()
+    const productsOnCart = cart.map(item => item.product)
 
     const _resetOrders = () => {
+        deleteCart();
     }
 
     const _openBillConfirmation = () => {
+        // const test = createOrder(productsOnCart)
+        // console.log('test :>> ', test);
+        navigate('pfVq4W27GW')
     }
 
     const _closeModal = () => {
         navigate(-1)
     }
+
+
+    const isCartEmpty = productsOnCart.length <= 0
     
     return (
         <div>
-            <Drawer open={true} closeModal={_closeModal} isModalClosable extraIcon={<IconTrash onClick={_resetOrders}/>} title="Mon panier">
-                {true ? <NoContent For='order'/> : 
+            <Drawer open={true} closeModal={_closeModal} isModalClosable extraIcon={!isCartEmpty && <IconTrash onClick={_resetOrders}/>} title="Mon panier">
+                {isCartEmpty ? <NoContent For='order'/> : 
                     <div className={classes.container}>
                         <div className={classes.listOrder}>
                             <div>
-                            {/* {data?.map((order, index) => <OrderItem key={index} order={order} />)} */}
+                            {productsOnCart?.map((product, index) => <OrderItem key={index} product={product} />)}
                             </div>
                         </div>
                         <div className={classes.cta}>
-                            <BillTotalResume styles={{ other: classes.billTotal }} />
+                            <BillTotalResume styles={{ other: classes.billTotal }} cart={productsOnCart} />
                             <div className={classes.info}>Valider votre commande en cliquant sur commander :</div>
                             <Button textLabel='Commander' onClick={_openBillConfirmation} variant='primary' />
                         </div>
                     </div>
                 }
             </Drawer>
+            <Outlet/>
         </div>
     )
 }

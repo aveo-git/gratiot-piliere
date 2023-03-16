@@ -1,5 +1,6 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
+import { useNavigate } from 'react-router-dom';
 import AvailableCard from '../../components/AvailableCard';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
@@ -35,8 +36,10 @@ const useStyles = createUseStyles(theme => ({
 
 const OrderConfirmation = () => {
     const classes = useStyles()
+    const navigate = useNavigate()
 
     const _closeModal = () => {
+        navigate(-1)
     }
 
     const _openOrderPaid = () => {
@@ -44,7 +47,7 @@ const OrderConfirmation = () => {
 
     return (
         <div>
-            <Drawer open={false} goBack={_closeModal} closeOnOverlay title="Commande">
+            <Drawer open={true} goBack={_closeModal} closeOnOverlay title="Commande">
                 <div className={classes.container}>
                     <div className={classes.content}>
                         <Text styles={{ containerText: classes.titleText }} textCenter >Voici le résumé de votre commande :</Text>

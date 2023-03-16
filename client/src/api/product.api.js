@@ -7,6 +7,7 @@ const Product = Parse.Object.extend("Product");
 export const productKeys = {
     all: () => ['products'],
     product: () => ['product'],
+    productByID: (productID) => ["products", productID],
 };
 
 export const useGetProducts = ( config ) => {
@@ -22,7 +23,7 @@ export const useGetProducts = ( config ) => {
 
 export const useGetOneProductById = (id, config) => {
     const query = new Parse.Query(Product).equalTo('objectId', id)
-    const {data, ...res} = useQuery(productKeys.product(), () => query.find(), { ...config });
+    const {data, ...res} = useQuery(productKeys.productByID(id), () => query.find(), { ...config });
     const product = data?.map(product => parseToView(product))?.[0] || {}
 
     return { product, ...res };

@@ -12,6 +12,7 @@ moment.updateLocale('fr', {
 
 export const VAT = 20;
 export const WIDTH_RIGHT_SECTION = 280
+export const CURRENCY = '€'
 
 export const padWithLeadingZeros = number => {
     return String(number).padStart(2, '0');
@@ -110,7 +111,8 @@ export const getValeurWithVAT = value => {
 export const getTotal = (orders, withVAT = false) => {
 	if(!orders) return 0;
     return orders.reduce((a, c) =>
-        a + c.quantity*(withVAT ? getValeurWithVAT(c?.price) : c?.price)
+        // a + c.quantity*(withVAT ? getValeurWithVAT(c?.price) : c?.price)
+        a + (withVAT ? getValeurWithVAT(c?.price) : c?.price)
     , 0)
 }
 

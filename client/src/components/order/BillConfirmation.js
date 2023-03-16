@@ -1,12 +1,11 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
-import { useSelector } from 'react-redux';
-import moment from 'moment'
 
 import Text from '../Text';
 import BillTotalResume from './BillTotalResume';
 import OrderDetail from './OrderDetail';
-import { getStringdate, toDateString, toHourString } from '../../misc/utils';
+import { useGetCarts } from '../../api/cart.api';
+import moment from 'moment';
 
 const useStyles = createUseStyles(theme => ({
     container: {
@@ -33,11 +32,13 @@ const useStyles = createUseStyles(theme => ({
 
 const BillConfirmation = () => {
     const classes = useStyles()
-    const { orders } = useSelector(state => state.orders);
-    const { data, ref, date } = orders;
+    const { cart } = useGetCarts() || []
+    const products = cart.map(item => item.product)
+    const ref = 'REF-test'
+    const date = moment().format()
 
-    const orderDetails = data.map((order, index) => (
-        <OrderDetail key={index} order={order} />
+    const orderDetails = products.map((product, index) => (
+        <OrderDetail key={index} product={product} />
     ))
 
     return (
@@ -57,7 +58,7 @@ const BillConfirmation = () => {
                 <div className={classes.orderDetails}>
                     {orderDetails}
                 </div>
-                <BillTotalResume styles={{ other: classes.billTotal }} />
+                <BillTotalResume cart={products} styles={{ other: classes.billTotal }} />
             </div>
             <div className={classes.bloc}>
                 <Text>La livraison de la commande se fait à :</Text>

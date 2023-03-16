@@ -6,7 +6,7 @@ const Order = Parse.Object.extend("Order");
 
 export const orderKeys = {
     all: () => ['orders'],
-    order: () => ['order'],
+    orderID: (orderID) => ['orders', orderID],
 };
 
 export const useGetOrders = ( config ) => {
@@ -23,28 +23,17 @@ export const useGetOrders = ( config ) => {
 export const useCreateOrder = () => {
     const order = new Order();
 
-    const queryClient = useQueryClient();
+    // const queryClient = useQueryClient();
 
-    return useMutation((payload) => order.save(payload), {
+    return useMutation((payload) => {
+        order.set('products', payload)
+        return order.save()
+    }, {
         onSuccess: (data) => {
-            const keys = orderKeys.all();
-            queryClient.cancelQueries(keys);
-            const prev = queryClient.getQueryData(keys);
-
-            if (prev) {
-                queryClient.setQueryData(keys, [...prev, data]);
-            }
+            return data
         },
     });
 };
-
-export const useUpdateCount = () => {
-    const queryClient = useQueryClient();
-    return useMutation(
-        (payload) => new Parse.Query(Order)
-            .equalTo
-    )
-}
 
 export const useCountOperation = () => {
     const queryClient = useQueryClient();

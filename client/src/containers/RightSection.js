@@ -1,4 +1,4 @@
-import { IconMapSearch, IconPlugConnected, IconShoppingCart } from '@tabler/icons-react';
+import { IconMapSearch, IconShoppingCart, IconUser } from '@tabler/icons-react';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import Button from '../components/Button';
 import CategoryItem from '../components/CategoryItem';
 import Divider from '../components/Divider';
 import Text from '../components/Text';
+import LoginComp from './LoginComp';
 import ProductItem from './product/ProductItem';
 
 const useStyles = createUseStyles(theme => ({
@@ -70,6 +71,16 @@ const useStyles = createUseStyles(theme => ({
         display: 'flex',
         gap: 25,
         alignItems: 'center'
+    },
+    buttonProfil: {
+        width: 25
+    },
+    icon: {
+        marginLeft: 0,
+        '& svg': {
+            width: 20,
+            height: 20
+        }
     }
 }));
 
@@ -90,6 +101,12 @@ const RightSection = () => {
         navigate('/our-products')
     }
 
+    const _handleProfil = () => {
+        navigate('/my-profil')
+    }
+
+    const isLogged = true;
+
     return (
         <div className={classes.root}>
             <div className={classes.title}>
@@ -101,8 +118,10 @@ const RightSection = () => {
                 </Text>
             </div>
             <div className={classes.buttons}>
-                <Button onClick={_handleLogin} styles={{ container: classes.buttonLogin }} textLabel='Se connecter' variant='primary' icon={<IconPlugConnected/>} />
-                <Button onClick={_handleSignin} styles={{ container: classes.buttonSignin }} textLabel='Pas encore inscrit ?' />
+                {isLogged ? 
+                <Button variant='primary' icon={<IconUser/>} onClick={_handleProfil} styles={{ container: classes.buttonProfil, icon: classes.icon }} /> : 
+                <LoginComp handleLogin={_handleLogin} handleSignin={_handleSignin} />
+                }
             </div>
             <div>
                 <div className={classes.categories}>

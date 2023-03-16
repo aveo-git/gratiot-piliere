@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Price from '../../components/Price';
 import Button from '../../components/Button';
 import { padWithLeadingZeros } from '../../misc/utils';
+import { useCreateCart } from '../../api/cart.api';
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -115,9 +116,10 @@ const ProductItem = props => {
     const { id, title, description, count, isVoted, price, imageUrl } = product
     const classes = useStyles({isSelected})
     const navigate = useNavigate()
+    const { mutate: createCart } = useCreateCart()
 
     const _handleCount = (operand) => {
-        // console.log('product :>> ', product);
+        createCart(product)
     }
 
     const _handleProduct = () => {

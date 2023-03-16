@@ -1,5 +1,5 @@
 import { IconHeart } from '@tabler/icons-react';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetOneProductById } from '../../api/product.api';
@@ -59,14 +59,9 @@ const ProductModal = props => {
     const classes = useStyles()
     const navigate = useNavigate()
     const location = useLocation()
-    const {product, refetch} = useGetOneProductById(lastPath(location.pathname))
+    const {product, isLoading} = useGetOneProductById(lastPath(location.pathname))
     const { title, description, price, rating, imageUrl } = product;
-
-    useEffect(() => {
-        if(location.pathname) {
-            refetch()
-        }
-    }, [location.pathname, refetch])
+    // console.log('isLoading :>> ', isLoading);
 
     const _rateProduct = () => {
     }

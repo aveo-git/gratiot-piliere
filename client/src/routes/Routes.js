@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes as RoutesDOM } from "react-router-dom";
 import Login from '../containers/Login';
+import MyProfil from '../containers/MyProfil';
 import OrderCart from '../containers/order/OrderCart';
 import OrderConfirmation from '../containers/order/OrderConfirmation';
 import ProductModal from '../containers/product/ProductModal';
@@ -13,11 +14,13 @@ const Routes = () => {
         <Route path='/' element={<Dashboard/>}>
             <Route path='signin' element={<Signin/>} />
             <Route path='login' element={<Login/>} />
-            <Route path='cart' element={<OrderCart/>}/>
-            <Route path='cart/billResume' element={<OrderConfirmation/>} />
+            <Route path='my-profil' element={<MyProfil/>} />
         </Route>
-        <Route exact path='our-products' element={<ProductPlanner/>}>
+        <Route path='our-products' element={<ProductPlanner/>}>
             <Route path=':id' element={<ProductModal/>} />
+            <Route path='cart' element={<OrderCart/>}>
+                <Route path=':id' element={<OrderConfirmation/>} />
+            </Route>
         </Route>
     </RoutesDOM>
 }
