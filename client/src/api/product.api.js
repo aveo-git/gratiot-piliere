@@ -29,6 +29,18 @@ export const useGetOneProductById = (id, config) => {
     return { product, ...res };
 }
 
+export const useGetProductWithCategorie = (categorie, config) => {
+    const queryClient = useQueryClient();
+    const key = productKeys.all()
+    const products = queryClient.getQueryData(key)
+    if(categorie) {
+        // const productsCat = products.filter(product => product.categorie === categorie);
+        // queryClient.setQueryData(key, [productsCat])
+    } else {
+        queryClient.setQueryData(key, [products])
+    }
+} 
+
 export const useAddProduct = () => {
     const product = new Product();
 

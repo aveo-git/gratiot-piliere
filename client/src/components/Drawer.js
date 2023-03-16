@@ -80,7 +80,7 @@ const useStyles = createUseStyles(theme => ({
         fontSize: 14,
         fontFamily: 'Inter-Regular',
         padding: '0 38px',
-        height: ({isModalClosable}) => isModalClosable ? 'calc(100vh - 120px)' : 'calc(100vh - 90px)',
+        height: ({isModalClosable}) => isModalClosable ? 'calc(100vh - 120px)' : 'calc(100vh - 112px)',
     },
     extraIcon: {
         position: 'absolute',

@@ -28,7 +28,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Input = props => {
-    const { placeholder = 'Entrer votre texte', type = 'input', contentOptions = fakeData, label } = props;
+    const { placeholder = 'Entrer votre texte', type = 'input', contentOptions = fakeData, label, readOnly, value } = props;
     const classes = useStyles();
 
     let content;
@@ -39,7 +39,7 @@ const Input = props => {
             </select>
             break;
         case 'input':
-            content = <input className={classes.input} placeholder={placeholder} type={type} />
+            content = <input readOnly={readOnly && "readonly"} className={classes.input} placeholder={placeholder} type={type} value={value} />
             break;
         default:
             break;

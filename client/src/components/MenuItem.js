@@ -1,5 +1,6 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -26,9 +27,10 @@ const useStyles = createUseStyles(theme => ({
 const MenuItem = props => {
     const { data, isFirstItem } = props
     const classes = useStyles({data, isFirstItem})
+    const navigate = useNavigate()
 
     const _handleRoot = () => {
-        console.log('link:', data.to)
+        navigate(data.to)
     }
 
     return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
+import { useRestoreCart } from '../../api/cart.api';
 import AvailableCard from '../../components/AvailableCard';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
@@ -37,17 +38,20 @@ const useStyles = createUseStyles(theme => ({
 const OrderConfirmation = () => {
     const classes = useStyles()
     const navigate = useNavigate()
+    const { mutate: deleteCart } = useRestoreCart()
 
-    const _closeModal = () => {
+    const _goBack = () => {
         navigate(-1)
     }
 
     const _openOrderPaid = () => {
+        deleteCart()
+        navigate('/our-products/cart/paid')
     }
 
     return (
         <div>
-            <Drawer open={true} goBack={_closeModal} closeOnOverlay title="Commande">
+            <Drawer open={true} goBack={_goBack} closeOnOverlay title="Commande">
                 <div className={classes.container}>
                     <div className={classes.content}>
                         <Text styles={{ containerText: classes.titleText }} textCenter >Voici le résumé de votre commande :</Text>

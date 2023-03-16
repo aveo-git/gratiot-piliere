@@ -31,11 +31,14 @@ const useStyles = createUseStyles(theme => ({
     }
 }))
 
-const Filtre = () => {
+const Filtre = props => {
+    const { products } = props;
     const classes = useStyles()
+    const countItem = products.length
+
     return (
         <div className={classes.root}>
-            <Text styles={{ containerText: classes.sectionTitle, subtitle: classes.subtitle }} variant='h3' subtitle='1561 items'>Filtre</Text>
+            <Text styles={{ containerText: classes.sectionTitle, subtitle: classes.subtitle }} variant='h3' subtitle={`${countItem} produit(s)`}>Filtre</Text>
             <div className={classes.formFilter}>
                 <Input type='select' label="Catégorie"/>
                 <Input label="Nom"/>

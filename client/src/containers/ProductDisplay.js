@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import React from 'react'
 import { createUseStyles } from 'react-jss'
-import { useGetProducts } from '../api/product.api'
 import NoProducts from './NoProducts'
 import ProductItem from './product/ProductItem'
 
@@ -27,9 +26,9 @@ const useStyles = createUseStyles(theme => ({
     }
 }))
 
-const ProductDisplay = () => {
+const ProductDisplay = props => {
+    const { products } = props;
     const classes = useStyles()
-    const { products } = useGetProducts() || []
     const isProductEmpty = products.length === 0
     return (
         <div className={classNames(classes.root, {[classes.noProduct]: isProductEmpty})}>

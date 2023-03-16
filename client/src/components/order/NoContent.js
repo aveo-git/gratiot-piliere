@@ -1,5 +1,5 @@
 import React from 'react'
-import { IconError404, IconPackageOff, IconShoppingCartX } from '@tabler/icons-react'
+import { IconError404, IconPackageOff, IconReceiptOff, IconShoppingCartX } from '@tabler/icons-react'
 import { createUseStyles } from 'react-jss';
 import Text from '../Text';
 
@@ -29,6 +29,9 @@ const NoContent = props => {
             break;
         case 'product':
             content = { icon: <IconPackageOff />, text: "Le produit n'existe pas ou n'a jamais éxisté" } 
+            break;
+        case 'bill':
+            content = { icon: <IconReceiptOff />, text: "Vous n'avez pas de facture" } 
             break;
         default:
             content = { icon: <IconError404 />, text: "Une erreur s'est produite" } 

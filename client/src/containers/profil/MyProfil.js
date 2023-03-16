@@ -1,9 +1,9 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
-import { useNavigate } from 'react-router-dom';
-import Drawer from '../components/Drawer';
-import MenuItem from '../components/MenuItem';
-import { MENU_PROFIL } from '../misc/utils';
+import { Outlet, useNavigate } from 'react-router-dom';
+import Drawer from '../../components/Drawer';
+import MenuItem from '../../components/MenuItem';
+import { MENU_PROFIL } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -45,6 +45,7 @@ const MyProfil = props => {
                     </div>
                 </div>
             </Drawer>
+            <Outlet/>
         </div>
     )
 }
