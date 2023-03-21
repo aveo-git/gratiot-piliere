@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Parse from 'parse';
 import { parseToView } from "../misc/utils";
+import { cartKeys } from "./cart.api";
 
 const Order = Parse.Object.extend("Order");
 
 export const orderKeys = {
     all: () => ['orders'],
-    orderID: (orderID) => ['orders', orderID],
+    order: () => ['order'],
 };
 
 export const useGetOrders = ( config ) => {
@@ -22,18 +23,28 @@ export const useGetOrders = ( config ) => {
 
 export const useCreateOrder = () => {
     const order = new Order();
-
-    // const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
     return useMutation((payload) => {
-        order.set('products', payload)
+        const cart = queryClient.getQueryData(cartKeys.all())
+        const productsFromCart = cart.map(item => {
+            return item.get('product')
+        })
+        order.set('products', productsFromCart)
         return order.save()
     }, {
         onSuccess: (data) => {
-            return data
+            const keys = orderKeys.order();
+            queryClient.cancelQueries(keys);
+            queryClient.setQueryData(keys, data);
         },
     });
 };
+
+export const useGetOrder = () => {
+    const queryClient = useQueryClient();
+    return queryClient.getQueryData(orderKeys.order());
+}
 
 export const useCountOperation = () => {
     const queryClient = useQueryClient();

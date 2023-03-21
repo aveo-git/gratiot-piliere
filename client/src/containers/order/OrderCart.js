@@ -9,6 +9,7 @@ import Drawer from '../../components/Drawer';
 import BillTotalResume from '../../components/order/BillTotalResume';
 import NoContent from '../../components/order/NoContent';
 import OrderItem from '../../components/order/OrderItem';
+import { groupByIdforCart } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -55,17 +56,16 @@ const OrderCart = props => {
     const classes = useStyles()
     const navigate = useNavigate()
     const { cart } = useGetCarts() || []
-    // const { mutate: createOrder } = useCreateOrder()
     const { mutate: deleteCart } = useRestoreCart()
     const productsOnCart = cart.map(item => item.product)
+
+    let best_data = groupByIdforCart(cart)
 
     const _resetOrders = () => {
         deleteCart();
     }
 
     const _openBillConfirmation = () => {
-        // const test = createOrder(productsOnCart)
-        // console.log('test :>> ', test);
         navigate('pfVq4W27GW')
     }
 
@@ -83,7 +83,7 @@ const OrderCart = props => {
                     <div className={classes.container}>
                         <div className={classes.listOrder}>
                             <div>
-                            {productsOnCart?.map((product, index) => <OrderItem key={index} product={product} />)}
+                            {best_data?.map((product, index) => <OrderItem key={index} productsCart={product} />)}
                             </div>
                         </div>
                         <div className={classes.cta}>

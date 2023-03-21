@@ -61,7 +61,7 @@ const ProductModal = props => {
     const location = useLocation()
     const {product, isLoading} = useGetOneProductById(lastPath(location.pathname))
     const { title, description, price, rating, imageUrl } = product;
-    // console.log('isLoading :>> ', isLoading);
+    console.log('isLoading :>> ', isLoading);
 
     const _rateProduct = () => {
     }

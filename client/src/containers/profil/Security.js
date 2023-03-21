@@ -57,7 +57,7 @@ const Security = props => {
                         <div className={classes.formProfil}>
                             <Input label="Ancien mot de passe"/>
                             <Input label="Nouveau"/>
-                            <Input label="COnfirmation"/>
+                            <Input label="Confirmation"/>
                             <div className={classes.rules}>
                                 Votre mot de passe doit contenir au moins : <br />
                                 . Un caractère majuscule <br />

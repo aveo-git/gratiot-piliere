@@ -64,8 +64,6 @@ const ProductPlanner = () => {
     const { products } = useGetProducts() || []
     const navigate = useNavigate()
 
-    console.log('products :>> ', products);
-
     const _handleLogin = () => {
         navigate('login')
     }

@@ -20,7 +20,8 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const OrderDetail = props => {
-    const { product } = props
+    const { productCart } = props
+    const { count, product } = productCart
     const classes = useStyles()
     const currency = CURRENCY
 
@@ -28,7 +29,7 @@ const OrderDetail = props => {
         <div className={classes.container}>
             <span className={classes.name}>{product.title}</span>
             <span className={classes.orderDots}></span>
-            <span className={classes.price}>{product.price} {currency.symbol} x {padWithLeadingZeros(1)}</span>
+            <span className={classes.price}>{product.price} {currency.symbol} x {padWithLeadingZeros(count)}</span>
         </div>
     )
 }

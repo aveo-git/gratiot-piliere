@@ -6,14 +6,16 @@ import Text from '../components/Text';
 
 const useStyles = createUseStyles(theme => ({
     root: {
-        height: 450
+        height: 450,
+        color: '#FFFFFF'
     },
 	description: {
         width: 390,
         paddingBottom: 20
 	},
     cta: {
-        width: 163
+        width: 163,
+        color: '#000000'
     }
 }));
 

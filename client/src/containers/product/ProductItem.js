@@ -1,11 +1,11 @@
 import { IconHeart, IconHeartFilled, IconMinus, IconPlus } from '@tabler/icons-react';
-import React from 'react'
+import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import Price from '../../components/Price';
-import Button from '../../components/Button';
-import { padWithLeadingZeros } from '../../misc/utils';
 import { useCreateCart } from '../../api/cart.api';
+import Button from '../../components/Button';
+import Price from '../../components/Price';
+import { padWithLeadingZeros } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -47,10 +47,10 @@ const useStyles = createUseStyles(theme => ({
     },
     image: {
         height: 196,
+        overflow: 'hidden',
         '& img': {
             width: 198,
             borderRadius: '26px 26px 0 0',
-            height: 196
         }
     },
     title: {
@@ -112,18 +112,19 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const ProductItem = props => {
-    const { isSelected = false, product } = props;
-    const { id, title, description, count, isVoted, price, imageUrl } = product
+    const { product } = props;
+    const { objectId, title, description, count, isVoted, price, imageUrl } = product
+    const isSelected = count > 0
     const classes = useStyles({isSelected})
     const navigate = useNavigate()
     const { mutate: createCart } = useCreateCart()
 
     const _handleCount = (operand) => {
-        createCart(product)
+        createCart({product, operand})
     }
 
     const _handleProduct = () => {
-        navigate(id)
+        navigate(objectId)
     }
 
     return (

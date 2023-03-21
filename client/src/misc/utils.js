@@ -1,4 +1,5 @@
 import { IconLicense, IconMap, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
+import { groupBy } from 'lodash';
 import moment from 'moment'
 
 moment.locale('fr')
@@ -273,4 +274,16 @@ export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attrib
 
 export const lastPath = (path) => {
 	return path.substring(path.lastIndexOf('/') + 1)
+}
+
+export const groupByIdforCart = (arr, sorted = true) => {
+	const arrGrouped = groupBy(arr, (arr) => arr.product.objectId)
+
+    let best_data = []
+    for (const [key, value] of Object.entries(arrGrouped)) {
+        best_data.push({count: value.length, createdAt: value[0]?.product.createdAt, product: value[0]?.product})
+    }
+    best_data = sorted ? best_data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) : best_data;
+
+	return best_data;
 }
