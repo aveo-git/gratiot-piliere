@@ -1,6 +1,6 @@
 import { IconDownload } from '@tabler/icons-react';
 import classNames from 'classnames';
-import React from 'react'
+import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,7 +30,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const MenuItem = props => {
-    const { icon, title, to, isFirstItem, disabled = false, downloaded, onDownload, styles } = props
+    const { icon, title, to, isFirstItem, disabled = false, downloaded, styles } = props
     const classes = useStyles({disabled, isFirstItem})
     const navigate = useNavigate()
 

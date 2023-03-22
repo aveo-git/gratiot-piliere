@@ -1,6 +1,6 @@
 import { IconLicense, IconMap, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
 import { groupBy } from 'lodash';
-import moment from 'moment'
+import moment from 'moment';
 
 moment.locale('fr')
 moment.updateLocale('fr', {

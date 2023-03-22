@@ -1,11 +1,10 @@
-import { useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { createUseStyles } from 'react-jss'
-import { productKeys, useGetAllCategories, useGetProducts, useGetProductsFilteredByCategory, useProductCategory } from '../api/product.api'
+import { useGetAllCategories, useGetProducts, useProductCategory } from '../api/product.api'
 import Button from '../components/Button'
 import Text from '../components/Text'
-import TextField, { fakeData } from '../components/TextField'
-import { capitalizeFirstLetter, groupProductByCategory, WIDTH_RIGHT_SECTION } from '../misc/utils'
+import TextField from '../components/TextField'
+import { capitalizeFirstLetter, WIDTH_RIGHT_SECTION } from '../misc/utils'
 
 const useStyles = createUseStyles(theme => ({
     root: {
