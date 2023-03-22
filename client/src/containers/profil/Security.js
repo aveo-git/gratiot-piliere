@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
-import Input from '../../components/Input';
+import TextField from '../../components/TextField';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -55,9 +55,9 @@ const Security = props => {
                             Vous pouvez activer le mode modification en cliquant le bouton toggle en haut à droite.
                         </div>
                         <div className={classes.formProfil}>
-                            <Input label="Ancien mot de passe"/>
-                            <Input label="Nouveau"/>
-                            <Input label="Confirmation"/>
+                            <TextField label="Ancien mot de passe"/>
+                            <TextField label="Nouveau"/>
+                            <TextField label="Confirmation"/>
                             <div className={classes.rules}>
                                 Votre mot de passe doit contenir au moins : <br />
                                 . Un caractère majuscule <br />

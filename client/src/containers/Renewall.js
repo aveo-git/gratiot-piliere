@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import Button from '../components/Button'
-import Input from '../components/Input'
+import TextField from '../components/Input'
 import ModalComp from '../components/Modal'
 
 const useStyles = createUseStyles(theme => ({
@@ -33,9 +33,9 @@ const Renewall = props => {
     return (
         <ModalComp open={open} closeModal={_closeModal} title="Nouveau mot de passe" direction="left" backIcon closeOnOverlay>
             <div className={classes.contentInformation}>Votre mot de passe doit respecter les regles indiqués.</div>
-            {isOldPasswordrequired && <Input label="Ancien mot de passe"/>}
-            <Input label="Nouveau"/>
-            <Input label="Confirmation"/>
+            {isOldPasswordrequired && <TextField label="Ancien mot de passe"/>}
+            <TextField label="Nouveau"/>
+            <TextField label="Confirmation"/>
             <div className={classes.rules}>
                 Votre mot de passe doit contenir au moins : <br />
                 . Un caractère majuscule <br />

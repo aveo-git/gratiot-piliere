@@ -21,7 +21,7 @@ const Routes = () => {
             <Route path='signin' element={<Signin/>} />
             <Route path='login' element={<Login/>} />
             <Route path='my-profil' element={<MyProfil/>}>
-            <Route path='general' element={<General/>} />
+                <Route path='general' element={<General/>} />
                 <Route path='security' element={<Security/>} />
                 <Route path='choise-shipping' element={<ShippingLocation/>} />
                 <Route path='bills' element={<Bills/>} />

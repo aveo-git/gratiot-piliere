@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
-import Input from '../../components/Input';
+import TextField from '../../components/TextField';
 
 import imageMap from '../../Assets/images/map-reunion.png'
 
@@ -60,7 +60,7 @@ const ShippingLocation = props => {
                             RUE, LES AVIRONS 1120
                         </div>
                         <div className={classes.formAddress}>
-                            <Input label="Mon lieu de livraison"/>
+                            <TextField label="Mon lieu de livraison"/>
                             <div className={classes.map}>
                                 <img src={imageMap} alt='map la reunion'/>
                             </div>

@@ -11,6 +11,9 @@ moment.updateLocale('fr', {
     weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
 });
 
+export const DAY_FR = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+export const MONTH_FR = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+
 export const VAT = 20;
 export const WIDTH_RIGHT_SECTION = 280
 export const CURRENCY = '€'
@@ -53,7 +56,7 @@ export const getPriceAfter = number => {
 
 //to capitalize only first letter
 export function capitalizeFirstLetter(string, lowercaseFirst = false) {
-	let usedString = string;
+	let usedString = string.toLowerCase();
 	if (!usedString || !usedString.length) {
 		return usedString;
 	}
@@ -284,6 +287,30 @@ export const groupByIdforCart = (arr, sorted = true) => {
         best_data.push({count: value.length, createdAt: value[0]?.product.createdAt, product: value[0]?.product})
     }
     best_data = sorted ? best_data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) : best_data;
+
+	return best_data;
+}
+
+export const groupProductByCategory = (arr, sorted = true) => {
+	const arrGrouped = groupBy(arr, (arr) => arr.category)
+
+    let best_data = []
+    for (const [key, value] of Object.entries(arrGrouped)) {
+        best_data.push({count: value.length, category: key, product: value})
+    }
+    best_data = sorted ? best_data.sort((a, b) => a.category.localeCompare(b.category)) : best_data;
+
+	return best_data;
+}
+
+export const groupOrderByMonth = (arr, reverted = true) => {
+	
+	let best_data = MONTH_FR.map(month => {
+		const arrFiltered = arr.filter(item => month === getMonthName(item.createdAt))
+		return {month: month+' '+toMoment(arrFiltered.order?.[0].createdAd).format('YYYY'), order: arrFiltered}
+	})
+
+    best_data = reverted ? best_data : best_data;
 
 	return best_data;
 }

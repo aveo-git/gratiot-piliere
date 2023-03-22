@@ -97,7 +97,7 @@ const ProductPlanner = () => {
                 </div>
             </div>
             <div className={classes.content}>
-                <Filtre products={products} />
+                <Filtre />
                 <ProductDisplay products={products} />
             </div>
             <Outlet/>

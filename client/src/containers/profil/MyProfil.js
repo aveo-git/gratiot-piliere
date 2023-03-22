@@ -40,7 +40,7 @@ const MyProfil = props => {
                 <div className={classes.container}>
                     <div className={classes.listItem}>
                         <div>
-                            {MENU_PROFIL?.map((item, index) => <MenuItem key={index} isFirstItem={index === 0} data={item} />)}
+                            {MENU_PROFIL?.map((item, index) => <MenuItem key={index} isFirstItem={index === 0} icon={item.icon} title={item.title} to={item.to} disabled={item.disabled} />)}
                         </div>
                     </div>
                 </div>

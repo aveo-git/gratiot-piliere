@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
-import Input from '../../components/Input';
+import TextField from '../../components/TextField';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -58,13 +58,13 @@ const General = props => {
                                 `Vous pouvez maintenant mettre à jour votre profil. Les changements ne seront pas pris  en compte si vous quittez sans validation.`}
                         </div>
                         <div className={classes.formProfil}>
-                            <Input readOnly={readOnly} value='RABENANTOANDRO' label="Nom"/>
-                            <Input readOnly={readOnly} value='Sylvester' label="Prénom"/>
-                            <Input readOnly={readOnly} value='rabenantoandro@gmail.com' label="Adresse éléctronique"/>
-                            <Input readOnly={readOnly} value='034 xx xxx xx' label="Téléphone"/>
-                            <Input readOnly={readOnly} value='Lot 212 Bis Tana' label="Adresse"/>
-                            <Input readOnly={readOnly} value='Circulaire Ampandrana' label="Rue"/>
-                            <Input readOnly={readOnly} value='101' label="Code postal"/>
+                            <TextField readOnly={readOnly} value='RABENANTOANDRO' label="Nom"/>
+                            <TextField readOnly={readOnly} value='Sylvester' label="Prénom"/>
+                            <TextField readOnly={readOnly} value='rabenantoandro@gmail.com' label="Adresse éléctronique"/>
+                            <TextField readOnly={readOnly} value='034 xx xxx xx' label="Téléphone"/>
+                            <TextField readOnly={readOnly} value='Lot 212 Bis Tana' label="Adresse"/>
+                            <TextField readOnly={readOnly} value='Circulaire Ampandrana' label="Rue"/>
+                            <TextField readOnly={readOnly} value='101' label="Code postal"/>
                         </div>
                     </div>
                     {!readOnly && <div className={classes.cta}>

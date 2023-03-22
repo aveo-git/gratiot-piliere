@@ -1,8 +1,11 @@
-import React from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
 import { createUseStyles } from 'react-jss'
-import Input from '../components/Input'
+import { productKeys, useGetAllCategories, useGetProducts, useGetProductsFilteredByCategory, useProductCategory } from '../api/product.api'
+import Button from '../components/Button'
 import Text from '../components/Text'
-import { WIDTH_RIGHT_SECTION } from '../misc/utils'
+import TextField, { fakeData } from '../components/TextField'
+import { capitalizeFirstLetter, groupProductByCategory, WIDTH_RIGHT_SECTION } from '../misc/utils'
 
 const useStyles = createUseStyles(theme => ({
     root: {
@@ -31,24 +34,38 @@ const useStyles = createUseStyles(theme => ({
     }
 }))
 
-const Filtre = props => {
-    const { products } = props;
+const Filtre = () => {
     const classes = useStyles()
+
+    const { products, refetch } = useGetProducts() || []
+    const { categories } = useGetAllCategories() || []
+    const { mutate: productCategory } = useProductCategory()
     const countItem = products.length
+
+    const _handleCategory = (e) => {
+        productCategory(e.target.value)
+    }
+
+    const _handleName = (e) => {
+        console.log('e.target.value :>> ', e.target.value);
+    }
 
     return (
         <div className={classes.root}>
             <Text styles={{ containerText: classes.sectionTitle, subtitle: classes.subtitle }} variant='h3' subtitle={`${countItem} produit(s)`}>Filtre</Text>
             <div className={classes.formFilter}>
-                <Input type='select' label="Catégorie"/>
-                <Input label="Nom"/>
-                <Input label="Contenance"/>
-                <Input label="Moins de (€)"/>
+                <TextField onChange={_handleCategory} type='select' label="Catégorie">
+                    {categories.map((item, index) => <option key={index} value={item}>{capitalizeFirstLetter(item)}</option>)}
+                </TextField>
+                <TextField onChange={_handleName} label="Nom"/>
+                <TextField label="Contenance"/>
+                <TextField label="Moins de (€)"/>
                 <div className={classes.sideByside}>
-                    <Input label="Compris entre"/>
-                    <Input/>
+                    <TextField label="Compris entre"/>
+                    <TextField/>
                 </div>
-                <Input label="Millesime"/>
+                <TextField label="Millesime"/>
+                <Button textLabel="Test" variant="primary" onClick={refetch} />
             </div>
         </div>
     )

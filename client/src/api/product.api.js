@@ -8,17 +8,29 @@ export const productKeys = {
     all: () => ['products'],
     product: () => ['product'],
     productByID: (productID) => ["products", productID],
+    allCategories: () => ['categories']
 };
+
+export const useGetAllCategories = ( config ) => {
+    const query = new Parse.Query(Product);
+
+    const { data, ...res } = useQuery(productKeys.allCategories(), () => query.find(), {
+        ...config
+    });
+
+    let categories = [...new Set(data?.map(category => category.get('category')))]
+    return { categories: categories ?? [], ...res};
+}
 
 export const useGetProducts = ( config ) => {
     const query = new Parse.Query(Product);
 
-    const { data } = useQuery(productKeys.all(), () => query.find(), {
+    const { data, ...res } = useQuery(productKeys.all(), () => query.find(), {
         ...config,
     });
 
     const products = data?.map(product => parseToView(product))
-    return { products: products ?? []};
+    return { products: products ?? [], ...res};
 };
 
 export const useGetOneProductById = (id, config) => {
@@ -29,17 +41,24 @@ export const useGetOneProductById = (id, config) => {
     return { product, ...res };
 }
 
-export const useGetProductWithCategorie = (categorie, config) => {
+export const useProductCategory = () => {
     const queryClient = useQueryClient();
-    const key = productKeys.all()
-    const products = queryClient.getQueryData(key)
-    if(categorie) {
-        // const productsCat = products.filter(product => product.categorie === categorie);
-        // queryClient.setQueryData(key, [productsCat])
-    } else {
-        queryClient.setQueryData(key, [products])
-    }
-} 
+
+    return useMutation((payload) => 
+        payload, {
+        onSuccess: (data) => {
+            const keyCat = productKeys.allCategories();
+            const keyProd = productKeys.all();
+            queryClient.cancelQueries(keyCat);
+            const prev = queryClient.getQueryData(keyCat);
+
+            if (prev) {
+                const res = prev.filter((product) => product.get('category') === data);
+                queryClient.setQueryData(keyProd, res);
+            }
+        },
+    });
+}
 
 export const useAddProduct = () => {
     const product = new Product();
