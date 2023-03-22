@@ -6,6 +6,9 @@ import MenuItem from './MenuItem'
 import Text from './Text'
 
 const useStyles = createUseStyles(theme => ({
+    container: {
+        marginBottom: 25
+    },
     month: {
         fontSize: 15,
         fontFamily: 'Inter-Medium',
@@ -23,9 +26,9 @@ const BillsMensualy = props => {
     const classes = useStyles()
 
     return (
-        <div>
-        <Text styles={{ containerText: classes.month }}>{month}</Text>
-        {order.map((item, id) => <MenuItem key={id} to={id} icon={<IconReceipt/>} title={toDateString(item.createdAt)} downloaded styles={{ root: classes.menuitemRoot }} /> ).reverse()}
+        <div className={classes.container}>
+            <Text styles={{ containerText: classes.month }}>{month}</Text>
+            {order.map((item, id) => <MenuItem key={id} to={item.id} icon={<IconReceipt/>} title={toDateString(item.createdAt)} downloaded styles={{ root: classes.menuitemRoot }} /> ).reverse()}
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useGetOrders } from '../../api/order.api';
 import BillsMensualy from '../../components/BillsMensualy';
 import Drawer from '../../components/Drawer';
@@ -33,10 +33,11 @@ const Bills = props => {
             <Drawer open={true}  goBack={_goBack} title="Mes factures">
                 <div className={classes.container}>
                     {isOrderEmpty ? <NoContent For='bill'/> :
-                        bills && bills.map((bill) => <BillsMensualy bill={bill} />)
+                        bills && bills.map((bill, index) => <BillsMensualy key={index} bill={bill} />).reverse()
                     }
                 </div>
             </Drawer>
+            <Outlet/>
         </div>
     )
 }
