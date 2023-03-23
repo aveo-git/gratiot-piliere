@@ -1,11 +1,11 @@
 import { IconTrash } from '@tabler/icons-react';
-import React from 'react'
+import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteOrder, useGetOneOrderById } from '../api/order.api';
-import { groupById, groupByIdforCart, lastPath } from '../misc/utils';
+import { groupById, lastPath } from '../misc/utils';
 import Button from './Button';
-import Drawer from './Drawer'
+import Drawer from './Drawer';
 import BillTotalResume from './order/BillTotalResume';
 import OrderDetail from './order/OrderDetail';
 import Text from './Text';
@@ -52,7 +52,7 @@ const BillDetails = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const id = lastPath(location.pathname)
-    const {order, isLoading} = useGetOneOrderById(id)
+    const {order} = useGetOneOrderById(id)
     const { mutate: deleteOrder } = useDeleteOrder()
 
     const ref = order.id

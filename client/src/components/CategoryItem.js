@@ -20,12 +20,12 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const CategoryItem = props => {
-    const { imageUrl } = props
+    const { text, imageUrl } = props
     const classes = useStyles({imageUrl})
 
     return (
         <Link className={classes.container}>
-            CatEGORIE 1
+           {text}
         </Link>
     )
 }

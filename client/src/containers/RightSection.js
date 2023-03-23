@@ -2,7 +2,7 @@ import { IconMapSearch, IconShoppingCart, IconUser } from '@tabler/icons-react';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { useGetProducts } from '../api/product.api';
+import { useGetAllCategories, useGetProducts } from '../api/product.api';
 import imageCategorieBG from '../Assets/images/categorie.jpg';
 import Button from '../components/Button';
 import CategoryItem from '../components/CategoryItem';
@@ -86,7 +86,8 @@ const useStyles = createUseStyles(theme => ({
 
 const RightSection = () => {
     const classes = useStyles()
-    const { products } = useGetProducts()
+    const { products } = useGetProducts() || []
+    const { categories } = useGetAllCategories() || []
     const navigate = useNavigate()
 
     const _handleLogin = () => {
@@ -131,7 +132,7 @@ const RightSection = () => {
                 <div className={classes.categories}>
                     <Text styles={{ containerText: classes.sectionTitle }} variant='h3'>Catégories</Text>
                     <div className={classes.catItem}>
-                        {[1, 2, 3, 4, 5, 6].map(item => <CategoryItem imageUrl={imageCategorieBG} />)}
+                        {categories.map(item => <CategoryItem text={item} imageUrl={imageCategorieBG} />)}
                     </div>
                 </div>
                 <div>
