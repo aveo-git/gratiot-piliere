@@ -1,4 +1,4 @@
-import { IconLicense, IconMap, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
+import { IconLicense, IconMap, IconPower, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
 import { groupBy } from 'lodash';
 import moment from 'moment';
 
@@ -271,6 +271,7 @@ export const MENU_PROFIL = [
 	{id: 3, title: 'Choisir mon lieu de livraison', icon: <IconMap />, disabled: false, to: 'choise-shipping'},
 	{id: 4, title: 'Consulter mes factures', icon: <IconReceipt />, disabled: false, to: 'bills'},
 	{id: 5, title: 'Consulter historique', icon: <IconLicense />, disabled: true, to: 'history'},
+	{id: 6, title: 'Déconnexion', icon: <IconPower />, disabled: false, to: 'logout'},
 ]
 
 export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data.id, objectId: data.id });

@@ -3,6 +3,7 @@ import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllCategories, useGetProducts } from '../api/product.api';
+import { useIsUserLogged } from '../api/user.api';
 import imageCategorieBG from '../Assets/images/categorie.jpg';
 import Button from '../components/Button';
 import CategoryItem from '../components/CategoryItem';
@@ -88,6 +89,7 @@ const RightSection = () => {
     const classes = useStyles()
     const { products } = useGetProducts() || []
     const { categories } = useGetAllCategories() || []
+    const isLogged = useIsUserLogged()
     const navigate = useNavigate()
 
     const _handleLogin = () => {
@@ -109,8 +111,6 @@ const RightSection = () => {
     const _handleShipping = () => {
         navigate('/my-profil/choise-shipping')
     }
-
-    const isLogged = true;
 
     return (
         <div className={classes.root}>
