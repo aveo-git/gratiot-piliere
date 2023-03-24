@@ -1,8 +1,8 @@
-import React from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react'
 import { createUseStyles } from 'react-jss';
-import { getTotal, toDecimal, VAT } from '../../misc/utils';
+import { CURRENCY, getTotal, toDecimal, VAT } from '../../misc/utils';
 import classNames from 'classnames';
+import { useSetTotalTTC } from '../../api/cart.api';
 
 const useStyles = createUseStyles(theme => ({
   container: {
@@ -13,19 +13,22 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const BillTotalResume = props => {
-  const { styles } = props
+  const { styles, cart } = props
+  const { mutate: setTotalTTC } = useSetTotalTTC()
   const classes = useStyles()
-  const { orders } = useSelector(state => state.orders);
-  const { data } = orders;
-  const { currency } = useSelector(state => state.currency);
-  const totalTTC = getTotal(data)
-  const totalHT = getTotal(data, true)
+  const currency = CURRENCY;
+  const totalTTC = getTotal(cart)
+  const totalHT = getTotal(cart, true)
+
+  useEffect(() => {
+    setTotalTTC(totalTTC)
+  }, [totalTTC, setTotalTTC])
 
   return (
     <div className={classNames(classes.container, styles?.other)}>
-      <div>Total TTC : <span>{totalTTC} {currency.symbol}</span></div>
-      <div>TVA - {VAT}% : <span>{toDecimal(totalTTC - totalHT)} {currency.symbol}</span></div>
-      <div>Total HC : <span>{toDecimal(totalHT)} {currency.symbol}</span></div>
+      <div>Total TTC : <span>{totalTTC} {currency}</span></div>
+      <div>TVA - {VAT}% : <span>{toDecimal(totalTTC - totalHT)} {currency}</span></div>
+      <div>Total HC : <span>{toDecimal(totalHT)} {currency}</span></div>
     </div>
   )
 }

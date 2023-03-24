@@ -1,7 +1,7 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
 import Button from '../components/Button'
-import Input from '../components/Input'
+import TextField from '../components/Input'
 import ModalComp from '../components/Modal'
 import Text from '../components/Text';
 
@@ -31,7 +31,7 @@ const Confirmation = props => {
     return (
         <ModalComp open={open} closeModal={_closeModal} title="Confirmation" direction="left" backIcon closeOnOverlay>
             <div className={classes.contentInformation}>Verifier votre adresse email et copier le code de verification en dessous : (adresse@gmail.com)</div>
-            <Input label="Code de verification"/>
+            <TextField label="Code de verification"/>
             <div className={classes.resend}>
                 <Text isLink to='/resend-code'>Re-envoyer le code</Text>
             </div>

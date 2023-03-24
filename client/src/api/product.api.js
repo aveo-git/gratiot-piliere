@@ -7,25 +7,59 @@ const Product = Parse.Object.extend("Product");
 export const productKeys = {
     all: () => ['products'],
     product: () => ['product'],
+    productByID: (productID) => ["products", productID],
+    allCategories: () => ['categories']
 };
+
+export const useGetAllCategories = ( config ) => {
+    const query = new Parse.Query(Product);
+
+    const { data, ...res } = useQuery(productKeys.allCategories(), () => query.find(), {
+        ...config
+    });
+
+    let categories = [...new Set(data?.map(category => category.get('category')))]
+    return { categories: categories ?? [], ...res};
+}
 
 export const useGetProducts = ( config ) => {
     const query = new Parse.Query(Product);
 
-    const { data } = useQuery(productKeys.all(), () => query.find(), {
+    const { data, ...res } = useQuery(productKeys.all(), () => query.find(), {
         ...config,
     });
 
     const products = data?.map(product => parseToView(product))
-    return { products: products ?? []};
+    return { products: products ?? [], ...res};
 };
 
 export const useGetOneProductById = (id, config) => {
     const query = new Parse.Query(Product).equalTo('objectId', id)
-    const {data, ...res} = useQuery(productKeys.product(), () => query.find(), { ...config });
+    const {data, ...res} = useQuery(productKeys.productByID(id), () => query.find(), { ...config });
     const product = data?.map(product => parseToView(product))?.[0] || {}
 
     return { product, ...res };
+}
+
+export const useProductCategory = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation((payload) => 
+        payload, {
+        onSuccess: (data) => {
+            const keyCat = productKeys.allCategories();
+            const keyProd = productKeys.all();
+            queryClient.cancelQueries(keyCat);
+            const prev = queryClient.getQueryData(keyCat);
+
+            if (prev && data.length > 0) {
+                const res = prev.filter((product) => product.get('category') === data);
+                queryClient.setQueryData(keyProd, res);
+            } else {
+                queryClient.setQueryData(keyProd, prev);
+            }
+        },
+    });
 }
 
 export const useAddProduct = () => {

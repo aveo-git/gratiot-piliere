@@ -1,7 +1,6 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
-import { useSelector } from 'react-redux';
-import { padWithLeadingZeros } from '../../misc/utils';
+import { CURRENCY, padWithLeadingZeros } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
     container: {
@@ -21,15 +20,16 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const OrderDetail = props => {
-    const { order } = props
+    const { productCart } = props
+    const { count, product } = productCart
     const classes = useStyles()
-    const { currency } = useSelector(state => state.currency)
+    const currency = CURRENCY
 
     return (
         <div className={classes.container}>
-            <span className={classes.name}>{order.nom}</span>
+            <span className={classes.name}>{product.title}</span>
             <span className={classes.orderDots}></span>
-            <span className={classes.price}>{order.price} {currency.symbol} x {padWithLeadingZeros(order.quantity)}</span>
+            <span className={classes.price}>{product.price} {currency.symbol} x {padWithLeadingZeros(count)}</span>
         </div>
     )
 }

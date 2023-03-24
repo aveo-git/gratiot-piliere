@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import React from 'react'
 import { createUseStyles } from 'react-jss'
-import { useGetProducts } from '../api/product.api'
+import { useGetCarts } from '../api/cart.api'
 import NoProducts from './NoProducts'
 import ProductItem from './product/ProductItem'
 
@@ -27,17 +27,30 @@ const useStyles = createUseStyles(theme => ({
     }
 }))
 
-const ProductDisplay = () => {
+const ProductDisplay = props => {
+    const { products } = props;
     const classes = useStyles()
-    const { products } = useGetProducts() || []
     const isProductEmpty = products.length === 0
+    
+    const { cart } = useGetCarts() || []
+    
+    let allProducts = products.map(product => {
+        let count = 0;
+        for(let c of cart) {
+            if(product?.objectId === c?.product?.objectId) {
+                count++
+            }
+        }
+        return {...product, count: count}
+    })
+
     return (
         <div className={classNames(classes.root, {[classes.noProduct]: isProductEmpty})}>
             { isProductEmpty ? 
                 <NoProducts info='Pas de produits selectionné'/>
             : 
                 <div className={classes.productsItem}>
-                    {products.map((product, index) => <ProductItem key={index} product={product} />)}
+                    {allProducts.map((product, index) => <ProductItem key={index} product={product} />)}
                 </div>
             }
         </div>

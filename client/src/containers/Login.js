@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
-import Input from '../components/Input'
+import TextField from '../components/TextField'
 import ModalComp from '../components/Modal'
 import Text from '../components/Text';
 
@@ -34,8 +34,8 @@ const Login = () => {
 
     return (
         <ModalComp open={open} closeModal={_closeModal} title='Se connecter'>
-            <Input label="Adresse électronique"/>
-            <Input label="Mot de passe"/>
+            <TextField label="Adresse électronique"/>
+            <TextField label="Mot de passe"/>
             <div className={classes.passwordLost}>
                 <Text isLink to='/password-lost'>Mot de passe oublié ?</Text>
             </div>

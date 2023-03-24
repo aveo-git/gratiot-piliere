@@ -4,6 +4,7 @@ import Price from '../Price';
 import Text from '../Text';
 import { padWithLeadingZeros } from '../../misc/utils';
 import ButtonOrderCount from './ButtonOrderCount';
+import { useCreateCart } from '../../api/cart.api';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -15,12 +16,22 @@ const useStyles = createUseStyles(theme => ({
     img: {
         width: 80,
         height: 80,
-        backgroundColor: '#e7e7e7'
+        backgroundColor: '#e7e7e7',
+        overflow: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        '& img': {
+            height: 80
+        }
     },
     name: {
         fontSize: 20,
         fontFamily: 'Poppins-Bold',
-        lineHeight: '16px'
+        lineHeight: '16px',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        width: 170,
+        textOverflow: 'ellipsis'
     },
     description: {
         marginTop: 8,
@@ -45,25 +56,29 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const OrderItem = props => {
-    const { order } = props;
+    const { productsCart } = props;
+    const { count, product } = productsCart;
     const classes = useStyles()
+    const { mutate: createCart } = useCreateCart()
 
     const _handleMinus = () => {
+        createCart({product, operand: 'minus'})
     }
 
     const _handlePlus = () => {
+        createCart({product, operand: 'plus'})
     }
 
     return (
         <div className={classes.container}>
-            <div className={classes.img}></div>
+            <div className={classes.img}><img src={product?.imageUrl} alt={'bottle'} /></div>
             <div className={classes.content}>
-                <Text styles={{containerText: classes.name}} isUpperCase>{order.nom}</Text>
-                <Text styles={{containerText: classes.description}}>{order.description}</Text>
+                <Text styles={{containerText: classes.name}} isUpperCase>{product?.title}</Text>
+                <Text styles={{containerText: classes.description}}>{product?.description}</Text>
             </div>
             <div className={classes.priceAndCount}>
-                <Price price={order.price+''} />
-                <ButtonOrderCount text={padWithLeadingZeros(order.quantity)} variant='primary' handleMinus={_handleMinus} handlePlus={_handlePlus} />
+                <Price price={product?.price+''} />
+                <ButtonOrderCount text={padWithLeadingZeros(count)} variant='primary' handleMinus={_handleMinus} handlePlus={_handlePlus} />
             </div>
         </div>
     )

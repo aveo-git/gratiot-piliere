@@ -1,13 +1,14 @@
-import { IconMapSearch, IconPlugConnected, IconShoppingCart } from '@tabler/icons-react';
+import { IconMapSearch, IconShoppingCart, IconUser } from '@tabler/icons-react';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { useGetProducts } from '../api/product.api';
+import { useGetAllCategories, useGetProducts } from '../api/product.api';
 import imageCategorieBG from '../Assets/images/categorie.jpg';
 import Button from '../components/Button';
 import CategoryItem from '../components/CategoryItem';
 import Divider from '../components/Divider';
 import Text from '../components/Text';
+import LoginComp from './LoginComp';
 import ProductItem from './product/ProductItem';
 
 const useStyles = createUseStyles(theme => ({
@@ -70,12 +71,23 @@ const useStyles = createUseStyles(theme => ({
         display: 'flex',
         gap: 25,
         alignItems: 'center'
+    },
+    buttonProfil: {
+        width: 25
+    },
+    icon: {
+        marginLeft: 0,
+        '& svg': {
+            width: 20,
+            height: 20
+        }
     }
 }));
 
 const RightSection = () => {
     const classes = useStyles()
-    const { products } = useGetProducts()
+    const { products } = useGetProducts() || []
+    const { categories } = useGetAllCategories() || []
     const navigate = useNavigate()
 
     const _handleLogin = () => {
@@ -90,6 +102,16 @@ const RightSection = () => {
         navigate('/our-products')
     }
 
+    const _handleProfil = () => {
+        navigate('/my-profil')
+    }
+
+    const _handleShipping = () => {
+        navigate('/my-profil/choise-shipping')
+    }
+
+    const isLogged = true;
+
     return (
         <div className={classes.root}>
             <div className={classes.title}>
@@ -101,14 +123,16 @@ const RightSection = () => {
                 </Text>
             </div>
             <div className={classes.buttons}>
-                <Button onClick={_handleLogin} styles={{ container: classes.buttonLogin }} textLabel='Se connecter' variant='primary' icon={<IconPlugConnected/>} />
-                <Button onClick={_handleSignin} styles={{ container: classes.buttonSignin }} textLabel='Pas encore inscrit ?' />
+                {isLogged ? 
+                <Button variant='primary' icon={<IconUser/>} onClick={_handleProfil} styles={{ container: classes.buttonProfil, icon: classes.icon }} /> : 
+                <LoginComp handleLogin={_handleLogin} handleSignin={_handleSignin} />
+                }
             </div>
             <div>
                 <div className={classes.categories}>
                     <Text styles={{ containerText: classes.sectionTitle }} variant='h3'>Catégories</Text>
                     <div className={classes.catItem}>
-                        {[1, 2, 3, 4, 5, 6].map(item => <CategoryItem imageUrl={imageCategorieBG} />)}
+                        {categories.map(item => <CategoryItem text={item} imageUrl={imageCategorieBG} />)}
                     </div>
                 </div>
                 <div>
@@ -120,7 +144,7 @@ const RightSection = () => {
             </div>
             <div className={classes.cta}>
                 <Button onClick={_handleOurProducts} variant='primary' textLabel='Voir nos produits' icon={<IconShoppingCart/>} styles={{ container: classes.buttonShop }} />
-                <Button variant='primary' textLabel='Nos points de livraison' icon={<IconMapSearch/>} styles={{ container: classes.buttonShipping }} />
+                <Button onClick={_handleShipping} variant='primary' textLabel='Nos points de livraison' icon={<IconMapSearch/>} styles={{ container: classes.buttonShipping }} />
                 <Divider />
             </div>
         </div>

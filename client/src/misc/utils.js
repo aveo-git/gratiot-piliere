@@ -1,5 +1,6 @@
 import { IconLicense, IconMap, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
-import moment from 'moment'
+import { groupBy } from 'lodash';
+import moment from 'moment';
 
 moment.locale('fr')
 moment.updateLocale('fr', {
@@ -10,8 +11,12 @@ moment.updateLocale('fr', {
     weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
 });
 
+export const DAY_FR = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+export const MONTH_FR = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+
 export const VAT = 20;
 export const WIDTH_RIGHT_SECTION = 280
+export const CURRENCY = '€'
 
 export const padWithLeadingZeros = number => {
     return String(number).padStart(2, '0');
@@ -51,7 +56,7 @@ export const getPriceAfter = number => {
 
 //to capitalize only first letter
 export function capitalizeFirstLetter(string, lowercaseFirst = false) {
-	let usedString = string;
+	let usedString = string.toLowerCase();
 	if (!usedString || !usedString.length) {
 		return usedString;
 	}
@@ -110,7 +115,8 @@ export const getValeurWithVAT = value => {
 export const getTotal = (orders, withVAT = false) => {
 	if(!orders) return 0;
     return orders.reduce((a, c) =>
-        a + c.quantity*(withVAT ? getValeurWithVAT(c?.price) : c?.price)
+        // a + c.quantity*(withVAT ? getValeurWithVAT(c?.price) : c?.price)
+        a + (withVAT ? getValeurWithVAT(c?.price) : c?.price)
     , 0)
 }
 
@@ -260,15 +266,63 @@ export const minifyId = id => {
 }
 
 export const MENU_PROFIL = [
-	{id: 1, title: 'Général', icon: <IconUserCircle />, disabled: false, to: '/general'},
-	{id: 2, title: 'Modifier mon mot de passe', icon: <IconShieldLock />, disabled: false, to: '/update/password'},
-	{id: 3, title: 'Choisir mon lieu de livraison', icon: <IconMap />, disabled: false, to: '/choise-shipping'},
-	{id: 4, title: 'Consulter mes factures', icon: <IconReceipt />, disabled: false, to: '/bills'},
-	{id: 5, title: 'Consulter historique', icon: <IconLicense />, disabled: true, to: '/history'},
+	{id: 1, title: 'Général', icon: <IconUserCircle />, disabled: false, to: 'general'},
+	{id: 2, title: 'Modifier mon mot de passe', icon: <IconShieldLock />, disabled: false, to: 'security'},
+	{id: 3, title: 'Choisir mon lieu de livraison', icon: <IconMap />, disabled: false, to: 'choise-shipping'},
+	{id: 4, title: 'Consulter mes factures', icon: <IconReceipt />, disabled: false, to: 'bills'},
+	{id: 5, title: 'Consulter historique', icon: <IconLicense />, disabled: true, to: 'history'},
 ]
 
 export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data.id, objectId: data.id });
 
 export const lastPath = (path) => {
 	return path.substring(path.lastIndexOf('/') + 1)
+}
+
+export const groupByIdforCart = (arr, sorted = true) => {
+	const arrGrouped = groupBy(arr, (arr) => arr.product?.objectId)
+	
+    let best_data = []
+    for (const [, value] of Object.entries(arrGrouped)) {
+		best_data.push({count: value.length, createdAt: value[0]?.product?.createdAt, product: value[0]?.product})
+    }
+    best_data = sorted ? best_data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) : best_data;
+	
+	return best_data;
+}
+
+export const groupById = (arr, sorted = true) => {
+	const arrGrouped = groupBy(arr, (arr) => arr.objectId)
+
+    let best_data = []
+    for (const [, value] of Object.entries(arrGrouped)) {
+        best_data.push({count: value.length, createdAt: value[0]?.createdAt, product: value[0]})
+    }
+    best_data = sorted ? best_data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) : best_data;
+
+	return best_data;
+}
+
+export const groupProductByCategory = (arr, sorted = true) => {
+	const arrGrouped = groupBy(arr, (arr) => arr.category)
+
+    let best_data = []
+    for (const [key, value] of Object.entries(arrGrouped)) {
+        best_data.push({count: value.length, category: key, product: value})
+    }
+    best_data = sorted ? best_data.sort((a, b) => a.category.localeCompare(b.category)) : best_data;
+
+	return best_data;
+}
+
+export const groupOrderByMonth = (arr, reverted = true) => {
+	
+	let best_data = MONTH_FR.map(month => {
+		const arrFiltered = arr.filter(item => month === getMonthName(item.createdAt))
+		return {month: month+' '+toMoment(arrFiltered.order?.[0].createdAd).format('YYYY'), order: arrFiltered}
+	})
+
+    best_data = reverted ? best_data : best_data;
+
+	return best_data;
 }

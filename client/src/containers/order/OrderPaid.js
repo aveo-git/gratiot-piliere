@@ -1,13 +1,10 @@
 import { IconCircleCheck } from '@tabler/icons-react'
 import React from 'react'
 import { createUseStyles } from 'react-jss'
-import { useDispatch, useSelector } from 'react-redux'
-import AvailableCard from '../../components/AvailableCard'
+import { useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
 import Drawer from '../../components/Drawer'
 import BillConfirmation from '../../components/order/BillConfirmation'
-import Text from '../../components/Text'
-import { actionForModal } from '../../redux/actions/modals'
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -63,16 +60,15 @@ const useStyles = createUseStyles(theme => ({
 
 const OrderPaid = () => {
     const classes = useStyles()
-    const { modals } = useSelector(state => state.modals)
-    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const _closeModal = () => {
-        dispatch(actionForModal({type: 'PAID', status: 'close'}))
+        navigate('/our-products')
     }
 
     return (
         <div>
-            <Drawer open={modals.paid} isModalClosable closeModal={_closeModal} closeOnOverlay>
+            <Drawer open={true} isModalClosable closeModal={_closeModal} closeOnOverlay={false}>
                 <div className={classes.container}>
                     <div className={classes.content}>
                         <div className={classes.titleDrawer}>

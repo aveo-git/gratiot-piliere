@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom'
 import Text from '../components/Text'
 import Information from '../containers/Information '
 import RightSection from '../containers/RightSection'
+import LeftBG from '../Assets/images/bg-left.jpg'
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -12,7 +13,9 @@ const useStyles = createUseStyles(theme => ({
     height: '100vh'
 	},
   leftSection: {
-    backgroundColor: '#EAEAEA',
+    backgroundImage: `url(${LeftBG})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
     width: '50%',
     display: 'flex',
     justifyContent: 'flex-end',
@@ -20,10 +23,13 @@ const useStyles = createUseStyles(theme => ({
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      width: '70vh',
+      width: '100%',
       height: 'auto',
-      padding: '80px 50px 50px 20px'
+      padding: '80px 50px 50px 80px'
     }
+  },
+  bgOverlay: {
+    backgroundColor: '#0000002b'
   },
   rightSection: {
     padding: '50px 70px',
@@ -50,7 +56,7 @@ const Dashboard = () => {
     <>
       <div className={classes.root}>
         <div className={classes.leftSection}>
-          <div>
+          <div className={classes.bgOverlay}>
             <div className={classes.logo}></div>
             <div>
               <div className={classes.content}><Information /></div>

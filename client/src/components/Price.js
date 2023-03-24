@@ -1,6 +1,6 @@
 import React from 'react'
 import { createUseStyles } from 'react-jss';
-import { getPriceAfter, getPriceBefore } from '../misc/utils';
+import { CURRENCY, getPriceAfter, getPriceBefore } from '../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -22,7 +22,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Price = props => {
-    const { price, currency = '€', styles = {} }  = props;
+    const { price, currency = CURRENCY }  = props;
     const classes = useStyles()
 
     const before = getPriceBefore(price)

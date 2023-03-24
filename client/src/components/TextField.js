@@ -27,19 +27,19 @@ const useStyles = createUseStyles(theme => ({
     }
 }));
 
-const Input = props => {
-    const { placeholder = 'Entrer votre texte', type = 'input', contentOptions = fakeData, label } = props;
+const TextField = props => {
+    const { placeholder = 'Entrer votre texte', type = 'input', label, readOnly, value, onChange, children } = props;
     const classes = useStyles();
 
     let content;
     switch (type) {
         case 'select':
-            content = <select name="select"  className={classes.input}>
-                {contentOptions.map((item, index) => <option key={index}>{item.lastName}</option>)}
+            content = <select name="select" onChange={onChange} className={classes.input}>
+                {children}
             </select>
             break;
         case 'input':
-            content = <input className={classes.input} placeholder={placeholder} type={type} />
+            content = <input readOnly={readOnly && "readonly"} onChange={onChange} className={classes.input} placeholder={placeholder} type={type} value={value} />
             break;
         default:
             break;
@@ -54,7 +54,7 @@ const Input = props => {
     )
 }
 
-export default Input
+export default TextField
 
 export const fakeData = [
     {firstName: 'Rasoa', lastName: 'Kininika', age: 50},
