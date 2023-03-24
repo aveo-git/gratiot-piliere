@@ -2,7 +2,6 @@ import { IconCircleCheck } from '@tabler/icons-react'
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { useNavigate } from 'react-router-dom'
-import { useGetOrder } from '../../api/order.api'
 import Button from '../../components/Button'
 import Drawer from '../../components/Drawer'
 import BillConfirmation from '../../components/order/BillConfirmation'
@@ -62,8 +61,6 @@ const useStyles = createUseStyles(theme => ({
 const OrderPaid = () => {
     const classes = useStyles()
     const navigate = useNavigate()
-    const order = useGetOrder()
-    console.log('order :>> ', order);
 
     const _closeModal = () => {
         navigate('/our-products')

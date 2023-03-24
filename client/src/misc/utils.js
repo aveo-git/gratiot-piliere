@@ -280,14 +280,14 @@ export const lastPath = (path) => {
 }
 
 export const groupByIdforCart = (arr, sorted = true) => {
-	const arrGrouped = groupBy(arr, (arr) => arr.product.objectId)
-
+	const arrGrouped = groupBy(arr, (arr) => arr.product?.objectId)
+	
     let best_data = []
-    for (const value of Object.entries(arrGrouped)) {
-        best_data.push({count: value.length, createdAt: value[0]?.product.createdAt, product: value[0]?.product})
+    for (const [, value] of Object.entries(arrGrouped)) {
+		best_data.push({count: value.length, createdAt: value[0]?.product?.createdAt, product: value[0]?.product})
     }
     best_data = sorted ? best_data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) : best_data;
-
+	
 	return best_data;
 }
 
@@ -295,7 +295,7 @@ export const groupById = (arr, sorted = true) => {
 	const arrGrouped = groupBy(arr, (arr) => arr.objectId)
 
     let best_data = []
-    for (const value of Object.entries(arrGrouped)) {
+    for (const [, value] of Object.entries(arrGrouped)) {
         best_data.push({count: value.length, createdAt: value[0]?.createdAt, product: value[0]})
     }
     best_data = sorted ? best_data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)) : best_data;

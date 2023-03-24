@@ -52,9 +52,11 @@ export const useProductCategory = () => {
             queryClient.cancelQueries(keyCat);
             const prev = queryClient.getQueryData(keyCat);
 
-            if (prev) {
+            if (prev && data.length > 0) {
                 const res = prev.filter((product) => product.get('category') === data);
                 queryClient.setQueryData(keyProd, res);
+            } else {
+                queryClient.setQueryData(keyProd, prev);
             }
         },
     });
