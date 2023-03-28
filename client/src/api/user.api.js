@@ -3,7 +3,7 @@ import Parse from 'parse';
 
 export const userKeys = {
     all: () => ['users'],
-    user: () => ['user']
+    userExists: (user) => ['userExists', user]
 };
 
 export const useCreateUser = () => {
@@ -21,10 +21,23 @@ export const useCreateUser = () => {
     })
 }
 
+export const userLoggin = async ({username, password}) => {
+    try {
+        const user = await Parse.User.logIn(username, password)
+        // Do something with the logged in user object
+        return user;
+      } catch (error) {
+        // Handle the error
+        return error;
+      }
+}
+
 export const useIsUserLogged = () => {
     const currentUser = Parse.User.current();
-    if(currentUser) {
-        return true;
-    }
-    return false;
+    return currentUser;
+}
+
+export const logoutUser = () => {
+    const loggedUser = Parse.User.logOut();
+    return loggedUser;
 }

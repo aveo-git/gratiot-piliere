@@ -132,13 +132,13 @@ const RightSection = () => {
                 <div className={classes.categories}>
                     <Text styles={{ containerText: classes.sectionTitle }} variant='h3'>Catégories</Text>
                     <div className={classes.catItem}>
-                        {categories.map(item => <CategoryItem text={item} imageUrl={imageCategorieBG} />)}
+                        {categories.map(item => <CategoryItem key={item} text={item} imageUrl={imageCategorieBG} />)}
                     </div>
                 </div>
                 <div>
                     <Text styles={{ containerText: classes.sectionTitle, subtitle: classes.sectionSubtitle }} variant='h3' subtitle='Nos meilleurs ventes'>Nos meilleurs ventes</Text>
                     <div className={classes.productsItem}>
-                        {products.slice(0, 4).map(product =>  <ProductItem product={product} />)}
+                        {products.slice(0, 4).map(product =>  <ProductItem key={product.id} product={product} />)}
                     </div>
                 </div>
             </div>

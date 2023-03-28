@@ -3,6 +3,7 @@ import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useGetProducts } from '../api/product.api'
+import { useIsUserLogged } from '../api/user.api'
 import Button from '../components/Button'
 import CartButton from '../components/CartButton'
 import Text from '../components/Text'
@@ -62,6 +63,7 @@ const useStyles = createUseStyles(theme => ({
 const ProductPlanner = () => {
     const classes = useStyles()
     const { products } = useGetProducts() || []
+    const isLogged = !!useIsUserLogged()
     const navigate = useNavigate()
 
     const _handleLogin = () => {
@@ -79,8 +81,6 @@ const ProductPlanner = () => {
     const _handleProfil = () => {
         navigate('profil')
     }
-
-    const isLogged = true;
 
     return (
         <div className={classes.root}>

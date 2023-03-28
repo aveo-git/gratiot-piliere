@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { userLoggin } from '../api/user.api';
 import Button from '../components/Button';
-import TextField from '../components/TextField'
-import ModalComp from '../components/Modal'
+import ModalComp from '../components/Modal';
 import Text from '../components/Text';
+import TextField from '../components/TextField';
+import { loginSchema } from '../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -18,28 +20,37 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Login = () => {
-    const [open, setOpen] = useState(false)
+    const [user, setUser] = useState({});
     const classes = useStyles()
-    const location = useLocation()
     const navigate = useNavigate()
 
-    useEffect(() => {
-        if(location.pathname === '/login') setOpen(true)
-    }, [location.pathname])
-
     const _closeModal = () => {
-        setOpen && setOpen(false)
-        navigate('/')
+        navigate(-1)
     }
 
+    const _handleChange = (e) => {
+        setUser({...user, [e.target.name]: e.target.value})
+    }
+
+    const _submitLoginField = async (e) => {
+        e.preventDefault()
+        const values = {username: e.target[0].value, password: e.target[1].value}
+        const isValid = await loginSchema.isValid(values);
+
+        isValid && userLoggin(values);
+    }
+
+
     return (
-        <ModalComp open={open} closeModal={_closeModal} title='Se connecter'>
-            <TextField label="Adresse électronique"/>
-            <TextField label="Mot de passe"/>
-            <div className={classes.passwordLost}>
-                <Text isLink to='/password-lost'>Mot de passe oublié ?</Text>
-            </div>
-            <Button variant='primary' textLabel="Se connecter" styles={{container: classes.container}}/>
+        <ModalComp open={true} closeModal={_closeModal} title='Se connecter'>
+            <form onSubmit={_submitLoginField}>
+                <TextField name="username" onChange={_handleChange} label="Adresse électronique"/>
+                <TextField name="password" onChange={_handleChange} label="Mot de passe"/>
+                <div className={classes.passwordLost}>
+                    <Text isLink to='/password-lost'>Mot de passe oublié ?</Text>
+                </div>
+                <Button isSubmitable variant='primary' textLabel="Se connecter" styles={{container: classes.container}}/>
+            </form>
             <Button variant='primary' textLabel="Je m'inscris" styles={{container: classes.container}}/>
         </ModalComp>
     )

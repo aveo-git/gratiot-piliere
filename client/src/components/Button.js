@@ -48,11 +48,14 @@ const useStyles = createUseStyles(theme => ({
         '&:hover': {
             opacity: 1,
         }
+    },
+    btnSubmit: {
+        width: '100%'
     }
 }));
 
 const Button = props => {
-    const { textLabel, variant = 'default', size = 'medium', icon, defaultIconPosition = true, onClick, styles } = props;
+    const { textLabel, isSubmitable = false, disabled = false, variant = 'default', size = 'medium', icon, defaultIconPosition = true, onClick, styles } = props;
     const classes = useStyles({icon, variant, size, defaultIconPosition})
     
     let classForVariant;
@@ -70,12 +73,14 @@ const Button = props => {
             break;
     }
 
-  return (
-    <div className={classeNames(styles?.container, classes.root, classForVariant, classes.defaulticonPosition)} onClick={onClick}>
-      <span className={classes.textLabel}>{textLabel}</span>
-      <span className={classeNames(classes.icon, styles?.icon)}>{icon}</span>
-    </div>
-  )
+    if(isSubmitable) return <button disabled={disabled} className={classes.btnSubmit}>{textLabel}</button>
+
+    return (
+        <div className={classeNames(styles?.container, classes.root, classForVariant, classes.defaulticonPosition)} onClick={onClick}>
+        <span className={classes.textLabel}>{textLabel}</span>
+        <span className={classeNames(classes.icon, styles?.icon)}>{icon}</span>
+        </div>
+    )
 }
 
 export default Button

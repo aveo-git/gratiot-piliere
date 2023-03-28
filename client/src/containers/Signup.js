@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCreateUser } from '../api/user.api';
 import Button from '../components/Button';
 import ModalComp from '../components/Modal';
 import TextField from '../components/TextField';
+import { signupSchema } from '../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -14,37 +15,47 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Signup = () => {
-    const [openSignin, setOpen] = useState(false)
-    const [values, setValues] = useState({}) // Change to Yup
-    const classes = useStyles()
-    const location = useLocation()
+    const [errors, setErrors] = useState({});
+    const [values, setValues] = useState({});
     const { mutate: createUser } = useCreateUser()
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        if(location.pathname === '/signin') setOpen(true)
-    }, [location.pathname])
+    const classes = useStyles();
+    const navigate = useNavigate();
 
     const _closeModal = () => {
-        setOpen && setOpen(false)
-        navigate('/')
+        navigate(-1)
     }
 
-    const _handleSignUp = () => {
-        createUser({...values, username: values.email})
+    const _handleFields = (e) => {
+        setValues({...values, [e.target.name]: e.target.value})
+    }
+
+    const _handleConfirmation = (e) => {
+        if(e.target.value !== values.password) {
+            setErrors({...errors, matchPassword: true})
+        } else setErrors({...errors, matchPassword: false})
+    }
+
+    const _handleSignUp = async (e) => {
+        e.preventDefault();
+        const isValid = await signupSchema.isValid(values);
+        
+        isValid && createUser({...values, username: values.email})
+
     }
 
     return (
-        <ModalComp open={openSignin} closeModal={_closeModal} title="S'inscrire">
-            <TextField label="Nom" onChange={(e) => setValues({...values, firstName: e.target.value})} />
-            <TextField label="Prénom" onChange={(e) => setValues({...values, lastName: e.target.value})} />
-            <TextField label="Adresse électronique" onChange={(e) => setValues({...values, email: e.target.value})} />
-            <TextField label="Téléphone" onChange={(e) => setValues({...values, mobile: e.target.value})} />
-            <TextField label="Adresse" onChange={(e) => setValues({...values, address: e.target.value})} />
-            <TextField label="Mot de passe" onChange={(e) => setValues({...values, password: e.target.value})} />
-            <TextField label="Confirmation" onChange={(e) => setValues({...values, pwdConfirmation: e.target.value})} />
-            <Button variant='primary' onClick={_handleSignUp} textLabel="S'inscrire" styles={{...values, container: classes.container}}/>
-            <Button variant='primary' textLabel="J'ai déjà un compte" styles={{...values, container: classes.container}}/>
+        <ModalComp open={true} closeModal={_closeModal} title="S'inscrire">
+            <form onSubmit={_handleSignUp}>
+                <TextField label="Nom" name="lastName" onChange={_handleFields} />
+                <TextField label="Prénom" name="firstName" onChange={_handleFields} />
+                <TextField label="Adresse électronique" name="email" onChange={_handleFields} />
+                <TextField label="Téléphone" name="mobile" onChange={_handleFields} />
+                <TextField label="Adresse" name="address" onChange={_handleFields} />
+                <TextField label="Mot de passe" name="password" onChange={_handleFields} />
+                <TextField label="Confirmation" name="passwordConfirmation" onChange={_handleConfirmation} />
+                <Button disabled={errors.matchPassword} variant='primary' isSubmitable textLabel="S'inscrire" styles={{container: classes.container}}/>
+            </form>
+            <Button variant='primary' textLabel="J'ai déjà un compte" styles={{container: classes.container}}/>
         </ModalComp>
     )
 }
