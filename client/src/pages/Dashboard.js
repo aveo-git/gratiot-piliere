@@ -6,6 +6,7 @@ import Text from '../components/Text'
 import Information from '../containers/Information '
 import RightSection from '../containers/RightSection'
 import LeftBG from '../Assets/images/bg-left.jpg'
+import Snackbar from '../components/Snackbar'
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -68,6 +69,7 @@ const Dashboard = () => {
           <RightSection/>
         </div>
       </div>
+      <Snackbar text="Vous êtes déconnecté." variant="secondary" />
       <Outlet/>
     </>
   )

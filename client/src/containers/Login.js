@@ -37,7 +37,8 @@ const Login = () => {
         const values = {username: e.target[0].value, password: e.target[1].value}
         const isValid = await loginSchema.isValid(values);
 
-        isValid && userLoggin(values);
+        const isLogged = isValid && userLoggin(values);
+        isLogged && navigate(-1)
     }
 
 
