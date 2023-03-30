@@ -51,8 +51,8 @@ const Signup = () => {
                 <TextField label="Adresse électronique" name="email" onChange={_handleFields} />
                 <TextField label="Téléphone" name="mobile" onChange={_handleFields} />
                 <TextField label="Adresse" name="address" onChange={_handleFields} />
-                <TextField label="Mot de passe" name="password" onChange={_handleFields} />
-                <TextField label="Confirmation" name="passwordConfirmation" onChange={_handleConfirmation} />
+                <TextField label="Mot de passe" type="password" name="password" onChange={_handleFields} />
+                <TextField label="Confirmation" type="password" name="passwordConfirmation" onChange={_handleConfirmation} />
                 <Button disabled={errors.matchPassword} variant='primary' isSubmitable textLabel="S'inscrire" styles={{container: classes.container}}/>
             </form>
             <Button variant='primary' textLabel="J'ai déjà un compte" styles={{container: classes.container}}/>

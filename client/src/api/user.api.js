@@ -3,7 +3,7 @@ import Parse from 'parse';
 
 export const userKeys = {
     all: () => ['users'],
-    userExists: (user) => ['userExists', user]
+    currentUser: () => ['currentUser']
 };
 
 export const useCreateUser = () => {

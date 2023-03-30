@@ -3,7 +3,6 @@ import classNames from 'classnames'
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { AnimatePresence, motion } from 'framer-motion';
-import { useGetsnackBarStatus } from '../api/snackbar.api';
 
 const useStyles = createUseStyles(theme => ({
     root: {
@@ -38,8 +37,7 @@ const useStyles = createUseStyles(theme => ({
 const Snackbar = props => {
     const { text, variant = 'primary', open } = props
     const classes = useStyles()
-    const status = useGetsnackBarStatus()
-    console.log('status :>> ', status);
+    // const status = useGetsnackBarStatus()
 
     const usedContainerVariants = {
         hidden: { opacity: 0, transform: 'translateY(30%)'},

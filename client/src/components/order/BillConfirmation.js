@@ -6,7 +6,8 @@ import BillTotalResume from './BillTotalResume';
 import OrderDetail from './OrderDetail';
 import { useGetCarts } from '../../api/cart.api';
 import moment from 'moment';
-import { groupByIdforCart } from '../../misc/utils';
+import { groupByIdforCart, parseToView } from '../../misc/utils';
+import { useIsUserLogged } from '../../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
     container: {
@@ -35,6 +36,7 @@ const BillConfirmation = () => {
     const classes = useStyles()
     const { cart } = useGetCarts() || []
     const products = groupByIdforCart(cart)
+    const currentUser = parseToView(useIsUserLogged()) || null;
     const ref = null
     const date = moment().format()
 
@@ -48,11 +50,11 @@ const BillConfirmation = () => {
                 <Text>REF: {ref}</Text>
             </div>}
             <div className={classes.bloc}>
-                <Text isUpperCase>Rabenantoandro</Text>
-                <Text>Sylvestre Stalone</Text>
-                <Text>+261 34 xx xxx xx</Text>
-                <Text>sylvestrestalone@email.com</Text>
-                <Text>Rue RADAMA 1, BP 101</Text>
+                <Text isUpperCase>{currentUser?.lastName}</Text>
+                <Text>{currentUser?.firstName}</Text>
+                <Text>{currentUser?.mobile}</Text>
+                <Text>{currentUser?.email}</Text>
+                <Text>{currentUser?.address}</Text>
             </div>
             <div className={classes.bloc}>
                 <Text >Détails de la commande :</Text>
@@ -63,7 +65,7 @@ const BillConfirmation = () => {
             </div>
             <div className={classes.bloc}>
                 <Text>La livraison de la commande se fait à :</Text>
-                <Text>Rue RADAMA 1, BP 101</Text>
+                <Text>{currentUser?.address}</Text>
             </div>
             <Text styles={{ containerText: classes.billDate }}>{date}</Text>
         </div>

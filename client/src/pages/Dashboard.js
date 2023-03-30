@@ -7,6 +7,7 @@ import Information from '../containers/Information '
 import RightSection from '../containers/RightSection'
 import LeftBG from '../Assets/images/bg-left.jpg'
 import Snackbar from '../components/Snackbar'
+import logo from '../Assets/images/logo-champagne-gratiot.png'
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -41,7 +42,13 @@ const useStyles = createUseStyles(theme => ({
     width: 46,
     height: 46,
     borderRadius: 13,
-    backgroundColor: '#B7B7B7'
+    backgroundColor: '#FFFFFF',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& img': {
+      width: 'inherit'
+    }
   },
   cgv: {
     textAlign: 'right'
@@ -58,7 +65,9 @@ const Dashboard = () => {
       <div className={classes.root}>
         <div className={classes.leftSection}>
           <div className={classes.bgOverlay}>
-            <div className={classes.logo}></div>
+            <div className={classes.logo}>
+              <img src={logo} alt="logo gratiot" />
+            </div>
             <div>
               <div className={classes.content}><Information /></div>
               <div className={classes.cgv}><Text isLink={true} to='/rakoto'>CGV et mentions légales</Text></div>

@@ -1,9 +1,10 @@
 import { IconMapSearch, IconShoppingCart, IconUser } from '@tabler/icons-react';
+import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 import { useGetAllCategories, useGetProducts } from '../api/product.api';
-import { useIsUserLogged } from '../api/user.api';
+import { userKeys } from '../api/user.api';
 import imageCategorieBG from '../Assets/images/categorie.jpg';
 import Button from '../components/Button';
 import CategoryItem from '../components/CategoryItem';
@@ -89,7 +90,8 @@ const RightSection = () => {
     const classes = useStyles()
     const { products } = useGetProducts() || []
     const { categories } = useGetAllCategories() || []
-    const isLogged = useIsUserLogged()
+    const queryClient = useQueryClient();
+    const isLogged = queryClient.getQueryData(userKeys.currentUser())?.status
     const navigate = useNavigate()
 
     const _handleLogin = () => {

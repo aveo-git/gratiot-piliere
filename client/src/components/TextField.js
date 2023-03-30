@@ -28,11 +28,11 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const TextField = props => {
-    const { placeholder = 'Entrer votre texte', name, type = 'input', label, readOnly, value, onChange, children } = props;
+    const { placeholder = 'Entrer votre texte', name, type = 'text', variant = 'input', label, readOnly, value, onChange, children } = props;
     const classes = useStyles();
 
     let content;
-    switch (type) {
+    switch (variant) {
         case 'select':
             content = <select name={name} onChange={onChange} className={classes.input}>
                 {children}
@@ -44,7 +44,7 @@ const TextField = props => {
         default:
             break;
     }
-    if(type === 'select') {
+    if(variant === 'select') {
     }
     return (
         <div className={classes.root}>

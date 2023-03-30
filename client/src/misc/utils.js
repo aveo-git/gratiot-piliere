@@ -368,5 +368,5 @@ export const signupSchema = yup.object().shape({
 	email: yupRequired.email,
 	mobile: yupRequired.phone,
 	address: yupRequired.string,
-	password: passwordSchema
+	password: yup.string().min(8)
 })

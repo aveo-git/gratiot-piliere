@@ -50,7 +50,14 @@ const useStyles = createUseStyles(theme => ({
         }
     },
     btnSubmit: {
-        width: '100%'
+        width: '100%',
+        border: '1px solid #000000',
+        padding: '15px 0px',
+        cursor: 'pointer',
+        backgroundColor: '#FFFFFF',
+        '&:hover': {
+            backgroundColor: '#F3F3F3'
+        }
     }
 }));
 

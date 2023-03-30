@@ -3,7 +3,8 @@ import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteOrder, useGetOneOrderById } from '../api/order.api';
-import { groupById, lastPath } from '../misc/utils';
+import { useIsUserLogged } from '../api/user.api';
+import { groupById, lastPath, parseToView } from '../misc/utils';
 import Button from './Button';
 import Drawer from './Drawer';
 import BillTotalResume from './order/BillTotalResume';
@@ -54,6 +55,7 @@ const BillDetails = () => {
     const id = lastPath(location.pathname)
     const {order} = useGetOneOrderById(id)
     const { mutate: deleteOrder } = useDeleteOrder()
+    const currentUser = parseToView(useIsUserLogged()) || null;
 
     const ref = order.id
     const products = groupById(order.products);
@@ -77,15 +79,15 @@ const BillDetails = () => {
                 <div className={classes.root}>
                     <div className={classes.container}>
                         <div className={classes.billBloc}>
-                            {ref && <div className={classes.bloc}>
-                                <Text>REF: {ref}</Text>
-                            </div>}
                             <div className={classes.bloc}>
-                                <Text isUpperCase>Rabenantoandro</Text>
-                                <Text>Sylvestre Stalone</Text>
-                                <Text>+261 34 xx xxx xx</Text>
-                                <Text>sylvestrestalone@email.com</Text>
-                                <Text>Rue RADAMA 1, BP 101</Text>
+                                <Text>REF: {ref}</Text>
+                            </div>
+                            <div className={classes.bloc}>
+                                <Text isUpperCase>{currentUser?.lastName}</Text>
+                                <Text>{currentUser?.firstName}</Text>
+                                <Text>{currentUser?.mobile}</Text>
+                                <Text>{currentUser?.email}</Text>
+                                <Text>{currentUser?.address}</Text>
                             </div>
                             <div className={classes.bloc}>
                                 <Text >Détails de la commande :</Text>
@@ -96,7 +98,7 @@ const BillDetails = () => {
                             </div>
                             <div className={classes.bloc}>
                                 <Text>La livraison de la commande se fait à :</Text>
-                                <Text>Rue RADAMA 1, BP 101</Text>
+                                <Text>{currentUser?.address}</Text>
                             </div>
                             <Text styles={{ containerText: classes.billDate }}>{order.createdAt}</Text>
                         </div>

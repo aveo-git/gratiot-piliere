@@ -69,7 +69,7 @@ const Filtre = () => {
             <IconPlaystationX className={classes.iconReset} onClick={_resetFilter} />
             <Text styles={{ containerText: classes.sectionTitle, subtitle: classes.subtitle }} variant='h3' subtitle={`${countItem} produit(s)`}>Filtre</Text>
             <div className={classes.formFilter}>
-                <TextField onChange={_handleCategory} type='select' label="Catégorie">
+                <TextField onChange={_handleCategory} variant='select' label="Catégorie">
                     <option value=''>Selectionner une catégorie</option>
                     {categories.map((item, index) => <option key={index} value={item}>{capitalizeFirstLetter(item)}</option>)}
                 </TextField>

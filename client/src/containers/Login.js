@@ -1,7 +1,8 @@
+import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { userLoggin } from '../api/user.api';
+import { userKeys, userLoggin } from '../api/user.api';
 import Button from '../components/Button';
 import ModalComp from '../components/Modal';
 import Text from '../components/Text';
@@ -22,6 +23,7 @@ const useStyles = createUseStyles(theme => ({
 const Login = () => {
     const [user, setUser] = useState({});
     const classes = useStyles()
+    const queryClient = useQueryClient();
     const navigate = useNavigate()
 
     const _closeModal = () => {
@@ -38,6 +40,7 @@ const Login = () => {
         const isValid = await loginSchema.isValid(values);
 
         const isLogged = isValid && userLoggin(values);
+        queryClient.setQueryData(userKeys.currentUser(), {status: true})
         isLogged && navigate(-1)
     }
 
@@ -46,7 +49,7 @@ const Login = () => {
         <ModalComp open={true} closeModal={_closeModal} title='Se connecter'>
             <form onSubmit={_submitLoginField}>
                 <TextField name="username" onChange={_handleChange} label="Adresse électronique"/>
-                <TextField name="password" onChange={_handleChange} label="Mot de passe"/>
+                <TextField type="password" name="password" onChange={_handleChange} label="Mot de passe"/>
                 <div className={classes.passwordLost}>
                     <Text isLink to='/password-lost'>Mot de passe oublié ?</Text>
                 </div>
