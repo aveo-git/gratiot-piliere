@@ -1,5 +1,5 @@
-import { IconHeart, IconHeartFilled, IconMinus, IconPlus } from '@tabler/icons-react';
-import React from 'react';
+import { IconHeart, IconHeartFilled, IconLoader2, IconMinus, IconPlus } from '@tabler/icons-react';
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 import { useCreateCart } from '../../api/cart.api';
@@ -108,18 +108,24 @@ const useStyles = createUseStyles(theme => ({
         '& span': {
             marginLeft: 0
         }
+    },
+    spinner: {
+        animation: 'spin 1s infinite linear',
+        color: '#a9a4a4'
     }
 }));
 
 const ProductItem = props => {
     const { product } = props;
+    const [forMinus, setForMinus] = useState(false)
     const { objectId, title, description, count, isVoted, price, imageUrl } = product
     const isSelected = count > 0
     const classes = useStyles({isSelected})
     const navigate = useNavigate()
-    const { mutate: createCart } = useCreateCart()
+    const { mutate: createCart, isLoading } = useCreateCart()
 
     const _handleCount = (operand) => {
+        setForMinus(operand === 'minus')
         createCart({product, operand})
     }
 
@@ -144,8 +150,8 @@ const ProductItem = props => {
                     {/* <div>TTC</div> */}
                 </div>
                 <div className={classes.buttonGroup}>
-                    {count > 0 && <Button onClick={() => _handleCount('minus')} icon={<IconMinus />} styles={{ container: classes.buttonMinus }} size='tiny' variant='secondary' />}
-                    <Button onClick={() => _handleCount('plus')} icon={<IconPlus />} styles={{ container: classes.buttonPlus }} size='tiny' variant='secondary' />
+                    {count > 0 && <Button onClick={() => _handleCount('minus')} icon={isLoading && forMinus ? <IconLoader2 className={classes.spinner} /> : <IconMinus />} styles={{ container: classes.buttonMinus }} size='tiny' variant='secondary' />}
+                    <Button onClick={() => _handleCount('plus')} icon={isLoading && !forMinus ? <IconLoader2 className={classes.spinner} /> : <IconPlus />} styles={{ container: classes.buttonPlus }} size='tiny' variant='secondary' />
                 </div>
             </div>
         </div>

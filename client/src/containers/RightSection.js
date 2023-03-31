@@ -3,6 +3,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton'
+
 import { useGetAllCategories, useGetProducts } from '../api/product.api';
 import { userKeys } from '../api/user.api';
 import imageCategorieBG from '../Assets/images/categorie.jpg';
@@ -12,6 +14,7 @@ import Divider from '../components/Divider';
 import Text from '../components/Text';
 import LoginComp from './LoginComp';
 import ProductItem from './product/ProductItem';
+import classNames from 'classnames';
 
 const useStyles = createUseStyles(theme => ({
     root: {
@@ -83,13 +86,35 @@ const useStyles = createUseStyles(theme => ({
             width: 20,
             height: 20
         }
+    },
+    skeletonTitle: {
+        height: 40,
+        marginBottom: 20,
+        width: 400
+    },
+    skeletonContainer: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: 20,
+        '& span': {
+            display: 'inline-block',
+            flex: 1
+        }
+    },
+    skeletonChild: {
+        height: 50,
+        marginBottom: 15
+    },
+    skeletonChildProduct: {
+        height: 230,
+        marginBottom: 15
     }
 }));
 
 const RightSection = () => {
     const classes = useStyles()
-    const { products } = useGetProducts() || []
-    const { categories } = useGetAllCategories() || []
+    const { products, isLoading: isLoadingProducts } = useGetProducts() || []
+    const { categories, isLoading: isLoadingCategories } = useGetAllCategories() || []
     const queryClient = useQueryClient();
     const isLogged = queryClient.getQueryData(userKeys.currentUser())?.status
     const navigate = useNavigate()
@@ -133,15 +158,21 @@ const RightSection = () => {
             <div>
                 <div className={classes.categories}>
                     <Text styles={{ containerText: classes.sectionTitle }} variant='h3'>Catégories</Text>
-                    <div className={classes.catItem}>
-                        {categories.map(item => <CategoryItem key={item} text={item} imageUrl={imageCategorieBG} />)}
-                    </div>
+                    {isLoadingCategories ? 
+                        <SkeletonComp classes={classes} typeFor='category' /> : 
+                        <div className={classes.catItem}>
+                            {categories.map(item => <CategoryItem key={item} text={item} imageUrl={imageCategorieBG} />)}
+                        </div>
+                    }
                 </div>
                 <div>
                     <Text styles={{ containerText: classes.sectionTitle, subtitle: classes.sectionSubtitle }} variant='h3' subtitle='Nos meilleurs ventes'>Nos meilleurs ventes</Text>
-                    <div className={classes.productsItem}>
-                        {products.slice(0, 4).map(product =>  <ProductItem key={product.id} product={product} />)}
-                    </div>
+                    {isLoadingProducts ? 
+                        <SkeletonComp classes={classes} typeFor='product' /> :
+                        <div className={classes.productsItem}>
+                            {products.slice(0, 4).map(product =>  <ProductItem key={product.id} product={product} />)}
+                        </div>
+                    }
                 </div>
             </div>
             <div className={classes.cta}>
@@ -154,3 +185,18 @@ const RightSection = () => {
 }
 
 export default RightSection
+
+export const SkeletonComp = props => {
+    const { classes, typeFor } = props
+    return (
+        <>
+            <Skeleton className={classes.skeletonTitle} />
+            <div className={classes.skeletonContainer}>
+                <Skeleton className={classNames(typeFor === 'category' ? classes.skeletonChild : classes.skeletonChildProduct)} />
+                <Skeleton className={classNames(typeFor === 'category' ? classes.skeletonChild : classes.skeletonChildProduct)} />
+                <Skeleton className={classNames(typeFor === 'category' ? classes.skeletonChild : classes.skeletonChildProduct)} />
+            </div>
+            <Skeleton />
+        </>
+    )
+}

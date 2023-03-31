@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import Routes from './routes/Routes';
+import 'react-loading-skeleton/dist/skeleton.css'
 
 
 
