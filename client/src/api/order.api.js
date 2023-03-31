@@ -14,12 +14,12 @@ export const orderKeys = {
 export const useGetOrders = ( config ) => {
     const query = new Parse.Query(Order);
 
-    const { data } = useQuery(orderKeys.all(), () => query.find(), {
+    const { data, ...res } = useQuery(orderKeys.all(), () => query.find(), {
         ...config,
     });
 
     const orders = data?.map(order => parseToView(order))
-    return { orders: orders ?? []};
+    return { orders: orders ?? [], ...res};
 };
 
 export const useCreateOrder = () => {

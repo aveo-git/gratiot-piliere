@@ -78,7 +78,7 @@ const Dashboard = () => {
           <RightSection/>
         </div>
       </div>
-      <Snackbar text="Vous êtes déconnecté." variant="secondary" />
+      <Snackbar />
       <Outlet/>
     </>
   )

@@ -7,6 +7,7 @@ import { useIsUserLogged } from '../api/user.api';
 import { groupById, lastPath, parseToView } from '../misc/utils';
 import Button from './Button';
 import Drawer from './Drawer';
+import Loading from './Loading';
 import BillTotalResume from './order/BillTotalResume';
 import OrderDetail from './order/OrderDetail';
 import Text from './Text';
@@ -53,7 +54,7 @@ const BillDetails = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const id = lastPath(location.pathname)
-    const {order} = useGetOneOrderById(id)
+    const {order, isLoading} = useGetOneOrderById(id)
     const { mutate: deleteOrder } = useDeleteOrder()
     const currentUser = parseToView(useIsUserLogged()) || null;
 
@@ -75,9 +76,10 @@ const BillDetails = () => {
 
     return (
         <div>
-            <Drawer open={true}  goBack={_goBack} extraIcon={<IconTrash onClick={_handleDeleteBill}/>} title={`Facture : ${id}`}>
+            <Drawer open={true}  goBack={_goBack} extraIcon={!isLoading && <IconTrash onClick={_handleDeleteBill}/>} title={`Facture : ${id}`}>
                 <div className={classes.root}>
                     <div className={classes.container}>
+                    {isLoading && <Loading forDrawer/>}
                         <div className={classes.billBloc}>
                             <div className={classes.bloc}>
                                 <Text>REF: {ref}</Text>
