@@ -3,7 +3,7 @@ import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useGetProducts } from '../api/product.api'
-import { userKeys } from '../api/user.api'
+import { isUserLogged } from '../api/user.api'
 import Button from '../components/Button'
 import CartButton from '../components/CartButton'
 import Text from '../components/Text'
@@ -12,7 +12,6 @@ import LoginComp from '../containers/LoginComp'
 import ProductDisplay from '../containers/ProductDisplay'
 import { WIDTH_RIGHT_SECTION } from '../misc/utils'
 import logo from '../Assets/images/logo-champagne-gratiot.png'
-import { useQueryClient } from '@tanstack/react-query'
 
 const useStyles = createUseStyles(theme => ({
     root: {
@@ -70,8 +69,7 @@ const useStyles = createUseStyles(theme => ({
 const ProductPlanner = () => {
     const classes = useStyles()
     const { products } = useGetProducts() || []
-    const queryClient = useQueryClient();
-    const isLogged = queryClient.getQueryData(userKeys.currentUser())?.status
+    const isLogged = isUserLogged()
     const navigate = useNavigate()
 
     const _handleLogin = () => {

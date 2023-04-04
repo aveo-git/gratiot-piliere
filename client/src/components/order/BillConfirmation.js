@@ -7,7 +7,7 @@ import OrderDetail from './OrderDetail';
 import { useGetCarts } from '../../api/cart.api';
 import moment from 'moment';
 import { groupByIdforCart, parseToView } from '../../misc/utils';
-import { useIsUserLogged } from '../../api/user.api';
+import { isUserLogged } from '../../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
     container: {
@@ -36,7 +36,7 @@ const BillConfirmation = () => {
     const classes = useStyles()
     const { cart } = useGetCarts() || []
     const products = groupByIdforCart(cart)
-    const currentUser = parseToView(useIsUserLogged()) || null;
+    const currentUser = parseToView(isUserLogged()) || null;
     const ref = null
     const date = moment().format()
 

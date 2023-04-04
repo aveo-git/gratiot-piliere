@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QueryCache, useMutation, useQueryClient } from "@tanstack/react-query";
 import Parse from 'parse';
 
 export const userKeys = {
@@ -21,20 +21,47 @@ export const useCreateUser = () => {
     })
 }
 
-export const userLoggin = async ({username, password}) => {
-    try {
-        const user = await Parse.User.logIn(username, password)
-        // Do something with the logged in user object
+export const useUserLogin = () => {
+    const queryClient = useQueryClient();
+    return useMutation(async ({username, password}) => {
+        const user = await Parse.User.logIn(username, password);
         return user;
-      } catch (error) {
-        // Handle the error
-        return error;
-      }
+    }, {
+        onSuccess: (data) => {
+            if(data) {
+                queryClient.clear();
+                queryClient.setQueryData(userKeys.currentUser(), data)
+                window.location.reload()
+            }
+        }
+    })
 }
 
-export const useIsUserLogged = () => {
+export const useSetShippingAddress = () => {
+
+}
+
+export const isUserLogged = () => {
     const currentUser = Parse.User.current();
     return currentUser;
+}
+
+export const useIseUserLogged = () => {
+    
+    const queryClient = useQueryClient()
+    return queryClient.getQueryData(userKeys.currentUser())
+}
+
+export const useUserLogout = () => {
+    const queryClient = useQueryClient();
+    return useMutation(async () => {
+        const logoutUser = await Parse.User.logOut();
+        return logoutUser;
+    }, {
+        onSuccess: () => {
+            queryClient.setQueryData(userKeys.currentUser(), null);
+        }
+    })
 }
 
 export const logoutUser = () => {

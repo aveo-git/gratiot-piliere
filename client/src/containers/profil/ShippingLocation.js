@@ -6,6 +6,7 @@ import Drawer from '../../components/Drawer';
 import TextField from '../../components/TextField';
 
 import imageMap from '../../Assets/images/map-reunion.png'
+import { capitalizeFirstLetter } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -40,6 +41,9 @@ const useStyles = createUseStyles(theme => ({
         backgroundColor: '#FFFFFF',
         paddingTop: 20
     },
+    selectShipping: {
+        width: 388
+    }
 }));
 
 const ShippingLocation = props => {
@@ -48,6 +52,10 @@ const ShippingLocation = props => {
 
     const _goBack = () => {
         navigate(-1)
+    }
+    
+    const _handleCategory = (e) => {
+        console.log('e.target.value :>> ', e.target.value);
     }
 
     return (
@@ -60,7 +68,10 @@ const ShippingLocation = props => {
                             RUE, LES AVIRONS 1120
                         </div>
                         <div className={classes.formAddress}>
-                            <TextField label="Mon lieu de livraison"/>
+                            <TextField onChange={_handleCategory} styles={{ select: classes.selectShipping }} variant='select' label="Mon lieu de livraison">
+                                <option value=''>Selectionner un lieu de livraison</option>
+                                {shippingSites.map((item, index) => <option key={index} value={item}>{capitalizeFirstLetter(item)}</option>)}
+                            </TextField>
                             <div className={classes.map}>
                                 <img src={imageMap} alt='map la reunion'/>
                             </div>
@@ -76,3 +87,5 @@ const ShippingLocation = props => {
 }
 
 export default ShippingLocation
+
+export const shippingSites = ['Bras-Panon', 'Entre-Deux', 'L\'Etang-Salé', 'La plaine-des-Palmistes', 'Le port', 'Les Avirons', ]

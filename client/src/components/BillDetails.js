@@ -3,7 +3,7 @@ import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteOrder, useGetOneOrderById } from '../api/order.api';
-import { useIsUserLogged } from '../api/user.api';
+import { isUserLogged } from '../api/user.api';
 import { groupById, lastPath, parseToView } from '../misc/utils';
 import Button from './Button';
 import Drawer from './Drawer';
@@ -56,7 +56,7 @@ const BillDetails = () => {
     const id = lastPath(location.pathname)
     const {order, isLoading} = useGetOneOrderById(id)
     const { mutate: deleteOrder } = useDeleteOrder()
-    const currentUser = parseToView(useIsUserLogged()) || null;
+    const currentUser = parseToView(isUserLogged()) || null;
 
     const ref = order.id
     const products = groupById(order.products);

@@ -1,8 +1,7 @@
-import { useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { userKeys, userLoggin } from '../api/user.api';
+import { isUserLogged, useUserLogin } from '../api/user.api';
 import Button from '../components/Button';
 import ModalComp from '../components/Modal';
 import Text from '../components/Text';
@@ -17,14 +16,19 @@ const useStyles = createUseStyles(theme => ({
     passwordLost: {
         textAlign: 'right',
         marginBottom: 35
+    },
+    error: {
+        color: '#ff4209',
+        marginBottom: 15
     }
 }));
 
 const Login = () => {
     const [user, setUser] = useState({});
-    const classes = useStyles()
-    const queryClient = useQueryClient();
-    const navigate = useNavigate()
+    const [errorValidation, setErrorValidation] = useState(false);
+    const classes = useStyles();
+    const { mutate: userLogin } = useUserLogin();
+    const navigate = useNavigate();
 
     const _closeModal = () => {
         navigate(-1)
@@ -39,23 +43,28 @@ const Login = () => {
         const values = {username: e.target[0].value, password: e.target[1].value}
         const isValid = await loginSchema.isValid(values);
 
-        const isLogged = isValid && userLoggin(values);
-        queryClient.setQueryData(userKeys.currentUser(), {status: true})
-        isLogged && navigate(-1)
+        if (isValid) {
+            userLogin(values);
+            navigate(-1)
+        } else setErrorValidation(true)
     }
 
+    const _handleSignin = () => {
+        // navigate('/signin')
+    }
 
     return (
         <ModalComp open={true} closeModal={_closeModal} title='Se connecter'>
             <form onSubmit={_submitLoginField}>
                 <TextField name="username" onChange={_handleChange} label="Adresse électronique"/>
                 <TextField type="password" name="password" onChange={_handleChange} label="Mot de passe"/>
+                {errorValidation && <div className={classes.error}>Authentification incorrecte</div>}
                 <div className={classes.passwordLost}>
                     <Text isLink to='/password-lost'>Mot de passe oublié ?</Text>
                 </div>
                 <Button isSubmitable variant='primary' textLabel="Se connecter" styles={{container: classes.container}}/>
             </form>
-            <Button variant='primary' textLabel="Je m'inscris" styles={{container: classes.container}}/>
+            <Button variant='primary' textLabel="Je m'inscris" onClick={_handleSignin} styles={{container: classes.container}}/>
         </ModalComp>
     )
 }

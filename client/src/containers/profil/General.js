@@ -2,7 +2,7 @@ import { IconToggleLeft, IconToggleRight } from '@tabler/icons-react';
 import React, { useState } from 'react'
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { useIsUserLogged } from '../../api/user.api';
+import { isUserLogged } from '../../api/user.api';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import TextField from '../../components/TextField';
@@ -41,7 +41,7 @@ const useStyles = createUseStyles(theme => ({
 const General = () => {
     const classes = useStyles()
     const navigate = useNavigate()
-    const currentUser = parseToView(useIsUserLogged()) || null;
+    const currentUser = parseToView(isUserLogged()) || null;
     const [readOnly, setReadOnly] = useState(true)
 
     const _goBack = () => {

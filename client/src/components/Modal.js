@@ -8,6 +8,7 @@ import { containerVariants } from '../misc/utils';
 const useStyles = createUseStyles(theme => ({
 	overlay: {
         position: 'fixed',
+        zIndex: 9999,
         inset: 0,
         backgroundColor: 'rgb(0 0 0 / 22%)',
         display: 'flex',

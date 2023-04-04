@@ -12,16 +12,21 @@ const useStyles = createUseStyles(theme => ({
 		width: 298,
         marginTop: 22
 	},
+    error: {
+        color: '#ff4209',
+        marginBottom: 15
+    }
 }));
 
 const Signup = () => {
-    const [errors, setErrors] = useState({});
     const [values, setValues] = useState({});
-    const { mutate: createUser } = useCreateUser()
+    const [error, setError] = useState(false);
+    const { mutate: createUser } = useCreateUser();
     const classes = useStyles();
     const navigate = useNavigate();
 
     const _closeModal = () => {
+        // setOpen(false)
         navigate(-1)
     }
 
@@ -29,18 +34,17 @@ const Signup = () => {
         setValues({...values, [e.target.name]: e.target.value})
     }
 
-    const _handleConfirmation = (e) => {
-        if(e.target.value !== values.password) {
-            setErrors({...errors, matchPassword: true})
-        } else setErrors({...errors, matchPassword: false})
-    }
-
     const _handleSignUp = async (e) => {
         e.preventDefault();
         const isValid = await signupSchema.isValid(values);
         
-        isValid && createUser({...values, username: values.email})
+        if(isValid) {
+            createUser({...values, username: values.email})
+        } else setError(true)
+    }
 
+    const _handleLogin = () => {
+        // navigate('/login')
     }
 
     return (
@@ -52,10 +56,11 @@ const Signup = () => {
                 <TextField label="Téléphone" name="mobile" onChange={_handleFields} />
                 <TextField label="Adresse" name="address" onChange={_handleFields} />
                 <TextField label="Mot de passe" type="password" name="password" onChange={_handleFields} />
-                <TextField label="Confirmation" type="password" name="passwordConfirmation" onChange={_handleConfirmation} />
-                <Button disabled={errors.matchPassword} variant='primary' isSubmitable textLabel="S'inscrire" styles={{container: classes.container}}/>
+                <TextField label="Confirmation" type="password" name="passwordConfirmation" />
+                {error && <div className={classes.error}>Authentification incorrecte</div>}
+                <Button variant='primary' isSubmitable textLabel="S'inscrire" styles={{container: classes.container}}/>
             </form>
-            <Button variant='primary' textLabel="J'ai déjà un compte" styles={{container: classes.container}}/>
+            <Button variant='primary' textLabel="J'ai déjà un compte" onClick={_handleLogin} styles={{container: classes.container}}/>
         </ModalComp>
     )
 }

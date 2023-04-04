@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react'
 import { createUseStyles } from 'react-jss';
 
@@ -28,13 +29,13 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const TextField = props => {
-    const { placeholder = 'Entrer votre texte', name, type = 'text', variant = 'input', label, readOnly, value, onChange, children } = props;
+    const { placeholder = 'Entrer votre texte', name, type = 'text', variant = 'input', label, readOnly, value, onChange, children, styles } = props;
     const classes = useStyles();
 
     let content;
     switch (variant) {
         case 'select':
-            content = <select name={name} onChange={onChange} className={classes.input}>
+            content = <select name={name} onChange={onChange} className={classNames(classes.input, styles?.select)}>
                 {children}
             </select>
             break;

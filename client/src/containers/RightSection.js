@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton'
 
 import { useGetAllCategories, useGetProducts } from '../api/product.api';
-import { userKeys } from '../api/user.api';
+import { isUserLogged, userKeys } from '../api/user.api';
 import imageCategorieBG from '../Assets/images/categorie.jpg';
 import Button from '../components/Button';
 import CategoryItem from '../components/CategoryItem';
@@ -115,9 +115,8 @@ const RightSection = () => {
     const classes = useStyles()
     const { products, isLoading: isLoadingProducts } = useGetProducts() || []
     const { categories, isLoading: isLoadingCategories } = useGetAllCategories() || []
-    const queryClient = useQueryClient();
-    const isLogged = queryClient.getQueryData(userKeys.currentUser())?.status
-    const navigate = useNavigate()
+    const isLogged = isUserLogged();
+    const navigate = useNavigate();
 
     const _handleLogin = () => {
         navigate('/login')
@@ -150,7 +149,7 @@ const RightSection = () => {
                 </Text>
             </div>
             <div className={classes.buttons}>
-                {isLogged ? 
+                {!!isLogged ? 
                 <Button variant='primary' icon={<IconUser/>} onClick={_handleProfil} styles={{ container: classes.buttonProfil, icon: classes.icon }} /> : 
                 <LoginComp handleLogin={_handleLogin} handleSignin={_handleSignin} />
                 }

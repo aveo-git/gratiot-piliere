@@ -1,10 +1,9 @@
 import { IconDownload } from '@tabler/icons-react';
-import { useQueryClient } from '@tanstack/react-query';
 import classNames from 'classnames';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { logoutUser, userKeys } from '../api/user.api';
+import { useUserLogout } from '../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -34,13 +33,12 @@ const useStyles = createUseStyles(theme => ({
 const MenuItem = props => {
     const { icon, title, to, isFirstItem, disabled = false, downloaded, styles } = props
     const classes = useStyles({disabled, isFirstItem})
+    const { mutate: userLogout } = useUserLogout()
     const navigate = useNavigate()
-    const queryClient = useQueryClient();
 
     const _handleRoot = () => {
         if(to === 'logout') {
-            logoutUser()
-            queryClient.setQueryData(userKeys.currentUser(), {status: false})
+            userLogout()
             navigate(-1)
         } else {
             navigate(to)

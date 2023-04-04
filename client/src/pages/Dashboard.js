@@ -57,8 +57,6 @@ const useStyles = createUseStyles(theme => ({
 
 const Dashboard = () => {
   const classes = useStyles()
-  // const { products } = useGetProducts()
-  // const { mutate: addProduct } = useAddProduct()
 
   return (
     <>
