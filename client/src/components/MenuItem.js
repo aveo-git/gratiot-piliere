@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
+import { useUserLogout } from '../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -32,10 +33,16 @@ const useStyles = createUseStyles(theme => ({
 const MenuItem = props => {
     const { icon, title, to, isFirstItem, disabled = false, downloaded, styles } = props
     const classes = useStyles({disabled, isFirstItem})
+    const { mutate: userLogout } = useUserLogout()
     const navigate = useNavigate()
 
     const _handleRoot = () => {
-        navigate(to)
+        if(to === 'logout') {
+            userLogout()
+            navigate(-1)
+        } else {
+            navigate(to)
+        }
     }
 
     return (

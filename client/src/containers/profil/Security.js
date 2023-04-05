@@ -55,9 +55,9 @@ const Security = props => {
                             Vous pouvez activer le mode modification en cliquant le bouton toggle en haut à droite.
                         </div>
                         <div className={classes.formProfil}>
-                            <TextField label="Ancien mot de passe"/>
-                            <TextField label="Nouveau"/>
-                            <TextField label="Confirmation"/>
+                            <TextField type="password" label="Ancien mot de passe"/>
+                            <TextField type="password" label="Nouveau"/>
+                            <TextField type="password" label="Confirmation"/>
                             <div className={classes.rules}>
                                 Votre mot de passe doit contenir au moins : <br />
                                 . Un caractère majuscule <br />

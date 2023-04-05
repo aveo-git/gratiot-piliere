@@ -3,6 +3,7 @@ import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { useGetProducts } from '../api/product.api'
+import { isUserLogged } from '../api/user.api'
 import Button from '../components/Button'
 import CartButton from '../components/CartButton'
 import Text from '../components/Text'
@@ -10,6 +11,7 @@ import Filtre from '../containers/Filtre'
 import LoginComp from '../containers/LoginComp'
 import ProductDisplay from '../containers/ProductDisplay'
 import { WIDTH_RIGHT_SECTION } from '../misc/utils'
+import logo from '../Assets/images/logo-champagne-gratiot.png'
 
 const useStyles = createUseStyles(theme => ({
     root: {
@@ -27,8 +29,13 @@ const useStyles = createUseStyles(theme => ({
         width: 46,
         height: 46,
         borderRadius: 13,
-        backgroundColor: '#B7B7B7',
-        display: 'inline-block'
+        backgroundColor: '#f1f1f1',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        '& img': {
+            width: 'inherit'
+        }
     },
     buttons: {
         width: 'fit-content',
@@ -62,6 +69,7 @@ const useStyles = createUseStyles(theme => ({
 const ProductPlanner = () => {
     const classes = useStyles()
     const { products } = useGetProducts() || []
+    const isLogged = isUserLogged()
     const navigate = useNavigate()
 
     const _handleLogin = () => {
@@ -80,13 +88,13 @@ const ProductPlanner = () => {
         navigate('profil')
     }
 
-    const isLogged = true;
-
     return (
         <div className={classes.root}>
             <div className={classes.header}>
                 <div className={classes.logoContent}>
-                    <Link to='/' className={classes.logo}></Link>
+                    <Link to='/' className={classes.logo}>
+                        <img src={logo} alt="logo gratiot" />
+                    </Link>
                 </div>
                 <Text styles={{ containerText: classes.sectionTitle }} variant='h3' subtitle='Vous trouverez ici les meilleurs produits du mois.'>Nos produits</Text>
                 <div className={classes.buttons}>

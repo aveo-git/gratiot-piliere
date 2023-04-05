@@ -3,9 +3,11 @@ import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteOrder, useGetOneOrderById } from '../api/order.api';
-import { groupById, lastPath } from '../misc/utils';
+import { isUserLogged } from '../api/user.api';
+import { groupById, lastPath, parseToView } from '../misc/utils';
 import Button from './Button';
 import Drawer from './Drawer';
+import Loading from './Loading';
 import BillTotalResume from './order/BillTotalResume';
 import OrderDetail from './order/OrderDetail';
 import Text from './Text';
@@ -52,8 +54,9 @@ const BillDetails = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const id = lastPath(location.pathname)
-    const {order} = useGetOneOrderById(id)
+    const {order, isLoading} = useGetOneOrderById(id)
     const { mutate: deleteOrder } = useDeleteOrder()
+    const currentUser = parseToView(isUserLogged()) || null;
 
     const ref = order.id
     const products = groupById(order.products);
@@ -73,19 +76,20 @@ const BillDetails = () => {
 
     return (
         <div>
-            <Drawer open={true}  goBack={_goBack} extraIcon={<IconTrash onClick={_handleDeleteBill}/>} title={`Facture : ${id}`}>
+            <Drawer open={true}  goBack={_goBack} extraIcon={!isLoading && <IconTrash onClick={_handleDeleteBill}/>} title={`Facture : ${id}`}>
                 <div className={classes.root}>
                     <div className={classes.container}>
+                    {isLoading && <Loading forDrawer/>}
                         <div className={classes.billBloc}>
-                            {ref && <div className={classes.bloc}>
-                                <Text>REF: {ref}</Text>
-                            </div>}
                             <div className={classes.bloc}>
-                                <Text isUpperCase>Rabenantoandro</Text>
-                                <Text>Sylvestre Stalone</Text>
-                                <Text>+261 34 xx xxx xx</Text>
-                                <Text>sylvestrestalone@email.com</Text>
-                                <Text>Rue RADAMA 1, BP 101</Text>
+                                <Text>REF: {ref}</Text>
+                            </div>
+                            <div className={classes.bloc}>
+                                <Text isUpperCase>{currentUser?.lastName}</Text>
+                                <Text>{currentUser?.firstName}</Text>
+                                <Text>{currentUser?.mobile}</Text>
+                                <Text>{currentUser?.email}</Text>
+                                <Text>{currentUser?.address}</Text>
                             </div>
                             <div className={classes.bloc}>
                                 <Text >Détails de la commande :</Text>
@@ -96,7 +100,7 @@ const BillDetails = () => {
                             </div>
                             <div className={classes.bloc}>
                                 <Text>La livraison de la commande se fait à :</Text>
-                                <Text>Rue RADAMA 1, BP 101</Text>
+                                <Text>{currentUser?.address}</Text>
                             </div>
                             <Text styles={{ containerText: classes.billDate }}>{order.createdAt}</Text>
                         </div>

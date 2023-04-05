@@ -1,6 +1,7 @@
-import { IconLicense, IconMap, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
+import { IconLicense, IconMap, IconPower, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
 import { groupBy } from 'lodash';
 import moment from 'moment';
+import * as yup from 'yup'
 
 moment.locale('fr')
 moment.updateLocale('fr', {
@@ -271,9 +272,20 @@ export const MENU_PROFIL = [
 	{id: 3, title: 'Choisir mon lieu de livraison', icon: <IconMap />, disabled: false, to: 'choise-shipping'},
 	{id: 4, title: 'Consulter mes factures', icon: <IconReceipt />, disabled: false, to: 'bills'},
 	{id: 5, title: 'Consulter historique', icon: <IconLicense />, disabled: true, to: 'history'},
+	{id: 6, title: 'Déconnexion', icon: <IconPower />, disabled: false, to: 'logout'},
 ]
 
 export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data.id, objectId: data.id });
+
+export const parseUser = (user) => {
+	return {
+		id: user.id,
+		lastName: user.get('lastName'),
+		firstName: user.get('firstName'),
+		email: user.get('email'),
+		username: user.get('username')
+	}
+}
 
 export const lastPath = (path) => {
 	return path.substring(path.lastIndexOf('/') + 1)
@@ -326,3 +338,35 @@ export const groupOrderByMonth = (arr, reverted = true) => {
 
 	return best_data;
 }
+
+// YUP SCHEMA
+export const yupRequired = {
+	string: yup.string().required(),
+	email: yup.string().email().required(),
+	phone: yup
+    .string()
+    .matches(
+      /^\+?\d{1,3}[- ]?\d{3,4}[- ]?\d{4}$/,
+      'Invalid phone number'
+    )
+    .required('Phone number is required')
+}
+
+export const passwordSchema = yup.string()
+.matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/, 'Mot de passe incorrect, assurez-vous que les regles sont respectés.')
+.min(8, 'Password must be at least 8 characters long')
+.required('Password is required');
+
+export const loginSchema = yup.object().shape({
+	username: yupRequired.string,
+	password: passwordSchema
+})
+
+export const signupSchema = yup.object().shape({
+	lastName: yupRequired.string,
+	firstName: yupRequired.string,
+	email: yupRequired.email,
+	mobile: yupRequired.phone,
+	address: yupRequired.string,
+	password: yup.string().min(8)
+})
