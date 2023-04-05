@@ -42,7 +42,7 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Text = props => {
-    const { variant = 'default', isLink, to, children, subtitle, isUpperCase = false, textCenter = false, styles } = props;
+    const { variant = 'default', isLink, to, onClick, children, subtitle, isUpperCase = false, textCenter = false, styles } = props;
     const classes = useStyles()
 
     let className = classes.default
@@ -68,7 +68,7 @@ const Text = props => {
     }
 
     return (
-        <div className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase, textCenter && classes.center)}>
+        <div className={classNames(classes.root, className, styles?.containerText, isUpperCase && classes.uppercase, textCenter && classes.center)} onClick={onClick} >
             { children }
             {subtitle && <div className={classNames(classes.subtitle, styles?.subtitle)}>{ subtitle }</div>}
         </div>
