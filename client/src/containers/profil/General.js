@@ -1,7 +1,7 @@
 import { IconToggleLeft, IconToggleRight } from '@tabler/icons-react';
 import React, { useState } from 'react'
 import { createUseStyles } from 'react-jss';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { isUserLogged } from '../../api/user.api';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
@@ -27,7 +27,10 @@ const useStyles = createUseStyles(theme => ({
     formProfil: {
         '& input': {
             width: 348
-        }
+        },
+        overflowY: 'scroll',
+        overflowX: 'hidden',
+        height: 'calc(100vh - 350px)',
     },
     cta: {
         position: 'absolute',
@@ -71,6 +74,8 @@ const General = () => {
                             <TextField readOnly={readOnly} value={currentUser?.address} label="Adresse" name="address"/>
                             <TextField readOnly={readOnly} value={currentUser?.street} label="Rue" name="street"/>
                             <TextField readOnly={readOnly} value={currentUser?.code} label="Code postal" name="code"/>
+                            <TextField readOnly={readOnly} value={currentUser?.shippingAddress} label="Address de récuperation" name="shippingAddress"/>
+                            {!readOnly && <div>Choisissez votre point de livraison <Link to={'/my-profil/choise-shipping'}>ici</Link>.</div>}
                         </div>
                     </div>
                     {!readOnly && <div className={classes.cta}>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
@@ -7,6 +7,7 @@ import TextField from '../../components/TextField';
 
 import imageMap from '../../Assets/images/map-reunion.png'
 import { capitalizeFirstLetter } from '../../misc/utils';
+import { getShippingAdressUser, useSetShippingAddressUser } from '../../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -32,7 +33,11 @@ const useStyles = createUseStyles(theme => ({
     map: {
         display: 'flex',
         justifyContent: 'center',
-        overflow: 'hidden'
+        overflow: 'hidden',
+        height: 350,
+        backgroundImage: ({ imageMap }) => imageMap && `url(${imageMap})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover'
     },
     cta: {
         position: 'absolute',
@@ -43,43 +48,56 @@ const useStyles = createUseStyles(theme => ({
     },
     selectShipping: {
         width: 388
+    },
+    shippingAddress: {
+        border: '1px solid #000000',
+        padding: '3px 10px'
     }
 }));
 
 const ShippingLocation = props => {
-    const classes = useStyles()
-    const navigate = useNavigate()
+    const [shippingAddress, setShippingAddress] = useState(getShippingAdressUser())
+    const { mutate: setShippingAddressUser } = useSetShippingAddressUser()
+    const navigate = useNavigate();
+    const classes = useStyles({imageMap});
 
     const _goBack = () => {
         navigate(-1)
     }
     
     const _handleCategory = (e) => {
-        console.log('e.target.value :>> ', e.target.value);
+        setShippingAddress(e.target.value);
+    }
+
+    const _handleSetShippingAddress = (e) => {
+        e.preventDefault();
+        setShippingAddressUser(e.target[0].value)
     }
 
     return (
         <div>
             <Drawer open={true}  goBack={_goBack} title="Lieu de livraison">
                 <div className={classes.container}>
+                    <form onSubmit={_handleSetShippingAddress}>
                     <div className={classes.content}>
                         <div className={classes.title}>
-                            Vous serez livré au : <br />
-                            RUE, LES AVIRONS 1120
+                            {!!shippingAddress ? <>
+                                Votre point de livraison : <br /><br />
+                                <span className={classes.shippingAddress}>{shippingAddress.toUpperCase()}</span>
+                            </> : 'Vous n\'avez pas encore choisi un lieu de livraison.'}
                         </div>
                         <div className={classes.formAddress}>
-                            <TextField onChange={_handleCategory} styles={{ select: classes.selectShipping }} variant='select' label="Mon lieu de livraison">
+                            <TextField name="shippingAddress" onChange={_handleCategory} styles={{ select: classes.selectShipping }} variant='select' label="Mon lieu de livraison">
                                 <option value=''>Selectionner un lieu de livraison</option>
                                 {shippingSites.map((item, index) => <option key={index} value={item}>{capitalizeFirstLetter(item)}</option>)}
                             </TextField>
-                            <div className={classes.map}>
-                                <img src={imageMap} alt='map la reunion'/>
-                            </div>
+                            <div className={classes.map}></div>
                         </div>
                     </div>
                     <div className={classes.cta}>
-                        <Button textLabel='Valider' variant='primary' />
+                        <Button textLabel='Valider' isSubmitable variant='primary' />
                     </div>
+                    </form>
                 </div>
             </Drawer>
         </div>

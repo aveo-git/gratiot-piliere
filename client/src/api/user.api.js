@@ -37,8 +37,22 @@ export const useUserLogin = () => {
     })
 }
 
-export const useSetShippingAddress = () => {
+export const useSetShippingAddressUser = () => {
+    return useMutation((payload) => {
+        const currentUser = Parse.User.current();
+        currentUser.set('shippingAddress', payload);
+        return currentUser.save();
+    }, {
+        onSuccess: (data) => {
+            // console.log('data :>> ', data);
+        }
+    })
+}
 
+export const getShippingAdressUser = () => {
+    const user = isUserLogged();
+    if(!user) return;
+    return user?.get('shippingAddress')
 }
 
 export const isUserLogged = () => {
