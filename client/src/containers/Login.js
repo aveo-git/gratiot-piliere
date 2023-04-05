@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { isUserLogged, useUserLogin } from '../api/user.api';
+import { useUserLogin } from '../api/user.api';
 import Button from '../components/Button';
 import ModalComp from '../components/Modal';
 import Text from '../components/Text';
