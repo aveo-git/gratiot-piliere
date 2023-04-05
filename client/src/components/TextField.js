@@ -48,7 +48,7 @@ const TextField = props => {
     if(variant === 'select') {
     }
     return (
-        <div className={classes.root}>
+        <div className={classNames(classes.root, styles?.root)}>
             {label && <div className={classes.label}>{label}</div>}
             {content}
         </div>

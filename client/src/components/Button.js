@@ -80,7 +80,7 @@ const Button = props => {
             break;
     }
 
-    if(isSubmitable) return <button disabled={disabled} className={classes.btnSubmit}>{textLabel}</button>
+    if(isSubmitable) return <button disabled={disabled} className={classeNames(styles?.container, classes.btnSubmit)}>{textLabel}</button>
 
     return (
         <div className={classeNames(styles?.container, classes.root, classForVariant, classes.defaulticonPosition)} onClick={onClick}>
