@@ -55,6 +55,9 @@ const useStyles = createUseStyles(theme => ({
         width: '100%',
         backgroundColor: '#FFFFFF',
         paddingTop: 20
+    },
+    buttonBills: {
+        marginBottom: 15
     }
 }));
 
@@ -64,6 +67,10 @@ const OrderPaid = () => {
 
     const _closeModal = () => {
         navigate('/our-products')
+    }
+
+    const _handleBills = () => {
+        navigate('/our-products/profil/bills')
     }
 
     return (
@@ -83,6 +90,7 @@ const OrderPaid = () => {
                         <BillConfirmation/>
                     </div>
                     <div className={classes.cta}>
+                        <Button onClick={_handleBills} styles={{ container: classes.buttonBills }} textLabel='Voir mes factures' variant='primary' />
                         <Button textLabel='Télécharger ma facture' variant='primary' />
                     </div>
                 </div>

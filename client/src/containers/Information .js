@@ -21,7 +21,7 @@ const useStyles = createUseStyles(theme => ({
 
 const Information  = () => {
     const classes = useStyles()
-    
+
     return (
         <div className={classes.root}>
             <Text variant='h1'>Bienvenue</Text>

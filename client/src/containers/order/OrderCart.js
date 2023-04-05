@@ -1,4 +1,4 @@
-import { IconTrash } from '@tabler/icons-react';
+import { IconLoader2, IconTrash } from '@tabler/icons-react';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -49,6 +49,9 @@ const useStyles = createUseStyles(theme => ({
         width: '100%',
         backgroundColor: '#FFFFFF',
         paddingTop: 20
+    },
+    spinner: {
+        animation: 'spin 1s infinite linear',
     }
 }));
 
@@ -56,7 +59,7 @@ const OrderCart = props => {
     const classes = useStyles()
     const navigate = useNavigate()
     const { cart } = useGetCarts() || []
-    const { mutate: deleteCart } = useRestoreCart()
+    const { mutate: deleteCart, isLoading } = useRestoreCart()
     const productsOnCart = cart.map(item => item.product)
 
     let best_data = groupByIdforCart(cart)
@@ -75,10 +78,10 @@ const OrderCart = props => {
 
 
     const isCartEmpty = productsOnCart.length <= 0
-    
+
     return (
         <div>
-            <Drawer open={true} closeModal={_closeModal} isModalClosable extraIcon={!isCartEmpty && <IconTrash onClick={_resetOrders}/>} title="Mon panier">
+            <Drawer open={true} closeModal={_closeModal} isModalClosable extraIcon={!isCartEmpty && (isLoading ? <IconLoader2 className={classes.spinner} /> : <IconTrash onClick={_resetOrders}/>)} title="Mon panier">
                 {isCartEmpty ? <NoContent For='order'/> : 
                     <div className={classes.container}>
                         <div className={classes.listOrder}>
