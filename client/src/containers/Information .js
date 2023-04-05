@@ -19,7 +19,8 @@ const useStyles = createUseStyles(theme => ({
     }
 }));
 
-const Information  = () => {
+const Information  = props => {
+    const { onMoved } = props;
     const classes = useStyles()
 
     return (
@@ -37,7 +38,7 @@ const Information  = () => {
                 Laissez-vous emporter par vos sens et profitez
                 pleinement des moments de convivialité !
             </Text>
-            <Button icon={<IconPhoneOutgoing/>} styles={{ container: classes.cta }} textLabel='Contactez-nous' />
+            <Button icon={<IconPhoneOutgoing/>} onClick={onMoved} styles={{ container: classes.cta }} textLabel='Contactez-nous' />
         </div>
     )
 }
