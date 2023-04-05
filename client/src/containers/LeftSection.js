@@ -45,7 +45,10 @@ const useStyles = createUseStyles(theme => ({
 		}
 	},
     cgv: {
-		textAlign: 'right'
+		textAlign: 'right',
+        '& div': {
+            cursor: 'pointer'
+        }
 	},
     iconClose: {
         textAlign: 'center',
@@ -92,12 +95,16 @@ const useStyles = createUseStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
+    },
+    cgvContent: {
+        textAlign: 'center'
     }
 }));
 
 const LeftSection = () => {
-    const [isMoved, setIsMoved] = useState(false)
-    const classes = useStyles({isMoved})
+    const [isMoved, setIsMoved] = useState(false);
+    const [isCGV, setIsCGV] = useState(false);
+    const classes = useStyles({isMoved});
 
     const springConfig = {
         type: "spring",
@@ -105,6 +112,16 @@ const LeftSection = () => {
         damping: 20,
         mass: 1
     };
+
+    const _handleContact = () => {
+        setIsCGV(false)
+        setIsMoved(true)
+    }
+
+    const _handleCGV = () => {
+        setIsCGV(true)
+        setIsMoved(true)
+    }
 
     return (
         <div className={classes.container}>
@@ -120,8 +137,8 @@ const LeftSection = () => {
                             <img src={logo} alt="logo gratiot" />
                         </div>
                         <div>
-                            <div className={classes.content}><Information onMoved={() => setIsMoved(true)} /></div>
-                            <div className={classes.cgv}><Text isLink={true} to='/rakoto'>CGV et mentions légales</Text></div>
+                            <div className={classes.content}><Information onMoved={_handleContact} /></div>
+                            <div className={classes.cgv}><Text onClick={_handleCGV}>CGV et mentions légales</Text></div>
                         </div>
                     </div>
                 </motion.div>
@@ -134,18 +151,22 @@ const LeftSection = () => {
                     <div>
                         <div className={classes.iconClose}><IconArrowDown onClick={() => setIsMoved(false)} /></div>
                         <div className={classes.containerContact}>
-                            <Text styles={{ containerText: classes.title }} variant='h2'>Nous serions <br /> ravis de vous entendre !</Text>
-                            <Text styles={{ containerText: classNames(classes.citation, classes.centerDiv) }}>
-                                " Nous ne pouvons pas résoudre les problèmes
-                                en utilisant le même genre de pensée que celle que nous avons
-                                utilisée lorsque nous les avons créés. " - Albert Einstein
-                            </Text>
-                            <div className={classes.centerForm}>
-                                <TextField styles={{ root: classes.rootTextfield }} name="username" label="Nom et prénom"/>
-                                <TextField styles={{ root: classes.rootTextfield }} name="username" label="Email"/>
-                                <TextField styles={{ root: classes.rootTextfield }} name="username" label="Message"/>
-                                <Button isSubmitable variant='primary' textLabel="Envoyer" styles={{container: classes.buttonSendContact}}/>
-                            </div>
+                            {isCGV ? <div className={classes.cgvContent}>Copy here the CGV</div> : 
+                            <>
+                                <Text styles={{ containerText: classes.title }} variant='h2'>Nous serions <br /> ravis de vous entendre !</Text>
+                                <Text styles={{ containerText: classNames(classes.citation, classes.centerDiv) }}>
+                                    " Nous ne pouvons pas résoudre les problèmes
+                                    en utilisant le même genre de pensée que celle que nous avons
+                                    utilisée lorsque nous les avons créés. " - Albert Einstein
+                                </Text>
+                                <div className={classes.centerForm}>
+                                    <TextField styles={{ root: classes.rootTextfield }} name="username" label="Nom et prénom"/>
+                                    <TextField styles={{ root: classes.rootTextfield }} name="username" label="Email"/>
+                                    <TextField styles={{ root: classes.rootTextfield }} name="username" label="Message"/>
+                                    <Button isSubmitable variant='primary' textLabel="Envoyer" styles={{container: classes.buttonSendContact}}/>
+                                </div>
+                            </>
+                            }
                         </div>
                     </div>
                 </motion.div>
