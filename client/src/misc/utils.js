@@ -275,7 +275,7 @@ export const MENU_PROFIL = [
 	{id: 6, title: 'Déconnexion', icon: <IconPower />, disabled: false, to: 'logout'},
 ]
 
-export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data.id, objectId: data.id });
+export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data?.id, objectId: data?.id });
 
 export const parseUser = (user) => {
 	return {

@@ -45,9 +45,9 @@ const OrderConfirmation = () => {
     const classes = useStyles();
     const navigate = useNavigate();
     const location = useLocation();
-    const currentUser = parseToView(isUserLogged()) || null;
     const { mutate: deleteCart } = useRestoreCart();
     const { mutate: createOrder } = useCreateOrder();
+    const currentUser = parseToView(isUserLogged()) || null;
 
     const _goBack = () => {
         navigate('/our-products/cart')

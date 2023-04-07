@@ -51,7 +51,6 @@ const Login = () => {
     }
 
     const _handleSignin = () => {
-        // navigate('/signin')
         userSigin()
     }
 

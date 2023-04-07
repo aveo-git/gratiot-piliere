@@ -2,14 +2,14 @@ import { IconLoader2, IconTrash } from '@tabler/icons-react';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useGetCarts, useRestoreCart, useSetTotalTTC } from '../../api/cart.api';
+import { useGetCarts, useRestoreCart } from '../../api/cart.api';
 
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import BillTotalResume from '../../components/order/BillTotalResume';
 import NoContent from '../../components/order/NoContent';
 import OrderItem from '../../components/order/OrderItem';
-import { getTotal, groupByIdforCart } from '../../misc/utils';
+import { groupByIdforCart } from '../../misc/utils';
 import { isUserLogged } from '../../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
@@ -62,7 +62,6 @@ const OrderCart = props => {
     const isLogged = isUserLogged();
     const { cart } = useGetCarts() || []
     const { mutate: deleteCart, isLoading } = useRestoreCart();
-    const { mutate: setTotalTTC } = useSetTotalTTC();
     const productsOnCart = cart.map(item => item.product);
     const isCartEmpty = productsOnCart.length <= 0;
     let cartGrouped = groupByIdforCart(cart)
@@ -72,8 +71,6 @@ const OrderCart = props => {
     }
 
     const _openBillConfirmation = () => {
-        const totalTTC = getTotal(cart.map(item => item.product));
-        setTotalTTC(totalTTC);
         if(isLogged) {
             navigate('confirmation')
         } else {

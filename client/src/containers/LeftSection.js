@@ -127,6 +127,7 @@ const LeftSection = () => {
         <div className={classes.container}>
             <AnimatePresence>
                 <motion.div
+                    key='content'
                     className={classes.leftSection}
                     initial={{ y: '0px' }}
                     animate={isMoved ? { y: '-100%' } : { y: '0px' }}
@@ -143,6 +144,7 @@ const LeftSection = () => {
                     </div>
                 </motion.div>
                 <motion.div
+                    key='slider-seconde'
                     className={classes.leftSection}
                     initial={{ y: '100vh' }}
                     animate={isMoved ? { y: '-100vh' } : { y: '100vh' }}
