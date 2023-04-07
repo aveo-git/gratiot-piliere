@@ -1,7 +1,7 @@
 import { IconCircleCheck } from '@tabler/icons-react'
 import React from 'react'
 import { createUseStyles } from 'react-jss'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
 import Drawer from '../../components/Drawer'
 import BillConfirmation from '../../components/order/BillConfirmation'
@@ -62,14 +62,16 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const OrderPaid = () => {
-    const classes = useStyles()
-    const navigate = useNavigate()
+    const classes = useStyles();
+    const navigate = useNavigate();
+    const location = useLocation()
 
     const _closeModal = () => {
         navigate('/our-products')
     }
 
     const _handleBills = () => {
+        window?.localStorage.setItem('lastPathname', location.pathname)
         navigate('/our-products/profil/bills')
     }
 

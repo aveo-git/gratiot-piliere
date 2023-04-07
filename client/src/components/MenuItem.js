@@ -2,7 +2,7 @@ import { IconDownload } from '@tabler/icons-react';
 import classNames from 'classnames';
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserLogout } from '../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
@@ -35,8 +35,10 @@ const MenuItem = props => {
     const classes = useStyles({disabled, isFirstItem});
     const { mutate: userLogout } = useUserLogout();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const _handleRoot = () => {
+        window?.localStorage.setItem('lastPathname', location.pathname)
         if(to === 'logout') {
             userLogout();
             navigate(-1);

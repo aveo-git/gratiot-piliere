@@ -24,7 +24,9 @@ const Bills = props => {
     const bills = groupOrderByMonth(orders).filter(item => item.order.length > 0);
 
     const _goBack = () => {
-        navigate(-1)
+        const lastPath = window?.localStorage.getItem('lastPathname');
+        const isPathFromCart = lastPath.includes('paid');
+        lastPath && isPathFromCart ? navigate('/our-products') : navigate(-1)
     }
 
     const isOrderEmpty = orders.length === 0;

@@ -30,7 +30,6 @@ const Login = () => {
     const { mutate: userSigin } = useUserSigin();
     const navigate = useNavigate();
     const location = useLocation();
-    console.log('location :>> ', location);
 
     const _closeModal = () => {
         navigate(-1)
@@ -57,7 +56,6 @@ const Login = () => {
     }
 
     return (
-        <>
         <ModalComp open={true} closeModal={_closeModal} title='Se connecter'>
             <form onSubmit={_submitLoginField}>
                 <TextField name="username" onChange={_handleChange} label="Adresse électronique"/>
@@ -70,7 +68,6 @@ const Login = () => {
             </form>
             <Button variant='primary' textLabel="Je m'inscris" onClick={_handleSignin} styles={{container: classes.container}}/>
         </ModalComp>
-        </>
     )
 }
 
