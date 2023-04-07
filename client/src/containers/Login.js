@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
-import { useNavigate } from 'react-router-dom';
-import { useUserLogin } from '../api/user.api';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useUserLogin, useUserSigin } from '../api/user.api';
 import Button from '../components/Button';
 import ModalComp from '../components/Modal';
 import Text from '../components/Text';
@@ -10,7 +10,6 @@ import { loginSchema } from '../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
-		width: 298,
         marginTop: 22
 	},
     passwordLost: {
@@ -28,7 +27,10 @@ const Login = () => {
     const [errorValidation, setErrorValidation] = useState(false);
     const classes = useStyles();
     const { mutate: userLogin } = useUserLogin();
+    const { mutate: userSigin } = useUserSigin();
     const navigate = useNavigate();
+    const location = useLocation();
+    console.log('location :>> ', location);
 
     const _closeModal = () => {
         navigate(-1)
@@ -45,15 +47,17 @@ const Login = () => {
 
         if (isValid) {
             userLogin(values);
-            navigate(-1)
+            location.pathname.includes('our-products') ? navigate('/our-products/cart/confirmation') : navigate(-1)
         } else setErrorValidation(true)
     }
 
     const _handleSignin = () => {
         // navigate('/signin')
+        userSigin()
     }
 
     return (
+        <>
         <ModalComp open={true} closeModal={_closeModal} title='Se connecter'>
             <form onSubmit={_submitLoginField}>
                 <TextField name="username" onChange={_handleChange} label="Adresse électronique"/>
@@ -66,6 +70,7 @@ const Login = () => {
             </form>
             <Button variant='primary' textLabel="Je m'inscris" onClick={_handleSignin} styles={{container: classes.container}}/>
         </ModalComp>
+        </>
     )
 }
 

@@ -32,11 +32,10 @@ const Routes = () => {
             </Route>
         </Route>
         <Route path='our-products' element={<ProductPlanner/>}>
-            <Route path='signin' element={<Signup/>} />
-            <Route path='login' element={<Login/>} />
             <Route path=':id' element={<ProductModal/>} />
             <Route path='cart' element={<OrderCart/>}>
-                <Route path=':id' element={<OrderConfirmation/>} />
+                <Route path='login' element={<Login/>} />
+                <Route path='confirmation' element={<OrderConfirmation/>} />
                 <Route path='paid' element={<OrderPaid/>} />
             </Route>
             <Route path='profil' element={<MyProfil/>}>

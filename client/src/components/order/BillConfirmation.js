@@ -14,9 +14,6 @@ const useStyles = createUseStyles(theme => ({
         border: '1px solid #DFDFDF',
         padding: 25
     },
-    billTotal: {
-        textAlign: 'right'
-    },
     orderDetails: {
         padding: '10px 0',
         margin: '10px 0',
@@ -65,7 +62,7 @@ const BillConfirmation = () => {
             </div>
             <div className={classes.bloc}>
                 <Text>La livraison de la commande se fait à :</Text>
-                <Text>{currentUser?.address}</Text>
+                {currentUser?.shippingAddress && <Text>{currentUser?.shippingAddress}</Text>}
             </div>
             <Text styles={{ containerText: classes.billDate }}>{date}</Text>
         </div>

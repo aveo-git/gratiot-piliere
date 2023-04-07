@@ -8,6 +8,8 @@ import TextField from '../../components/TextField';
 import imageMap from '../../Assets/images/map-reunion.png'
 import { capitalizeFirstLetter } from '../../misc/utils';
 import { getShippingAdressUser, useSetShippingAddressUser } from '../../api/user.api';
+import { useGetsnackBarStatus } from '../../api/snackbar.api';
+import Snackbar from '../../components/Snackbar';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -52,12 +54,20 @@ const useStyles = createUseStyles(theme => ({
     shippingAddress: {
         border: '1px solid #000000',
         padding: '3px 10px'
+    },
+    error: {
+        color: '#ff4209',
+        position: 'relative',
+        top: '-18px',
+        left: 18
     }
 }));
 
 const ShippingLocation = props => {
-    const [shippingAddress, setShippingAddress] = useState(getShippingAdressUser())
-    const { mutate: setShippingAddressUser } = useSetShippingAddressUser()
+    const [shippingAddress, setShippingAddress] = useState(getShippingAdressUser());
+    const [error, setError] = useState(false);
+    const { mutate: setShippingAddressUser } = useSetShippingAddressUser();
+    const snackbar = useGetsnackBarStatus();
     const navigate = useNavigate();
     const classes = useStyles({imageMap});
 
@@ -71,7 +81,10 @@ const ShippingLocation = props => {
 
     const _handleSetShippingAddress = (e) => {
         e.preventDefault();
-        setShippingAddressUser(e.target[0].value)
+        if(e.target[0].value !== '') {
+            setShippingAddressUser(e.target[0].value);
+            setError(false);
+        } else setError(true);
     }
 
     return (
@@ -91,6 +104,7 @@ const ShippingLocation = props => {
                                 <option value=''>Selectionner un lieu de livraison</option>
                                 {shippingSites.map((item, index) => <option key={index} value={item}>{capitalizeFirstLetter(item)}</option>)}
                             </TextField>
+                            {error && <div className={classes.error}>Veuillez choisir un lieu de livraison.</div>}
                             <div className={classes.map}></div>
                         </div>
                     </div>
@@ -100,6 +114,7 @@ const ShippingLocation = props => {
                     </form>
                 </div>
             </Drawer>
+            {snackbar?.status && <Snackbar text={snackbar?.message} variant='primary' />}
         </div>
     )
 }

@@ -1,14 +1,13 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { useGetTotalTTC, useRestoreCart } from '../../api/cart.api';
+import { useRestoreCart } from '../../api/cart.api';
 import { useCreateOrder } from '../../api/order.api';
 import AvailableCard from '../../components/AvailableCard';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import BillConfirmation from '../../components/order/BillConfirmation';
 import Text from '../../components/Text';
-import { CURRENCY } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -38,14 +37,13 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const OrderConfirmation = () => {
-    const classes = useStyles()
-    const navigate = useNavigate()
-    const { mutate: deleteCart } = useRestoreCart()
-    const { mutate: createOrder } = useCreateOrder()
-    const pay = useGetTotalTTC()
+    const classes = useStyles();
+    const navigate = useNavigate();
+    const { mutate: deleteCart } = useRestoreCart();
+    const { mutate: createOrder } = useCreateOrder();
 
     const _goBack = () => {
-        navigate(-1)
+        navigate('/our-products/cart')
     }
 
     const _openOrderPaid = () => {
@@ -64,7 +62,7 @@ const OrderConfirmation = () => {
                     </div>
                     <div className={classes.cta}>
                         <AvailableCard />
-                        <Button textLabel={`Payer - ${pay} ${CURRENCY}`} onClick={_openOrderPaid} variant='primary' />
+                        <Button textLabel={`Payer`} onClick={_openOrderPaid} variant='primary' />
                     </div>
                 </div>
             </Drawer>

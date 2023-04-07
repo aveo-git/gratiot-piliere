@@ -31,17 +31,17 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const MenuItem = props => {
-    const { icon, title, to, isFirstItem, disabled = false, downloaded, styles } = props
-    const classes = useStyles({disabled, isFirstItem})
-    const { mutate: userLogout } = useUserLogout()
-    const navigate = useNavigate()
+    const { icon, title, to, isFirstItem, disabled = false, downloaded, styles } = props;
+    const classes = useStyles({disabled, isFirstItem});
+    const { mutate: userLogout } = useUserLogout();
+    const navigate = useNavigate();
 
     const _handleRoot = () => {
         if(to === 'logout') {
-            userLogout()
-            navigate(-1)
+            userLogout();
+            navigate(-1);
         } else {
-            navigate(to)
+            navigate(to);
         }
     }
 

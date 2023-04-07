@@ -6,6 +6,8 @@ import { IconArrowLeft, IconX } from '@tabler/icons-react';
 import { containerVariants } from '../misc/utils';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
+import { useQueryClient } from '@tanstack/react-query';
+import { snackbarKeys } from '../api/snackbar.api';
 
 const useStyles = createUseStyles(theme => ({
 	overlay: {
@@ -98,6 +100,10 @@ const Drawer = props => {
     const { open, title, isModalClosable = false, closeModal, goBack, extraIcon, children, closeOnOverlay = true, direction = 'left', backIcon = true, styles = {} } = props;
     const classes = useStyles({isModalClosable});
     const navigate = useNavigate()
+
+    // Reinitialize snackbar status
+    const queryClient = useQueryClient();
+    queryClient.removeQueries(snackbarKeys.status())
 
     const usedContainerVariants = containerVariants[direction];
 

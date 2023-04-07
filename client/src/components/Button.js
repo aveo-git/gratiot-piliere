@@ -84,8 +84,8 @@ const Button = props => {
 
     return (
         <div className={classeNames(styles?.container, classes.root, classForVariant, classes.defaulticonPosition)} onClick={onClick}>
-        <span className={classes.textLabel}>{textLabel}</span>
-        <span className={classeNames(classes.icon, styles?.icon)}>{icon}</span>
+            <span className={classes.textLabel}>{textLabel}</span>
+            <span className={classeNames(classes.icon, styles?.icon)}>{icon}</span>
         </div>
     )
 }

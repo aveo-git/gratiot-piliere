@@ -3,8 +3,9 @@ import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { Outlet } from 'react-router-dom'
 import RightSection from '../containers/RightSection'
-import Snackbar from '../components/Snackbar'
 import LeftSection from '../containers/LeftSection'
+import { useGetsnackBarStatus } from '../api/snackbar.api'
+import Snackbar from '../components/Snackbar'
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -19,17 +20,18 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const Dashboard = () => {
-  const classes = useStyles()
+  const classes = useStyles();
+  const snackbar = useGetsnackBarStatus();
 
   return (
     <>
       <div className={classes.root}>
-		<LeftSection/>
+		    <LeftSection/>
         <div className={classes.rightSection}>
           <RightSection/>
         </div>
       </div>
-      <Snackbar />
+      {snackbar?.status && <Snackbar text={snackbar?.message} variant='primary' />}
       <Outlet/>
     </>
   )

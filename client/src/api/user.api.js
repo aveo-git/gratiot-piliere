@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Parse from 'parse';
+import { snackbarKeys } from "./snackbar.api";
 
 export const userKeys = {
     all: () => ['users'],
@@ -37,14 +38,28 @@ export const useUserLogin = () => {
     })
 }
 
+export const useUserSigin = () => {
+    const queryClient = useQueryClient();
+    return useMutation(() => {}, {
+        onSuccess: () => {
+            const keySnackbar = snackbarKeys.status();
+            queryClient.cancelQueries(keySnackbar);
+            queryClient.setQueryData(keySnackbar, { message: 'Ceci est juste un message' })
+        }
+    })
+}
+
 export const useSetShippingAddressUser = () => {
+    const queryClient = useQueryClient();
     return useMutation((payload) => {
         const currentUser = Parse.User.current();
         currentUser.set('shippingAddress', payload);
-        return currentUser.save();
+        return payload;
     }, {
         onSuccess: (data) => {
-            // console.log('data :>> ', data);
+            const keySnackbar = snackbarKeys.status();
+            queryClient.cancelQueries(keySnackbar);
+            queryClient.setQueryData(keySnackbar, { message: `Votre point de livraison est : ${data}`, status: true })
         }
     })
 }
@@ -73,6 +88,9 @@ export const useUserLogout = () => {
         return logoutUser;
     }, {
         onSuccess: () => {
+            const keySnackbar = snackbarKeys.status();
+            queryClient.cancelQueries(keySnackbar);
+            queryClient.setQueryData(keySnackbar, { message: `Vous êtes déconnecté. Au revoir!`, status: true })
             queryClient.setQueryData(userKeys.currentUser(), null);
         }
     })
