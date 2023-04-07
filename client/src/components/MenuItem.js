@@ -43,7 +43,7 @@ const MenuItem = props => {
             userLogout();
             navigate(-1);
         } else {
-            navigate(to);
+            !disabled && navigate(to);
         }
     }
 

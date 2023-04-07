@@ -58,12 +58,16 @@ const useStyles = createUseStyles(theme => ({
         '&:hover': {
             backgroundColor: '#F3F3F3'
         }
+    },
+    disabledButton: {
+        cursor: 'no-drop',
+        opacity: 0.3
     }
 }));
 
 const Button = props => {
     const { textLabel, isSubmitable = false, disabled = false, variant = 'default', size = 'medium', icon, defaultIconPosition = true, onClick, styles } = props;
-    const classes = useStyles({icon, variant, size, defaultIconPosition})
+    const classes = useStyles({icon, variant, size, defaultIconPosition});
     
     let classForVariant;
     switch(variant) {
@@ -83,7 +87,7 @@ const Button = props => {
     if(isSubmitable) return <button disabled={disabled} className={classeNames(styles?.container, classes.btnSubmit)}>{textLabel}</button>
 
     return (
-        <div className={classeNames(styles?.container, classes.root, classForVariant, classes.defaulticonPosition)} onClick={onClick}>
+        <div className={classeNames(styles?.container, classes.root, classForVariant, classes.defaulticonPosition, disabled && classes.disabledButton)} onClick={!disabled && onClick}>
             <span className={classes.textLabel}>{textLabel}</span>
             <span className={classeNames(classes.icon, styles?.icon)}>{icon}</span>
         </div>

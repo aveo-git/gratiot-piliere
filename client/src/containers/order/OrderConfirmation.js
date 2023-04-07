@@ -1,6 +1,6 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useRestoreCart } from '../../api/cart.api';
 import { useCreateOrder } from '../../api/order.api';
 import AvailableCard from '../../components/AvailableCard';
@@ -8,6 +8,8 @@ import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import BillConfirmation from '../../components/order/BillConfirmation';
 import Text from '../../components/Text';
+import { isUserLogged } from '../../api/user.api';
+import { parseToView } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -33,12 +35,17 @@ const useStyles = createUseStyles(theme => ({
         width: '100%',
         backgroundColor: '#FFFFFF',
         paddingTop: 20
+    },
+    shippingAddress: {
+        marginBottom: 15
     }
 }));
 
 const OrderConfirmation = () => {
     const classes = useStyles();
     const navigate = useNavigate();
+    const location = useLocation();
+    const currentUser = parseToView(isUserLogged()) || null;
     const { mutate: deleteCart } = useRestoreCart();
     const { mutate: createOrder } = useCreateOrder();
 
@@ -52,6 +59,11 @@ const OrderConfirmation = () => {
         navigate('/our-products/cart/paid')
     }
 
+    const _openShippingAddress = () => {
+        window?.localStorage.setItem('lastPathname', location.pathname);
+        navigate('/our-products/profil/choise-shipping')
+    }
+
     return (
         <div>
             <Drawer open={true} goBack={_goBack} closeOnOverlay title="Commande">
@@ -62,7 +74,8 @@ const OrderConfirmation = () => {
                     </div>
                     <div className={classes.cta}>
                         <AvailableCard />
-                        <Button textLabel={`Payer`} onClick={_openOrderPaid} variant='primary' />
+                        <Button styles={{ container: classes.shippingAddress }} textLabel={`${!currentUser?.shippingAddress ? 'Choisir' : 'Changer'} mon point de livraison`} onClick={_openShippingAddress} variant='primary' />
+                        <Button disabled={!currentUser?.shippingAddress} textLabel={`Payer`} onClick={_openOrderPaid} variant='primary' />
                     </div>
                 </div>
             </Drawer>

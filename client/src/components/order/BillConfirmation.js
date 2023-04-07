@@ -26,6 +26,9 @@ const useStyles = createUseStyles(theme => ({
     },
     bloc: {
         marginBottom: 30
+    },
+    shippingAddressEmpty: {
+        color: '#ff4209'
     }
 }));
 
@@ -61,8 +64,11 @@ const BillConfirmation = () => {
                 <BillTotalResume cart={cart.map(item => item.product)} styles={{ other: classes.billTotal }} />
             </div>
             <div className={classes.bloc}>
-                <Text>La livraison de la commande se fait à :</Text>
-                {currentUser?.shippingAddress && <Text>{currentUser?.shippingAddress}</Text>}
+                <Text>Vous recuperez votre commande à :</Text>
+                {currentUser?.shippingAddress ?
+                    <Text>{currentUser?.shippingAddress}</Text> : 
+                    <Text styles={{ containerText: classes.shippingAddressEmpty }}>Vous n'avez pas encore d'adresse de livraison.</Text>
+                }
             </div>
             <Text styles={{ containerText: classes.billDate }}>{date}</Text>
         </div>

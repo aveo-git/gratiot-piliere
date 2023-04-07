@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import TextField from '../../components/TextField';
 
-import imageMap from '../../Assets/images/map-reunion.png'
-import { capitalizeFirstLetter } from '../../misc/utils';
-import { getShippingAdressUser, useSetShippingAddressUser } from '../../api/user.api';
+import imageMap from '../../Assets/images/map-reunion.png';
 import { useGetsnackBarStatus } from '../../api/snackbar.api';
+import { getShippingAdressUser, useSetShippingAddressUser } from '../../api/user.api';
 import Snackbar from '../../components/Snackbar';
+import { capitalizeFirstLetter } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -72,7 +72,9 @@ const ShippingLocation = props => {
     const classes = useStyles({imageMap});
 
     const _goBack = () => {
-        navigate(-1)
+        const lastPath = window?.localStorage.getItem('lastPathname');
+        const isPathFromCart = lastPath.includes('confirmation');
+        lastPath && isPathFromCart ? navigate(lastPath) : navigate(-1)
     }
     
     const _handleCategory = (e) => {
