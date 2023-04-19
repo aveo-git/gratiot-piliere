@@ -27,15 +27,42 @@ const useStyles = createUseStyles(theme => ({
     },
     download: {
         marginLeft: 'auto'
+    },
+    state: {
+        fontSize: 12,
+        position: 'relative',
+        right: 15,
+        bottom: 5
+    },
+    canceled: {
+        color: '#ff4209'
+    },
+    paid: {
+        color: '#000000'
     }
 }));
 
 const MenuItem = props => {
-    const { icon, title, to, isFirstItem, disabled = false, downloaded, styles } = props;
+    const { icon, title, to, isFirstItem, disabled = false, downloaded, status, styles } = props;
     const classes = useStyles({disabled, isFirstItem});
     const { mutate: userLogout } = useUserLogout();
     const navigate = useNavigate();
     const location = useLocation();
+    let stateLabel = '';
+    let stateColorClass = '';
+    switch(status) {
+        case 'canceled':
+            stateLabel = 'Annulée';
+            stateColorClass = classes.canceled;
+            break;
+        case 'paid':
+            stateLabel = 'Payée';
+            stateColorClass = classes.paid;
+            break;
+        default:
+            stateLabel = 'Indefinie';
+            break;
+    }
 
     const _handleRoot = () => {
         window?.localStorage.setItem('lastPathname', location.pathname)
@@ -49,7 +76,7 @@ const MenuItem = props => {
 
     return (
         <div className={classNames(classes.root, styles?.root)} onClick={_handleRoot} >
-            <span className={classes.icon}>{icon}</span><span>{title}</span>{downloaded && <span className={classes.download}><IconDownload/></span>}
+            <span className={classes.icon}>{icon}</span><span>{title}</span><span className={classes.download}><span className={classNames(classes.state, stateColorClass)}>{stateLabel}</span>{downloaded && <IconDownload/>}</span>
         </div>
     )
 }

@@ -9,7 +9,7 @@ const server = new ParseServer({
   databaseURI: 'mongodb://localhost:27017/gratiot',
   appId: 'myAppId',
   masterKey: 'myMasterKey', 
-  serverURL: 'http://localhost:1338/parse'
+  serverURL: `http://localhost:1338/parse`
 });
 
 

@@ -1,15 +1,16 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useRestoreCart } from '../../api/cart.api';
+import { useNavigate } from 'react-router-dom';
+
+import { useGetCarts } from '../../api/cart.api';
 import { useCreateOrder } from '../../api/order.api';
+import { isUserLogged } from '../../api/user.api';
 import AvailableCard from '../../components/AvailableCard';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
-import BillConfirmation from '../../components/order/BillConfirmation';
 import Text from '../../components/Text';
-import { isUserLogged } from '../../api/user.api';
-import { parseToView } from '../../misc/utils';
+import BillConfirmation from '../../components/order/BillConfirmation';
+import { groupByIdforCart, parseToView } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -44,9 +45,9 @@ const useStyles = createUseStyles(theme => ({
 const OrderConfirmation = () => {
     const classes = useStyles();
     const navigate = useNavigate();
-    const location = useLocation();
-    const { mutate: deleteCart } = useRestoreCart();
     const { mutate: createOrder } = useCreateOrder();
+    const { cart } = useGetCarts() || [];
+    const products = groupByIdforCart(cart);
     const currentUser = parseToView(isUserLogged()) || null;
 
     const _goBack = () => {
@@ -54,14 +55,7 @@ const OrderConfirmation = () => {
     }
 
     const _openOrderPaid = () => {
-        createOrder()
-        deleteCart()
-        navigate('/our-products/cart/paid')
-    }
-
-    const _openShippingAddress = () => {
-        window?.localStorage.setItem('lastPathname', location.pathname);
-        navigate('/our-products/profil/choise-shipping')
+        createOrder();
     }
 
     return (
@@ -70,11 +64,10 @@ const OrderConfirmation = () => {
                 <div className={classes.container}>
                     <div className={classes.content}>
                         <Text styles={{ containerText: classes.titleText }} textCenter >Voici le résumé de votre commande :</Text>
-                        <BillConfirmation/>
+                        <BillConfirmation products={products} />
                     </div>
                     <div className={classes.cta}>
                         <AvailableCard />
-                        <Button styles={{ container: classes.shippingAddress }} textLabel={`${!currentUser?.shippingAddress ? 'Choisir' : 'Changer'} mon point de livraison`} onClick={_openShippingAddress} variant='primary' />
                         <Button disabled={!currentUser?.shippingAddress} textLabel={`Payer`} onClick={_openOrderPaid} variant='primary' />
                     </div>
                 </div>

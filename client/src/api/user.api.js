@@ -54,6 +54,7 @@ export const useSetShippingAddressUser = () => {
     return useMutation((payload) => {
         const currentUser = Parse.User.current();
         currentUser.set('shippingAddress', payload);
+        currentUser.save();
         return payload;
     }, {
         onSuccess: (data) => {

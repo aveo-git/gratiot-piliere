@@ -11,10 +11,12 @@ import BillDetails from './BillDetails';
 import History from '../containers/profil/History';
 import OrderConfirmation from '../containers/order/OrderConfirmation';
 import OrderPaid from '../containers/order/OrderPaid';
+import { useGetCarts } from '../api/cart.api';
 
 const PrivateRoute = props => {
     const { comp } = props;
     const isLogged = isUserLogged();
+    const { cart } = useGetCarts() || [];
 
     if(!isLogged) return <Navigate to="/" />;
     switch(comp) {
@@ -33,8 +35,11 @@ const PrivateRoute = props => {
         case 'history':
             return <History/>
         case 'orderConfirmation':
-            return <OrderConfirmation/>
+            if(cart.length > 0) {
+                return <OrderConfirmation/>
+            } else return <Navigate to="/our-products" />
         case 'orderPaid':
+        case 'orderCanceled':
             return <OrderPaid/>
         default:
             return <Dashboard/>

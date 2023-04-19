@@ -21,11 +21,11 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const BillTotalResume = props => {
-  const { styles, cart } = props;
+  const { styles, products } = props;
   const classes = useStyles();
   const currency = CURRENCY;
-  const totalTTC = getTotal(cart);
-  const totalHT = getTotal(cart, true);
+  const totalTTC = getTotal(products);
+  const totalHT = getTotal(products, true);
 
   return (
     <div className={classNames(classes.container, styles?.other)}>

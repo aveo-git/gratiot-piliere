@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Parse from 'parse';
 import { parseToView } from "../misc/utils";
 
-const Cart = Parse.Object.extend("Cart")
-const Product = Parse.Object.extend("Product");
+export const Cart = Parse.Object.extend("Cart")
+export const Product = Parse.Object.extend("Product");
 
 export const cartKeys = {
     all: () => ['carts'],
@@ -75,7 +75,7 @@ export const useRestoreCart = () => {
     }), {
         onSuccess: (data) => {
             const keys = cartKeys.all();
-            queryClient.removeQueries(keys)
+            queryClient.removeQueries(keys);
         }
     })
 }
@@ -86,8 +86,8 @@ export const useSetTotalTTC = () => {
     return useMutation((payload) => payload, {
         onSuccess: (data) => {
             const key = cartKeys.pay();
-            queryClient.cancelQueries(key)
-            queryClient.setQueryData(key, data)
+            queryClient.cancelQueries(key);
+            queryClient.setQueryData(key, data);
         }
     })
 }

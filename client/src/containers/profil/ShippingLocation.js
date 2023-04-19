@@ -9,7 +9,7 @@ import imageMap from '../../Assets/images/map-reunion.png';
 import { useGetsnackBarStatus } from '../../api/snackbar.api';
 import { getShippingAdressUser, useSetShippingAddressUser } from '../../api/user.api';
 import Snackbar from '../../components/Snackbar';
-import { capitalizeFirstLetter } from '../../misc/utils';
+import { capitalizeFirstLetter, shippingSites } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -122,5 +122,3 @@ const ShippingLocation = props => {
 }
 
 export default ShippingLocation
-
-export const shippingSites = ['Bras-Panon', 'Entre-Deux', 'L\'Etang-Salé', 'La plaine-des-Palmistes', 'Le port', 'Les Avirons', ]

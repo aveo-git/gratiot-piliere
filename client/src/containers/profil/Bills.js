@@ -22,6 +22,7 @@ const Bills = props => {
     const navigate = useNavigate()
     const { orders, isLoading } = useGetOrders() || []
     const bills = groupOrderByMonth(orders).filter(item => item.order.length > 0);
+    console.log('bills :>> ', bills);
 
     const _goBack = () => {
         const lastPath = window?.localStorage.getItem('lastPathname');

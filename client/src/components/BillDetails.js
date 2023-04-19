@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteOrder, useGetOneOrderById } from '../api/order.api';
 import { isUserLogged } from '../api/user.api';
-import { groupById, lastPath, parseToView } from '../misc/utils';
+import { groupById, lastPath, parseToView, toShortDateString } from '../misc/utils';
 import Button from './Button';
 import Drawer from './Drawer';
 import Loading from './Loading';
@@ -50,19 +50,19 @@ const useStyles = createUseStyles(theme => ({
 }));
 
 const BillDetails = () => {
-    const classes = useStyles()
-    const navigate = useNavigate()
-    const location = useLocation()
-    const id = lastPath(location.pathname)
-    const {order, isLoading} = useGetOneOrderById(id)
-    const { mutate: deleteOrder } = useDeleteOrder()
+    const classes = useStyles();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const id = lastPath(location.pathname);
+    const {order, isLoading} = useGetOneOrderById(id);
+    const { mutate: deleteOrder } = useDeleteOrder();
     const currentUser = parseToView(isUserLogged()) || null;
 
     const ref = order.id
     const products = groupById(order.products);
 
     const _goBack = () => {
-        navigate(-1)
+        navigate(-1);
     }
 
     const orderDetails = products?.map((product, index) => (
@@ -70,8 +70,8 @@ const BillDetails = () => {
     ))
 
     const _handleDeleteBill = () => {
-        deleteOrder(id)
-        navigate(-1)
+        deleteOrder(id);
+        navigate(-1);
     }
 
     return (
@@ -96,13 +96,16 @@ const BillDetails = () => {
                                 <div className={classes.orderDetails}>
                                     {orderDetails}
                                 </div>
-                                <BillTotalResume cart={order.products} styles={{ other: classes.billTotal }} />
+                                <BillTotalResume products={products} styles={{ other: classes.billTotal }} />
                             </div>
                             <div className={classes.bloc}>
                                 <Text>La livraison de la commande se fait à :</Text>
-                                <Text>{currentUser?.address}</Text>
+                                <Text>{order?.shipping?.address}</Text>
                             </div>
-                            <Text styles={{ containerText: classes.billDate }}>{order.createdAt}</Text>
+                            <div className={classes.bloc}>
+                                <Text>La livraison de la commande se fait à :</Text>
+                                <Text>{`${toShortDateString(order?.shipping?.date)}, à ${order?.shipping?.date.split('T')[1]}`}</Text>
+                            </div>
                         </div>
                     </div>
                     <div className={classes.cta}>

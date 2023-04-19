@@ -1,13 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { createUseStyles } from 'react-jss';
 
+import { isUserLogged } from '../../api/user.api';
+import { parseToView, toShortDateString } from '../../misc/utils';
 import Text from '../Text';
 import BillTotalResume from './BillTotalResume';
 import OrderDetail from './OrderDetail';
-import { useGetCarts } from '../../api/cart.api';
-import moment from 'moment';
-import { groupByIdforCart, parseToView } from '../../misc/utils';
-import { isUserLogged } from '../../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
     container: {
@@ -32,17 +30,16 @@ const useStyles = createUseStyles(theme => ({
     }
 }));
 
-const BillConfirmation = () => {
-    const classes = useStyles()
-    const { cart } = useGetCarts() || []
-    const products = groupByIdforCart(cart)
+const BillConfirmation = (props) => {
+    const { products } = props;
+    const classes = useStyles();
     const currentUser = parseToView(isUserLogged()) || null;
-    const ref = null
-    const date = moment().format()
+    const ref = null;
+    const shippingSetting = JSON.parse(window?.localStorage.getItem('shippingSetting')) || null
 
-    const orderDetails = products.map((product, index) => (
+    const orderDetails = products?.map((product, index) => (
         <OrderDetail key={index} productCart={product} />
-    ))
+    ));
 
     return (
         <div className={classes.container}>
@@ -61,16 +58,16 @@ const BillConfirmation = () => {
                 <div className={classes.orderDetails}>
                     {orderDetails}
                 </div>
-                <BillTotalResume cart={cart.map(item => item.product)} styles={{ other: classes.billTotal }} />
+                <BillTotalResume products={products} styles={{ other: classes.billTotal }} />
             </div>
             <div className={classes.bloc}>
-                <Text>Vous recuperez votre commande à :</Text>
-                {currentUser?.shippingAddress ?
-                    <Text>{currentUser?.shippingAddress}</Text> : 
-                    <Text styles={{ containerText: classes.shippingAddressEmpty }}>Vous n'avez pas encore d'adresse de livraison.</Text>
-                }
+                <Text>Lieu de livraison :</Text>
+                <Text>{shippingSetting?.shippingAddress}</Text>
             </div>
-            <Text styles={{ containerText: classes.billDate }}>{date}</Text>
+            <div className={classes.bloc}>
+                <Text>Date de livraison :</Text>
+                <Text>{`${toShortDateString(shippingSetting?.shippingDate)}, à ${shippingSetting?.shippingDate.split('T')[1]}`}</Text>
+            </div>
         </div>
     )
 }

@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Parse from 'parse';
-import { parseToView } from "../misc/utils";
-import { cartKeys } from "./cart.api";
+import Axios from 'axios';
+import { crypt, getTotal, groupByIdforCart, parseToView } from "../misc/utils";
+import { Cart, cartKeys } from "./cart.api";
 
 const Order = Parse.Object.extend("Order");
 
@@ -12,7 +13,7 @@ export const orderKeys = {
 };
 
 export const useGetOrders = ( config ) => {
-    const query = new Parse.Query(Order);
+    const query = new Parse.Query(Order).equalTo('user', Parse.User.current());
 
     const { data, ...res } = useQuery(orderKeys.all(), () => query.find(), {
         ...config,
@@ -24,24 +25,64 @@ export const useGetOrders = ( config ) => {
 
 export const useCreateOrder = () => {
     const order = new Order();
+    const queryCart = new Parse.Query(Cart);
     const queryClient = useQueryClient();
+    const query = queryClient.getQueryData(cartKeys.all());
+    const cart = query?.map(product => parseToView(product));
+    const shippingSetting = JSON.parse(window?.localStorage.getItem('shippingSetting')) || null
 
     return useMutation((payload) => {
-        const cart = queryClient.getQueryData(cartKeys.all())
-        const productsFromCart = cart.map(item => {
-            return item.get('product')
+        const productsFromCart = query.map(item => {
+            return item.get('product');
         })
-        order.set('products', productsFromCart)
-        return order.save()
+        order.set('products', productsFromCart);
+        order.set('state', 'pending');
+        order.set('shipping', { address: shippingSetting?.shippingAddress, date: shippingSetting?.shippingDate });
+        order.set('user', Parse.User.current());
+
+        return order.save();
     }, {
-        onSuccess: (data) => {
+        onSuccess: (order) => {
+            Axios.post('http://dev.api-payplug.loc/index.php/api/confirm', {}).then((res) => {
+                if(res) {
+                    const currentUser = parseToView(Parse.User.current()) || {};
+                    const products = groupByIdforCart(cart);
+                    // *100 rule for payplug amount
+                    const totalTTC = getTotal(products)*100;
+                    const data = {
+                        userId: currentUser?.id,
+                        firstName: crypt(currentUser?.firstName),
+                        lastName: crypt(currentUser?.lastName),
+                        email: crypt(currentUser?.email),
+                        address: crypt(currentUser?.address),
+                        mobile: crypt(currentUser?.mobile),
+                        total: crypt(totalTTC+''),
+                        orderId: order.id
+                    }
+            
+                    window.location.href = `http://dev.api-payplug.loc/index.php/api/confirm?data=${encodeURIComponent(JSON.stringify(data))}`
+
+                    // Destroy cart
+                    queryCart.each(async cart => {
+                        await cart.destroy()
+                    });
+                }
+            }).catch((err) => {
+                console.log('err :>> ', err);
+            })
+
             const keyOrder = orderKeys.order();
             const keyOrders = orderKeys.all();
-            queryClient.cancelQueries(keyOrder);
-            queryClient.setQueryData(keyOrder, data);
 
-            const prevOrders = queryClient.getQueryData(keyOrders);
-            queryClient.setQueryData(keyOrders, [...prevOrders, data])
+            // Delete cache cart
+            // const keysCart = cartKeys.all();
+            // queryClient.removeQueries(keysCart);
+
+            queryClient.cancelQueries(keyOrder);
+            queryClient.setQueryData(keyOrder, order);
+
+            const prevOrders = queryClient.getQueryData(keyOrders) || [];
+            queryClient.setQueryData(keyOrders, [...prevOrders, order]);
         },
     });
 };
@@ -75,4 +116,12 @@ export const useDeleteOrder = () => {
             queryClient.setQueryData(keys, prev.filter(item => item.id !== data.id))
         }
     })
+}
+
+export const setOrderStatus = async (id, state) => {
+    const query = new Parse.Query(Order).equalTo('objectId', id);
+    const order = await query.first();
+
+    order.set('state', state);
+    order.save();
 }

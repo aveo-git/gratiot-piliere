@@ -1,5 +1,5 @@
 import { IconLoader2, IconTrash } from '@tabler/icons-react';
-import React from 'react';
+import React, { useState } from 'react';
 import { createUseStyles } from 'react-jss';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useGetCarts, useRestoreCart } from '../../api/cart.api';
@@ -11,6 +11,7 @@ import NoContent from '../../components/order/NoContent';
 import OrderItem from '../../components/order/OrderItem';
 import { groupByIdforCart } from '../../misc/utils';
 import { isUserLogged } from '../../api/user.api';
+import OrderSetting from './OrderSetting';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -58,13 +59,14 @@ const useStyles = createUseStyles(theme => ({
 
 const OrderCart = props => {
     const classes = useStyles();
+    const [openSetting, setOpenSetting] = useState(false);
     const navigate = useNavigate();
     const isLogged = isUserLogged();
     const { cart } = useGetCarts() || []
     const { mutate: deleteCart, isLoading } = useRestoreCart();
     const productsOnCart = cart.map(item => item.product);
     const isCartEmpty = productsOnCart.length <= 0;
-    let cartGrouped = groupByIdforCart(cart)
+    let cartGrouped = groupByIdforCart(cart);
 
     const _resetOrders = () => {
         deleteCart();
@@ -72,7 +74,7 @@ const OrderCart = props => {
 
     const _openBillConfirmation = () => {
         if(isLogged) {
-            navigate('confirmation')
+            setOpenSetting(true);
         } else {
             navigate('login')
         }
@@ -93,13 +95,14 @@ const OrderCart = props => {
                             </div>
                         </div>
                         <div className={classes.cta}>
-                            <BillTotalResume styles={{ other: classes.billTotal }} cart={productsOnCart} />
+                            <BillTotalResume styles={{ other: classes.billTotal }} products={cartGrouped} />
                             <div className={classes.info}>Valider votre commande en cliquant sur commander :</div>
                             <Button textLabel='Commander' onClick={_openBillConfirmation} variant='primary' />
                         </div>
                     </div>
                 }
             </Drawer>
+            <OrderSetting isOpen={openSetting} setOpen={setOpenSetting} />
             <Outlet/>
         </div>
     )

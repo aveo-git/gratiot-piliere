@@ -32,7 +32,14 @@ const useStyles = createUseStyles(theme => ({
 		fontFamily: 'Inter-Medium',
         width: 464,
         height: '100vh',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#FFFFFF',
+        overflowY: 'scroll',
+        '&::-webkit-scrollbar': {
+            width: 0
+        },
+        '&:focus-visible': {
+            outline: 'none'
+        }
     },
     header: {
         position: 'relative', 

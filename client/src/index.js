@@ -8,10 +8,8 @@ import './index.css';
 import Routes from './routes/Routes';
 import 'react-loading-skeleton/dist/skeleton.css'
 
-
-
 Parse.initialize("myAppId", "YOUR_JAVASCRIPT_KEY", "myMasterKey");
-Parse.serverURL = 'http://localhost:1338/parse'
+Parse.serverURL = `${process.env.REACT_APP_SERVER_URL}parse`
 
 const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 const queryClient = new QueryClient({

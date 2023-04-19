@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useState } from 'react'
 import { createUseStyles } from 'react-jss';
+import { IconArrowDown } from '@tabler/icons-react';
+
 import LeftBG from '../Assets/images/bg-left.jpg'
 import logo from '../Assets/images/logo-champagne-gratiot.png'
 import Information from './Information ';
 import Text from '../components/Text';
-import { IconArrowDown } from '@tabler/icons-react';
 import TextField from '../components/TextField';
 import Button from '../components/Button';
 import classNames from 'classnames';
@@ -123,6 +124,10 @@ const LeftSection = () => {
         setIsMoved(true)
     }
 
+    const _handleAPI = () => {
+        
+    }
+
     return (
         <div className={classes.container}>
             <AnimatePresence>
@@ -166,6 +171,7 @@ const LeftSection = () => {
                                     <TextField styles={{ root: classes.rootTextfield }} name="username" label="Email"/>
                                     <TextField styles={{ root: classes.rootTextfield }} name="username" label="Message"/>
                                     <Button isSubmitable variant='primary' textLabel="Envoyer" styles={{container: classes.buttonSendContact}}/>
+                                    <Button variant='primary' textLabel="Test API" onClick={_handleAPI} styles={{container: classes.buttonSendContact}}/>
                                 </div>
                             </>
                             }

@@ -1,10 +1,14 @@
-import { IconCircleCheck } from '@tabler/icons-react'
+import { IconCircleCheck, IconCircleX } from '@tabler/icons-react'
 import React from 'react'
 import { createUseStyles } from 'react-jss'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../components/Button'
 import Drawer from '../../components/Drawer'
 import BillConfirmation from '../../components/order/BillConfirmation'
+import { groupById, lastPath } from '../../misc/utils'
+import { useGetOneOrderById, setOrderStatus } from '../../api/order.api'
+import Loading from '../../components/Loading'
+import classNames from 'classnames'
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -42,6 +46,11 @@ const useStyles = createUseStyles(theme => ({
         fontFamily: 'Poppins-Bold',
         marginBottom: 15
     },
+    paidCancel: {
+        '& svg': {
+            color: '#ff4209'
+        }
+    },
     titleText: {
         margin: '0px 0px 25px 0px'
     },
@@ -64,7 +73,26 @@ const useStyles = createUseStyles(theme => ({
 const OrderPaid = () => {
     const classes = useStyles();
     const navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation();
+    const isPaidSuccess = location.pathname.includes('paid-success');
+    const id = lastPath(location.pathname);
+    const {order, isLoading} = useGetOneOrderById(id) || {};
+    const orderState = order?.state;
+    const products = groupById(order.products);
+    window?.localStorage.setItem('lastPathname', location.pathname);
+    
+    if(orderState === 'pending') {
+        if(isPaidSuccess) {
+            setOrderStatus(id, 'paid');
+        } else setOrderStatus(id, 'canceled');
+    } else {
+        if(isPaidSuccess && orderState === 'canceled') {
+            navigate(`/our-products/cart/paid-cancel/${order.id}`)
+        }
+        if(!isPaidSuccess && orderState === 'paid') {
+            navigate(`/our-products/cart/paid-success/${order.id}`)
+        }
+    }
 
     const _closeModal = () => {
         navigate('/our-products')
@@ -79,17 +107,31 @@ const OrderPaid = () => {
         <div>
             <Drawer open={true} isModalClosable closeModal={_closeModal} closeOnOverlay={false}>
                 <div className={classes.container}>
+                    {isLoading && <Loading forDrawer/>}
                     <div className={classes.content}>
-                        <div className={classes.titleDrawer}>
-                            <IconCircleCheck/>
-                            <span>Commande réussie</span>
-                        </div>
-                        <div className={classes.information}>
-                            Vous allez recevoir un mail <br /> sur le détails des paiements.
-                            <br /><br />
-                            Merci !
-                        </div>
-                        <BillConfirmation/>
+                        {isPaidSuccess ? 
+                            <>
+                                <div className={classes.titleDrawer}>
+                                    <IconCircleCheck/>
+                                    <span>Commande réussie</span>
+                                </div>
+                                <div className={classes.information}>
+                                    Vous allez recevoir un mail <br /> sur le détails des paiements.
+                                    <br /><br />
+                                    Merci !
+                                </div>
+                            </> : 
+                            <>
+                                <div className={classNames(classes.titleDrawer, !isPaidSuccess && classes.paidCancel)}>
+                                    <IconCircleX/>
+                                    <span>Commande annulé</span>
+                                </div>
+                                <div className={classes.information}>
+                                    Vous avez annulé votre commande. <br /> Besoin d'aide ?
+                                    <br /><br />
+                                </div>
+                            </>}
+                        <BillConfirmation products={products} isOrderPaid={isPaidSuccess} />
                     </div>
                     <div className={classes.cta}>
                         <Button onClick={_handleBills} styles={{ container: classes.buttonBills }} textLabel='Voir mes factures' variant='primary' />
