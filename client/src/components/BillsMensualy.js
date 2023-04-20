@@ -28,7 +28,7 @@ const BillsMensualy = props => {
     return (
         <div className={classes.container}>
             <Text styles={{ containerText: classes.month }}>{month}</Text>
-            {order.map((item, id) => <MenuItem key={id} to={item.id} icon={<IconReceipt/>} title={toDateString(item.createdAt)} downloaded styles={{ root: classes.menuitemRoot }} /> ).reverse()}
+            {order.map((item, id) => <MenuItem key={id} to={item.id} icon={<IconReceipt/>} title={toDateString(item.createdAt)} status={item.state} downloaded styles={{ root: classes.menuitemRoot }} /> ).reverse()}
         </div>
     )
 }

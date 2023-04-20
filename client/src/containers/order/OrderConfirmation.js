@@ -1,14 +1,15 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useNavigate } from 'react-router-dom';
-import { useGetTotalTTC, useRestoreCart } from '../../api/cart.api';
+
+import { useGetCarts } from '../../api/cart.api';
 import { useCreateOrder } from '../../api/order.api';
 import AvailableCard from '../../components/AvailableCard';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
-import BillConfirmation from '../../components/order/BillConfirmation';
 import Text from '../../components/Text';
-import { CURRENCY } from '../../misc/utils';
+import BillConfirmation from '../../components/order/BillConfirmation';
+import { groupByIdforCart } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -34,24 +35,25 @@ const useStyles = createUseStyles(theme => ({
         width: '100%',
         backgroundColor: '#FFFFFF',
         paddingTop: 20
+    },
+    shippingAddress: {
+        marginBottom: 15
     }
 }));
 
 const OrderConfirmation = () => {
-    const classes = useStyles()
-    const navigate = useNavigate()
-    const { mutate: deleteCart } = useRestoreCart()
-    const { mutate: createOrder } = useCreateOrder()
-    const pay = useGetTotalTTC()
+    const classes = useStyles();
+    const navigate = useNavigate();
+    const { mutate: createOrder } = useCreateOrder();
+    const { cart } = useGetCarts() || [];
+    const products = groupByIdforCart(cart);
 
     const _goBack = () => {
-        navigate(-1)
+        navigate('/our-products/cart')
     }
 
     const _openOrderPaid = () => {
-        createOrder()
-        deleteCart()
-        navigate('/our-products/cart/paid')
+        createOrder();
     }
 
     return (
@@ -60,11 +62,11 @@ const OrderConfirmation = () => {
                 <div className={classes.container}>
                     <div className={classes.content}>
                         <Text styles={{ containerText: classes.titleText }} textCenter >Voici le résumé de votre commande :</Text>
-                        <BillConfirmation/>
+                        <BillConfirmation products={products} />
                     </div>
                     <div className={classes.cta}>
                         <AvailableCard />
-                        <Button textLabel={`Payer - ${pay} ${CURRENCY}`} onClick={_openOrderPaid} variant='primary' />
+                        <Button textLabel={`Payer`} onClick={_openOrderPaid} variant='primary' />
                     </div>
                 </div>
             </Drawer>

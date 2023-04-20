@@ -8,7 +8,6 @@ import Button from '../components/Button'
 import CartButton from '../components/CartButton'
 import Text from '../components/Text'
 import Filtre from '../containers/Filtre'
-import LoginComp from '../containers/LoginComp'
 import ProductDisplay from '../containers/ProductDisplay'
 import { WIDTH_RIGHT_SECTION } from '../misc/utils'
 import logo from '../Assets/images/logo-champagne-gratiot.png'
@@ -72,16 +71,8 @@ const ProductPlanner = () => {
     const isLogged = isUserLogged()
     const navigate = useNavigate()
 
-    const _handleLogin = () => {
-        navigate('login')
-    }
-
     const _handleCart = () => {
         navigate('cart')
-    }
-
-    const _handleSignin = () => {
-        navigate('signin')
     }
 
     const _handleProfil = () => {
@@ -98,9 +89,9 @@ const ProductPlanner = () => {
                 </div>
                 <Text styles={{ containerText: classes.sectionTitle }} variant='h3' subtitle='Vous trouverez ici les meilleurs produits du mois.'>Nos produits</Text>
                 <div className={classes.buttons}>
-                    {isLogged ? 
-                        <><CartButton handleCart={_handleCart} /> <Button variant='primary' onClick={_handleProfil} icon={<IconUser/>} styles={{ container: classes.buttonUser, icon: classes.icon }} /></> : 
-                        <LoginComp handleLogin={_handleLogin} handleSignin={_handleSignin} />
+                    <CartButton handleCart={_handleCart} />
+                    {isLogged && <Button variant='primary' onClick={_handleProfil} icon={<IconUser/>} styles={{ container: classes.buttonUser, icon: classes.icon }} />
+                        // <LoginComp handleLogin={_handleLogin} handleSignin={_handleSignin} />
                     }
                 </div>
             </div>

@@ -1,21 +1,16 @@
-import React from 'react'
+import React from 'react';
 import { createUseStyles } from 'react-jss';
 
+import { isUserLogged } from '../../api/user.api';
+import { parseToView, toShortDateString } from '../../misc/utils';
 import Text from '../Text';
 import BillTotalResume from './BillTotalResume';
 import OrderDetail from './OrderDetail';
-import { useGetCarts } from '../../api/cart.api';
-import moment from 'moment';
-import { groupByIdforCart, parseToView } from '../../misc/utils';
-import { isUserLogged } from '../../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
     container: {
         border: '1px solid #DFDFDF',
         padding: 25
-    },
-    billTotal: {
-        textAlign: 'right'
     },
     orderDetails: {
         padding: '10px 0',
@@ -29,20 +24,22 @@ const useStyles = createUseStyles(theme => ({
     },
     bloc: {
         marginBottom: 30
+    },
+    shippingAddressEmpty: {
+        color: '#ff4209'
     }
 }));
 
-const BillConfirmation = () => {
-    const classes = useStyles()
-    const { cart } = useGetCarts() || []
-    const products = groupByIdforCart(cart)
+const BillConfirmation = (props) => {
+    const { products } = props;
+    const classes = useStyles();
     const currentUser = parseToView(isUserLogged()) || null;
-    const ref = null
-    const date = moment().format()
+    const ref = null;
+    const shippingSetting = JSON.parse(window?.localStorage.getItem('shippingSetting')) || null
 
-    const orderDetails = products.map((product, index) => (
+    const orderDetails = products?.map((product, index) => (
         <OrderDetail key={index} productCart={product} />
-    ))
+    ));
 
     return (
         <div className={classes.container}>
@@ -61,13 +58,16 @@ const BillConfirmation = () => {
                 <div className={classes.orderDetails}>
                     {orderDetails}
                 </div>
-                <BillTotalResume cart={cart.map(item => item.product)} styles={{ other: classes.billTotal }} />
+                <BillTotalResume products={products} styles={{ other: classes.billTotal }} />
             </div>
             <div className={classes.bloc}>
-                <Text>La livraison de la commande se fait à :</Text>
-                <Text>{currentUser?.address}</Text>
+                <Text>Lieu de livraison :</Text>
+                <Text>{shippingSetting?.shippingAddress}</Text>
             </div>
-            <Text styles={{ containerText: classes.billDate }}>{date}</Text>
+            <div className={classes.bloc}>
+                <Text>Date de livraison :</Text>
+                <Text>{`${toShortDateString(shippingSetting?.shippingDate)}, à ${shippingSetting?.shippingDate.split('T')[1]}`}</Text>
+            </div>
         </div>
     )
 }

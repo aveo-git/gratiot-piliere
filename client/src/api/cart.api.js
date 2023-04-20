@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Parse from 'parse';
 import { parseToView } from "../misc/utils";
 
-const Cart = Parse.Object.extend("Cart")
-const Product = Parse.Object.extend("Product");
+export const Cart = Parse.Object.extend("Cart")
+export const Product = Parse.Object.extend("Product");
 
 export const cartKeys = {
     all: () => ['carts'],
@@ -17,20 +17,21 @@ export const useCreateCart = () => {
     const queryClient = useQueryClient();
 
     return useMutation(async (payload) => {
-        const query = new Parse.Query(Product).equalTo('objectId', payload?.product?.objectId)
+        const query = new Parse.Query(Product).equalTo('objectId', payload?.product?.objectId);
         const product = await query.first();
-        const result = {success: true, operand: payload.operand}
+        const result = {success: true, operand: payload.operand};
 
         switch (payload.operand) {
             case 'plus':
-                cart.set('product', product)
-                cart.save()
+                cart.set('product', product);
+                cart.set('user', Parse.User.current());
+                cart.save();
                 result.data = cart;
                 break;
             case 'minus':
                 const query_2 = new Parse.Query(Cart).equalTo('product', product);
                 const test = await query_2.first();
-                test.destroy()
+                test.destroy();
                 result.data = test;
                 break;
             default:
@@ -43,12 +44,12 @@ export const useCreateCart = () => {
             if(success) {
                 const keys = cartKeys.all();
                 queryClient.cancelQueries(keys);
-                const prev = queryClient.getQueryData(keys)
+                const prev = queryClient.getQueryData(keys);
                 if (prev && !!data) {
                     if(operand === 'plus') {
                         queryClient.setQueryData(keys, [...prev, data]);
                     } else {
-                        queryClient.setQueryData(keys, prev.filter(item => item.id !== data.id))
+                        queryClient.setQueryData(keys, prev.filter(item => item.id !== data.id));
                     }
                 }
             }
@@ -57,12 +58,12 @@ export const useCreateCart = () => {
 };
 
 export const useGetCarts = (config) => {
-    const query = new Parse.Query(Cart);
+    const query = new Parse.Query(Cart).equalTo('user', Parse.User.current());
     const { data, ...res } = useQuery(cartKeys.all(), () => query.find(), {
         ...config,
     });
 
-    const cart = data?.map(product => parseToView(product))
+    const cart = data?.map(product => parseToView(product));
     return { cart: cart ?? [], res};
 }
 
@@ -71,11 +72,11 @@ export const useRestoreCart = () => {
     const queryClient = useQueryClient();
     
     return useMutation(() => query.each(async cart => {
-        await cart.destroy()
+        await cart.destroy();
     }), {
         onSuccess: (data) => {
             const keys = cartKeys.all();
-            queryClient.removeQueries(keys)
+            queryClient.removeQueries(keys);
         }
     })
 }
@@ -86,8 +87,8 @@ export const useSetTotalTTC = () => {
     return useMutation((payload) => payload, {
         onSuccess: (data) => {
             const key = cartKeys.pay();
-            queryClient.cancelQueries(key)
-            queryClient.setQueryData(key, data)
+            queryClient.cancelQueries(key);
+            queryClient.setQueryData(key, data);
         }
     })
 }

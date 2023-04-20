@@ -1,11 +1,12 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useState } from 'react'
 import { createUseStyles } from 'react-jss';
+import { IconArrowDown } from '@tabler/icons-react';
+
 import LeftBG from '../Assets/images/bg-left.jpg'
 import logo from '../Assets/images/logo-champagne-gratiot.png'
 import Information from './Information ';
 import Text from '../components/Text';
-import { IconArrowDown } from '@tabler/icons-react';
 import TextField from '../components/TextField';
 import Button from '../components/Button';
 import classNames from 'classnames';
@@ -127,6 +128,7 @@ const LeftSection = () => {
         <div className={classes.container}>
             <AnimatePresence>
                 <motion.div
+                    key='content'
                     className={classes.leftSection}
                     initial={{ y: '0px' }}
                     animate={isMoved ? { y: '-100%' } : { y: '0px' }}
@@ -143,6 +145,7 @@ const LeftSection = () => {
                     </div>
                 </motion.div>
                 <motion.div
+                    key='slider-seconde'
                     className={classes.leftSection}
                     initial={{ y: '100vh' }}
                     animate={isMoved ? { y: '-100vh' } : { y: '100vh' }}

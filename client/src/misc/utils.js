@@ -1,7 +1,10 @@
 import { IconLicense, IconMap, IconPower, IconReceipt, IconShieldLock, IconUserCircle } from '@tabler/icons-react';
 import { groupBy } from 'lodash';
 import moment from 'moment';
-import * as yup from 'yup'
+import * as yup from 'yup';
+import aes from 'crypto-js/aes';
+import encHex from 'crypto-js/enc-hex'
+import padZeroPadding from 'crypto-js/pad-zeropadding'
 
 moment.locale('fr')
 moment.updateLocale('fr', {
@@ -16,8 +19,12 @@ export const DAY_FR = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samed
 export const MONTH_FR = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
 
 export const VAT = 20;
-export const WIDTH_RIGHT_SECTION = 280
-export const CURRENCY = '€'
+export const WIDTH_RIGHT_SECTION = 280;
+export const CURRENCY = '€';
+export const KEY_CRYPTAGE = encHex.parse('6df589e0fc09df97b494a33f0b686c36');
+export const IV_CRYPTAGE = encHex.parse('80c1298ba4f92e719f42553b81fca7d7');
+
+export const shippingSites = ['Bras-Panon', 'Entre-Deux', 'L\'Etang-Salé', 'La plaine-des-Palmistes', 'Le port', 'Les Avirons', ]
 
 export const padWithLeadingZeros = number => {
     return String(number).padStart(2, '0');
@@ -117,7 +124,7 @@ export const getTotal = (orders, withVAT = false) => {
 	if(!orders) return 0;
     return orders.reduce((a, c) =>
         // a + c.quantity*(withVAT ? getValeurWithVAT(c?.price) : c?.price)
-        a + (withVAT ? getValeurWithVAT(c?.price) : c?.price)
+        a + (withVAT ? getValeurWithVAT(c?.product.price*c?.count) : c?.product.price*c?.count)
     , 0)
 }
 
@@ -275,7 +282,10 @@ export const MENU_PROFIL = [
 	{id: 6, title: 'Déconnexion', icon: <IconPower />, disabled: false, to: 'logout'},
 ]
 
-export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data.attributes)), id: data.id, objectId: data.id });
+export const parseToView = (data) => {
+	if(!data) return {};
+	return ({ ...JSON.parse(JSON.stringify(data?.attributes)), id: data?.id, objectId: data?.id })
+}
 
 export const parseUser = (user) => {
 	return {
@@ -370,3 +380,23 @@ export const signupSchema = yup.object().shape({
 	address: yupRequired.string,
 	password: yup.string().min(8)
 })
+
+export const crypt = (text) => {
+	return aes.encrypt(text, KEY_CRYPTAGE, {iv:IV_CRYPTAGE, padding:padZeroPadding}).toString();
+}
+
+export const translateState = (state) => {
+	let stateLabel = '';
+	switch(state) {
+        case 'canceled':
+            stateLabel = 'Annulée';
+            break;
+        case 'paid':
+            stateLabel = 'Payée';
+            break;
+        default:
+            stateLabel = '';
+            break;
+    }
+	return stateLabel;
+}
