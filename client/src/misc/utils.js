@@ -282,7 +282,10 @@ export const MENU_PROFIL = [
 	{id: 6, title: 'Déconnexion', icon: <IconPower />, disabled: false, to: 'logout'},
 ]
 
-export const parseToView = (data) => ({ ...JSON.parse(JSON.stringify(data?.attributes)), id: data?.id, objectId: data?.id });
+export const parseToView = (data) => {
+	if(!data) return {};
+	return ({ ...JSON.parse(JSON.stringify(data?.attributes)), id: data?.id, objectId: data?.id })
+}
 
 export const parseUser = (user) => {
 	return {
@@ -380,4 +383,20 @@ export const signupSchema = yup.object().shape({
 
 export const crypt = (text) => {
 	return aes.encrypt(text, KEY_CRYPTAGE, {iv:IV_CRYPTAGE, padding:padZeroPadding}).toString();
+}
+
+export const translateState = (state) => {
+	let stateLabel = '';
+	switch(state) {
+        case 'canceled':
+            stateLabel = 'Annulée';
+            break;
+        case 'paid':
+            stateLabel = 'Payée';
+            break;
+        default:
+            stateLabel = '';
+            break;
+    }
+	return stateLabel;
 }

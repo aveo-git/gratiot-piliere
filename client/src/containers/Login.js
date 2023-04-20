@@ -46,7 +46,7 @@ const Login = () => {
 
         if (isValid) {
             userLogin(values);
-            location.pathname.includes('our-products') ? navigate('/our-products/cart/confirmation') : navigate(-1)
+            location.pathname.includes('our-products') ? navigate('/our-products') : navigate(-1)
         } else setErrorValidation(true)
     }
 

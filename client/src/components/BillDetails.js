@@ -4,7 +4,7 @@ import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDeleteOrder, useGetOneOrderById } from '../api/order.api';
 import { isUserLogged } from '../api/user.api';
-import { groupById, lastPath, parseToView, toShortDateString } from '../misc/utils';
+import { groupById, lastPath, parseToView, toShortDateString, translateState } from '../misc/utils';
 import Button from './Button';
 import Drawer from './Drawer';
 import Loading from './Loading';
@@ -105,6 +105,9 @@ const BillDetails = () => {
                             <div className={classes.bloc}>
                                 <Text>La livraison de la commande se fait à :</Text>
                                 <Text>{`${toShortDateString(order?.shipping?.date)}, à ${order?.shipping?.date.split('T')[1]}`}</Text>
+                            </div>
+                            <div className={classes.bloc}>
+                                <Text>{translateState(order?.state)}</Text>
                             </div>
                         </div>
                     </div>

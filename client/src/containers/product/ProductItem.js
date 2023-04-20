@@ -6,6 +6,7 @@ import { useCreateCart } from '../../api/cart.api';
 import Button from '../../components/Button';
 import Price from '../../components/Price';
 import { padWithLeadingZeros } from '../../misc/utils';
+import { isUserLogged } from '../../api/user.api';
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -117,20 +118,25 @@ const useStyles = createUseStyles(theme => ({
 
 const ProductItem = props => {
     const { product } = props;
-    const [forMinus, setForMinus] = useState(false)
-    const { objectId, title, description, count, isVoted, price, imageUrl } = product
-    const isSelected = count > 0
-    const classes = useStyles({isSelected})
-    const navigate = useNavigate()
-    const { mutate: createCart, isLoading } = useCreateCart()
+    const [forMinus, setForMinus] = useState(false); // Display minus button
+    const { objectId, title, description, count, isVoted, price, imageUrl } = product;
+    const isSelected = count > 0;
+    const classes = useStyles({isSelected});
+    const navigate = useNavigate();
+    const { mutate: createCart, isLoading } = useCreateCart();
+    const isLogged = isUserLogged();
 
     const _handleCount = (operand) => {
-        setForMinus(operand === 'minus')
-        createCart({product, operand})
+        if(isLogged) {
+            setForMinus(operand === 'minus');
+            createCart({product, operand});
+        } else {
+            navigate('login');
+        }
     }
 
     const _handleProduct = () => {
-        navigate(objectId)
+        navigate(objectId);
     }
 
     return (

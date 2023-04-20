@@ -4,13 +4,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { useGetCarts } from '../../api/cart.api';
 import { useCreateOrder } from '../../api/order.api';
-import { isUserLogged } from '../../api/user.api';
 import AvailableCard from '../../components/AvailableCard';
 import Button from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import Text from '../../components/Text';
 import BillConfirmation from '../../components/order/BillConfirmation';
-import { groupByIdforCart, parseToView } from '../../misc/utils';
+import { groupByIdforCart } from '../../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	container: {
@@ -48,7 +47,6 @@ const OrderConfirmation = () => {
     const { mutate: createOrder } = useCreateOrder();
     const { cart } = useGetCarts() || [];
     const products = groupByIdforCart(cart);
-    const currentUser = parseToView(isUserLogged()) || null;
 
     const _goBack = () => {
         navigate('/our-products/cart')
@@ -68,7 +66,7 @@ const OrderConfirmation = () => {
                     </div>
                     <div className={classes.cta}>
                         <AvailableCard />
-                        <Button disabled={!currentUser?.shippingAddress} textLabel={`Payer`} onClick={_openOrderPaid} variant='primary' />
+                        <Button textLabel={`Payer`} onClick={_openOrderPaid} variant='primary' />
                     </div>
                 </div>
             </Drawer>

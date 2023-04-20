@@ -25,8 +25,8 @@ const Routes = () => {
         </Route>
         <Route path='our-products' element={<ProductPlanner/>}>
             <Route path=':id' element={<ProductModal/>} />
+            <Route path='login' element={<Login/>} />
             <Route path='cart' element={<OrderCart/>}>
-                <Route path='login' element={<Login/>} />
                 <Route path='confirmation' element={<PrivateRoute comp='orderConfirmation'/>} />
                 <Route path='paid-success/:id' element={<PrivateRoute comp='orderPaid'/>} />
                 <Route path='paid-cancel/:id' element={<PrivateRoute comp='orderCanceled'/>} />

@@ -4,6 +4,7 @@ import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useUserLogout } from '../api/user.api';
+import { translateState } from '../misc/utils';
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -48,19 +49,17 @@ const MenuItem = props => {
     const { mutate: userLogout } = useUserLogout();
     const navigate = useNavigate();
     const location = useLocation();
-    let stateLabel = '';
+    let stateLabel = translateState(status);
     let stateColorClass = '';
     switch(status) {
         case 'canceled':
-            stateLabel = 'Annulée';
             stateColorClass = classes.canceled;
             break;
         case 'paid':
-            stateLabel = 'Payée';
             stateColorClass = classes.paid;
             break;
         default:
-            stateLabel = 'Indefinie';
+            stateColorClass = '';
             break;
     }
 

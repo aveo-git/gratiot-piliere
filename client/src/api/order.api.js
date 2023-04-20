@@ -13,7 +13,9 @@ export const orderKeys = {
 };
 
 export const useGetOrders = ( config ) => {
-    const query = new Parse.Query(Order).equalTo('user', Parse.User.current());
+    const query = new Parse.Query(Order)
+        .equalTo('user', Parse.User.current())
+        .containedIn('state', ['paid', 'canceled']);
 
     const { data, ...res } = useQuery(orderKeys.all(), () => query.find(), {
         ...config,

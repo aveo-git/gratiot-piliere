@@ -10,7 +10,6 @@ import BillTotalResume from '../../components/order/BillTotalResume';
 import NoContent from '../../components/order/NoContent';
 import OrderItem from '../../components/order/OrderItem';
 import { groupByIdforCart } from '../../misc/utils';
-import { isUserLogged } from '../../api/user.api';
 import OrderSetting from './OrderSetting';
 
 const useStyles = createUseStyles(theme => ({
@@ -61,7 +60,6 @@ const OrderCart = props => {
     const classes = useStyles();
     const [openSetting, setOpenSetting] = useState(false);
     const navigate = useNavigate();
-    const isLogged = isUserLogged();
     const { cart } = useGetCarts() || []
     const { mutate: deleteCart, isLoading } = useRestoreCart();
     const productsOnCart = cart.map(item => item.product);
@@ -73,11 +71,7 @@ const OrderCart = props => {
     }
 
     const _openBillConfirmation = () => {
-        if(isLogged) {
-            setOpenSetting(true);
-        } else {
-            navigate('login')
-        }
+        setOpenSetting(true);
     }
 
     const _closeModal = () => {
