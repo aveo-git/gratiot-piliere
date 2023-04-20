@@ -124,10 +124,6 @@ const LeftSection = () => {
         setIsMoved(true)
     }
 
-    const _handleAPI = () => {
-        
-    }
-
     return (
         <div className={classes.container}>
             <AnimatePresence>
@@ -171,7 +167,6 @@ const LeftSection = () => {
                                     <TextField styles={{ root: classes.rootTextfield }} name="username" label="Email"/>
                                     <TextField styles={{ root: classes.rootTextfield }} name="username" label="Message"/>
                                     <Button isSubmitable variant='primary' textLabel="Envoyer" styles={{container: classes.buttonSendContact}}/>
-                                    <Button variant='primary' textLabel="Test API" onClick={_handleAPI} styles={{container: classes.buttonSendContact}}/>
                                 </div>
                             </>
                             }

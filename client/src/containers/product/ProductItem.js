@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import Price from '../../components/Price';
 import { padWithLeadingZeros } from '../../misc/utils';
 import { isUserLogged } from '../../api/user.api';
+import { useVotedProduct } from '../../api/product.api';
 
 const useStyles = createUseStyles(theme => ({
 	root: {
@@ -26,6 +27,13 @@ const useStyles = createUseStyles(theme => ({
             strokeWidth: 1,
             color: '#D84B7D'
         }
+    },
+    vote: {
+        position: 'relative',
+        right: 24,
+        fontSize: 14,
+        top: 10,
+        color: '#d84b7d'
     },
     counter: {
         position: 'absolute',
@@ -119,11 +127,12 @@ const useStyles = createUseStyles(theme => ({
 const ProductItem = props => {
     const { product } = props;
     const [forMinus, setForMinus] = useState(false); // Display minus button
-    const { objectId, title, description, count, isVoted, price, imageUrl } = product;
+    const { objectId, title, description, count, vote, price, imageUrl } = product;
     const isSelected = count > 0;
     const classes = useStyles({isSelected});
     const navigate = useNavigate();
     const { mutate: createCart, isLoading } = useCreateCart();
+    const { mutate: votedProduct } = useVotedProduct();
     const isLogged = isUserLogged();
 
     const _handleCount = (operand) => {
@@ -139,10 +148,14 @@ const ProductItem = props => {
         navigate(objectId);
     }
 
+    const _handleVoteProduct = () => {
+        votedProduct(product.id);
+    }
+
     return (
         <div className={classes.root}>
             <div className={classes.imageContainer}>
-                <div className={classes.heart}>{isVoted ? <IconHeartFilled /> : <IconHeart/>}</div>
+                {isLogged && <div className={classes.heart}>{vote ? <><IconHeartFilled onClick={_handleVoteProduct} /><span className={classes.vote}>{padWithLeadingZeros(vote)}</span></> : <IconHeart onClick={_handleVoteProduct} />}</div>}
                 {count > 0 && <div className={classes.counter}>{padWithLeadingZeros(count)}</div>}
                 <div className={classes.image}><img src={imageUrl} alt={'bottle'} /></div>
                 <div>

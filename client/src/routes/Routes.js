@@ -11,6 +11,7 @@ import ProductPlanner from '../pages/ProductPlanner';
 const Routes = () => {
     return <RoutesDOM>
         <Route path='/' element={<Dashboard/>}>
+            <Route path=':id' element={<ProductModal/>} />
             <Route path='signin' element={<Signup/>} />
             <Route path='login' element={<Login/>} />
             <Route path='my-profil' element={<PrivateRoute comp='myProfil'/>}>

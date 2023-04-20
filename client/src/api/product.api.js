@@ -3,6 +3,7 @@ import Parse from 'parse';
 import { parseToView } from "../misc/utils";
 
 const Product = Parse.Object.extend("Product");
+const Vote = Parse.Object.extend("Vote");
 
 export const productKeys = {
     all: () => ['products'],
@@ -62,21 +63,47 @@ export const useProductCategory = () => {
     });
 }
 
-export const useAddProduct = () => {
-    const product = new Product();
-
+export const useVotedProduct = () => {
     const queryClient = useQueryClient();
+    const vote = new Vote();
 
-    return useMutation((payload) => 
-        product.save(payload), {
-            onSuccess: (data) => {
+    return useMutation(async (productId) => {
+        const isVoted = await isProductVoted(productId);
+        if(!isVoted) {
+            vote.set('user', Parse.User.current());
+            vote.set('productId', productId);
+            incrementProductVote(productId);
+            return vote.save();
+        } else return { msg: 'Produit déjà voté.' }
+    }, {
+        onSuccess: async (data) => {
+            if(data.id) {
+                const productNew = await new Parse.Query(Product).equalTo('objectId', data.get('productId')).first();
                 const keys = productKeys.all();
-                queryClient.cancelQueries(keys);
                 const prev = queryClient.getQueryData(keys);
-
-                if (prev) {
-                    queryClient.setQueryData(keys, [...prev, data]);
+                if(prev) {
+                    const res = prev.filter((product) => {
+                        if(product === productNew) return productNew;
+                        return product;
+                    });
+                    queryClient.setQueryData(keys, res);
                 }
-            },
-        });
-};
+            }
+        }
+    })
+}
+
+export const isProductVoted = async (id) => {
+    const query = new Parse.Query(Vote).equalTo('productId', id).equalTo('user', Parse.User.current());
+    const data = await query.first();
+    return data;
+}
+
+export const incrementProductVote = async (id) => {
+    const query = new Parse.Query(Product).equalTo('objectId', id);
+    const product = await query.first();
+    const vote = product.get('vote') || 0;
+
+    product.set('vote', vote + 1);
+    product.save();
+}
